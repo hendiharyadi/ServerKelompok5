@@ -35,6 +35,6 @@ public class UserRegistrationDto {
     
     private List<Integer> roles; 
     
-//    private List<Integer> managers;
+    private Integer manager_id;
 
 }

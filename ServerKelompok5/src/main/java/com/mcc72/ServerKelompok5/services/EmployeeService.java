@@ -68,7 +68,7 @@ public class EmployeeService {
         employee.setLast_name(e.getLast_name());
         employee.setEmail(e.getEmail());
         employee.setPhone_number(e.getPhone_number());
-//        employee.setManagers(e.getManagers().stream().map(managerId -> er.findById(managerId).get()).collect(Collectors.toList()));
+        employee.setManager(er.findById(e.getManager_id()).get());
         return er.save(employee); 
     } 
 
