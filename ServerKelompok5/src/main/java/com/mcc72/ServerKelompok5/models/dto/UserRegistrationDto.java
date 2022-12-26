@@ -35,6 +35,6 @@ public class UserRegistrationDto {
     
     private List<Integer> roles; 
     
-    private List<Integer> employees;
+//    private List<Integer> employees;
 
 }
