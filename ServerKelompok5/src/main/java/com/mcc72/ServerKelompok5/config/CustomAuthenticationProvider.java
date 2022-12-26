@@ -12,6 +12,8 @@ import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,6 +32,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@AllArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     
     private BCryptPasswordEncoder passwordEncoder;
@@ -53,7 +56,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 List<GrantedAuthority> authorities = getAuthorities(user.getUserRole());
 //                authorities.add(new SimpleGrantedAuthority(user.getUserRole().get(0).getName()));
                 
-                 ur.setFailedAttemptForUser(0, user.getId());
+//                 ur.setFailedAttemptForUser(0, user.getId());
                 
                 return new UsernamePasswordAuthenticationToken(username, password, authorities);
             } else {

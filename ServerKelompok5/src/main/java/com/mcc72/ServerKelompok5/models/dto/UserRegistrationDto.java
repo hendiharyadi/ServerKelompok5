@@ -33,7 +33,7 @@ public class UserRegistrationDto {
 
     private String password;
     
-    private List<Integer> roles; 
+    private Integer role_id;
     
     private Integer manager_id;
 

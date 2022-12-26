@@ -52,7 +52,7 @@ public class Project {
     @ManyToMany(mappedBy = "employeeProject")
     private List<Employee> employeeProject;
     
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @Column(nullable = true)
     private List<Overtime> overtimes;
     

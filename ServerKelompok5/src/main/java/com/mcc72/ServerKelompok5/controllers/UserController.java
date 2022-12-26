@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping
     public UserEntity insert(@RequestBody UserRegistrationDto userEntity){
         System.out.println("controller here");
-       UserEntity urd = userEntityService.insert(userEntity);
+        UserEntity urd = userEntityService.insert(userEntity);
         userEntityService.sendVerifyMail(userEntity);
         return urd;
     }

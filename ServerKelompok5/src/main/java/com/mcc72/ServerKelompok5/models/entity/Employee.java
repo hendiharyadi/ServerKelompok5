@@ -6,68 +6,54 @@
 package com.mcc72.ServerKelompok5.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.util.List;
+
 /**
- *
  * @author Hendi
  */
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table (name = "tb_employee")
+@Table(name = "tb_employee")
 public class Employee {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "id", length = 6)
+    @Column(name = "id", length = 6)
     private int id;
-    
+
     @Column(length = 20, nullable = false)
     private String first_name;
-    
-    @Column (length = 25)
+
+    @Column(length = 25)
     private String last_name;
-    
-    @Column (length = 25, unique = false)
+
+    @Column(length = 25, unique = false)
     private String email;
-    
-    @Column (length = 20, nullable = false)
+
+    @Column(length = 20, nullable = false)
     private String phone_number;
-    
+
     @JsonIgnore
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserEntity user;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "manager")
     private List<Employee> managers;
-    
+
     @JsonIgnore
     @ManyToOne
-    @JoinColumn (name = "manager")
+    @JoinColumn(name = "manager")
     private Employee manager;
-    
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -77,20 +63,20 @@ public class Employee {
             inverseJoinColumns = @JoinColumn(
                     name = "project_id", referencedColumnName = "id"))
     private List<Project> employeeProject;
-    
+
     @JsonIgnore
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private StockLeave stockLeave;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Overtime> overtimes;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Permission> permissions;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "manager")
     private List<Project> projects;

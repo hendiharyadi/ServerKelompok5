@@ -11,17 +11,17 @@ import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.RoleRepository;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
-import java.util.Arrays;
-import java.util.List;
+
+import java.util.*;
+
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
@@ -92,14 +92,13 @@ public class UserEntityService implements UserDetailsService {
 
     public UserEntity insert(UserRegistrationDto u) {
         System.out.println("service here");
-        System.out.println(u.getRoles());
         String verificationCode = UUID.randomUUID().toString();
         UserEntity ue = new UserEntity();
         ue.setUsername(u.getUsername());
-        ue.setIsActive(false);
+        ue.setIsActive(true);
         ue.setVerificationCode(verificationCode);
         ue.setPassword(passwordEncoder.encode(u.getPassword()));
-        ue.setUserRole(u.getRoles().stream().map(roleId -> rr.findById(roleId).get()).collect(Collectors.toList()));
+        ue.setUserRole(Collections.singletonList(rr.findById(u.getRole_id()).get()));
         ue.setFailedAttempt(0);
         ue.setEmployee(er.findByEmail(u.getEmail()).get());
         return ur.save(ue);

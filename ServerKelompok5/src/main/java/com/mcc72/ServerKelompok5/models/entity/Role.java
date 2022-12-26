@@ -46,6 +46,6 @@ public class Role {
     private List<UserEntity> userRole;
     
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(mappedBy = "userRole")
+    @ManyToMany(mappedBy = "userRole", fetch = FetchType.EAGER)
     private List<Privilege> privileges;
 }

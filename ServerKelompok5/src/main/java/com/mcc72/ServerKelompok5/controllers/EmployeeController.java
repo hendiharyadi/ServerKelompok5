@@ -30,7 +30,7 @@ public class EmployeeController {
     private EmployeeService employeeService;
     private UserEntityService userEntityService;
     
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+//    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping
     public List<Map<String, Object>> getAllMap() {
         return employeeService.getAllMap();

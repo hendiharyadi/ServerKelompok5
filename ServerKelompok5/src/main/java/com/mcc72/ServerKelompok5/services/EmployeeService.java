@@ -68,8 +68,10 @@ public class EmployeeService {
         employee.setLast_name(e.getLast_name());
         employee.setEmail(e.getEmail());
         employee.setPhone_number(e.getPhone_number());
-        employee.setManager(er.findById(e.getManager_id()).get());
-        return er.save(employee); 
+        if (e.getManager_id() != null){
+            employee.setManager(er.findById(e.getManager_id()).get());
+        }
+        return er.save(employee);
     } 
 
     public Employee update(UserRegistrationDto e) {
