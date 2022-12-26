@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,13 +42,16 @@ public class Overtime {
     private String note;
     
     @Column(nullable = false)
-    private Date start_overtime;
+    private String start_overtime;
     
     @Column(nullable = false)
-    private Date end_overtime;
+    private String end_overtime;
     
-    @Column(nullable = false)
-    private Boolean status;
+//    @Column(nullable = false)
+//    private Boolean status;
+    
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
     
     @OneToMany(mappedBy = "overtime")
     private List<HistoryOvertime> historyOvertime;
