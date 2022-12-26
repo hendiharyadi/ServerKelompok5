@@ -120,8 +120,8 @@ public class UserEntityService implements UserDetailsService {
             messageHelper.setSubject("Verification Mail");
             String content = mailContentBuilder.build(userEntity.getUsername());
             messageHelper.setText(content, true);
-            messageHelper.addInline("image-1", new ClassPathResource("static/images/image-1.png"), "image/png");
-            messageHelper.addInline("image-2", new ClassPathResource("static/images/image-2.png"), "image/png");
+//            messageHelper.addInline("image-1", new ClassPathResource("static/images/image-1.png"), "image/png");
+//            messageHelper.addInline("image-2", new ClassPathResource("static/images/image-2.png"), "image/png");
         };
         mailSender.send(messagePreparator);
         System.out.println("Send email to "+userEntity.getEmail()+" with verify link...");

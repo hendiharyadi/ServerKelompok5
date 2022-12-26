@@ -54,17 +54,21 @@ public class Employee {
     @Column (length = 20, nullable = false)
     private String phone_number;
     
+    @JsonIgnore
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserEntity user;
     
+    @JsonIgnore
     @OneToMany(mappedBy = "manager")
-    private List<Employee> managers; 
+    private List<Employee> managers;
     
+    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "manager")
     private Employee manager;
     
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tb_employee_project",
@@ -74,16 +78,20 @@ public class Employee {
                     name = "project_id", referencedColumnName = "id"))
     private List<Project> employeeProject;
     
+    @JsonIgnore
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private StockLeave stockLeave;
     
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Overtime> overtimes;
     
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Permission> permissions;
     
+    @JsonIgnore
     @OneToMany(mappedBy = "manager")
     private List<Project> projects;
 }

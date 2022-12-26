@@ -5,7 +5,7 @@
  */
 package com.mcc72.ServerKelompok5.models.dto;
 
-import com.mcc72.ServerKelompok5.models.entity.Role;
+import com.mcc72.ServerKelompok5.models.entity.Employee;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +35,6 @@ public class UserRegistrationDto {
     
     private List<Integer> roles; 
     
-//    private List<Integer> employees;
+//    private List<Integer> managers;
 
 }
