@@ -73,8 +73,6 @@ public class PermissionService {
         Employee e = employeeRepository.findById(permission.getEmployee()).get();
         permit.setEmployee(e);
         permit.setManager(e.getManager());
-        HistoryPermission hp = new HistoryPermission();
-        hp.setDate_history(new Timestamp(System.currentTimeMillis()));
         return permissionRepository.save(permit);
     }
     

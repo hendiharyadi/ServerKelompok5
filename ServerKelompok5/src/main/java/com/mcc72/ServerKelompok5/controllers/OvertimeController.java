@@ -2,10 +2,10 @@ package com.mcc72.ServerKelompok5.controllers;
 
 import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
 import com.mcc72.ServerKelompok5.models.entity.Overtime;
+import com.mcc72.ServerKelompok5.services.HistoryOvertimeService;
 import com.mcc72.ServerKelompok5.services.OvertimeService;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OvertimeController {
     
     private OvertimeService overtimeService;
+    private HistoryOvertimeService historyOvertimeService;
     
 //    @PreAuthorize("hasAuthority('READ_USER')")
     @GetMapping
@@ -35,12 +36,21 @@ public class OvertimeController {
     
     @PostMapping
     public Overtime create(@RequestBody OvertimeDto overtime){
-        return overtimeService.create(overtime);
+        Overtime ot = overtimeService.create(overtime);
+        historyOvertimeService.create(overtime);
+        overtimeService.sendRequestMail(overtime);
+        return ot;
     }
     
     @PutMapping("/{id}")
     public Overtime update(@PathVariable int id, @RequestBody OvertimeDto overtime){
-        return overtimeService.update(id, overtime);
+        Overtime ot = overtimeService.update(id, overtime);
+        if (overtime.getStatus().equals(true)){
+            overtimeService.sendConfirmationMail(overtime);
+        } else {
+            overtimeService.sendConfirmationMail(overtime);
+        }
+        return ot;
     }
     
     @GetMapping("/{id}")

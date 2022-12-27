@@ -75,7 +75,7 @@ public class OvertimeService {
 //        else {
 //            overtime.setStatus(Status.REJECTED);
 //        }
-        Status stat = o.isStatus() ? Status.APPROVED : Status.REJECTED;
+        Status stat = o.getStatus() ? Status.APPROVED : Status.REJECTED;
         overtime.setStatus(stat);
         overtime.setEmployee(er.findById(o.getEmployee_id()).get());
         Project p = pr.findById(o.getProject_id()).get();

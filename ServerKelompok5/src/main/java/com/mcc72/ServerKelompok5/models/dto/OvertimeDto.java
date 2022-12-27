@@ -1,5 +1,6 @@
 package com.mcc72.ServerKelompok5.models.dto;
 
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,6 @@ public class OvertimeDto {
     private int employee_id;
     private int project_id;
     private int manager_id;
-    private boolean status;
+    private Boolean status;
+    private Timestamp date_history;
 }

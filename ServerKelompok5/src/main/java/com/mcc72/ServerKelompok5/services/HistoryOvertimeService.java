@@ -5,6 +5,7 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
 import com.mcc72.ServerKelompok5.models.entity.HistoryOvertime;
 import com.mcc72.ServerKelompok5.repositories.HistoryOvertimeRepository;
 import java.util.List;
@@ -32,14 +33,18 @@ public class HistoryOvertimeService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public HistoryOvertime create(HistoryOvertime historyOvertime){
-        return historyOvertimeRepository.save(historyOvertime);
+    public HistoryOvertime create(OvertimeDto historyOvertime){
+        HistoryOvertime ho = new HistoryOvertime();
+        ho.setDate_history(historyOvertime.getDate_history());
+        return historyOvertimeRepository.save(ho);
     }
     
-    public HistoryOvertime update(int id, HistoryOvertime historyOvertime){
+    public HistoryOvertime update(int id, OvertimeDto historyOvertime){
+        HistoryOvertime ho = new HistoryOvertime();
         getById(id);
-        historyOvertime.setId(id);
-        return historyOvertimeRepository.save(historyOvertime);
+        ho.setId(id);
+        ho.setDate_history(historyOvertime.getDate_history());
+        return ho;
     }
     
     public HistoryOvertime delete (int id){

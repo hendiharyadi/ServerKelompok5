@@ -6,7 +6,7 @@
 package com.mcc72.ServerKelompok5.models.entity;
 
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,5 +37,5 @@ public class HistoryOvertime {
     @JoinColumn (name = "overtime")
     private Overtime overtime;
     
-    private String date_history;
+    private Timestamp date_history;
 }
