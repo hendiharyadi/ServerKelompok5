@@ -1,12 +1,15 @@
 package com.mcc72.ClientKelompok5.util;
 
+import java.io.IOException;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
-import java.io.IOException;
-
+/**
+ *
+ * @author HP
+ */
 public class RequestInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
@@ -20,5 +23,4 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
 
         return response;
     }
-
 }
