@@ -8,6 +8,7 @@ public class ClientKelompok5Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ClientKelompok5Application.class, args);
+		System.out.println("=========CLIENT APP RUNNING=========");
 	}
 
 }
