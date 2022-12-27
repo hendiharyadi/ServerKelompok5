@@ -25,6 +25,8 @@ public class PermissionDto {
     private String end_leave;
 
     private String note;
+    
+    private Boolean status;
 
     private Integer employee;
     

@@ -9,6 +9,7 @@ import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.LeaveType;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
+import com.mcc72.ServerKelompok5.models.entity.Status;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
 import java.util.List;
@@ -42,6 +43,7 @@ public class PermissionService {
         permit.setStart_leave(permission.getStart_leave());
         permit.setEnd_leave(permission.getEnd_leave());
         permit.setNote(permission.getNote());
+        permit.setStatus(Status.PENDING);
         permit.setEmployee(employeeRepository.findById(permission.getEmployee()).get());
         permit.setManager(employeeRepository.findById(permission.getManager()).get());
         return permissionRepository.save(permit);
@@ -56,6 +58,8 @@ public class PermissionService {
         permit.setStart_leave(permission.getStart_leave());
         permit.setEnd_leave(permission.getEnd_leave());
         permit.setNote(permission.getNote());
+        Status stat = permission.getStatus() ? Status.APPROVED : Status.REJECTED;
+        permit.setStatus(stat);
         permit.setEmployee(employeeRepository.findById(permission.getEmployee()).get());
         permit.setManager(employeeRepository.findById(permission.getManager()).get());
         return permissionRepository.save(permit);
