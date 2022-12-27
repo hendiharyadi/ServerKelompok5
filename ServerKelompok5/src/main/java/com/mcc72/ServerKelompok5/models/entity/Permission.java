@@ -7,6 +7,7 @@ package com.mcc72.ServerKelompok5.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,7 +52,7 @@ public class Permission {
     private String note;
     
     @Enumerated(EnumType.ORDINAL)
-    private Status status;
+    private Status status;  
     
     @JsonIgnore
     @ManyToOne
@@ -64,7 +65,7 @@ public class Permission {
     private Employee manager;
     
     @JsonIgnore
-    @OneToMany(mappedBy = "permission", fetch = FetchType.EAGER)
-    @Column(nullable = true)
+    @OneToMany(mappedBy = "permission", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column(nullable = false)
     private List<HistoryPermission> histories;
 }

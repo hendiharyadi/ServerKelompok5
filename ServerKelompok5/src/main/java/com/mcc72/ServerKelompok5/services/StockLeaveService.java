@@ -5,6 +5,7 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.StockLeave;
 import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
 import java.util.List;
@@ -32,8 +33,10 @@ public class StockLeaveService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public StockLeave create(StockLeave stockLeave){
-        return stockLeaveRepository.save(stockLeave);
+    public StockLeave create(UserRegistrationDto stockLeave){
+        StockLeave sl = new StockLeave();
+        stockLeave.setStockLeave(12);
+        return sl;
     }
     
     public StockLeave update(int id, StockLeave stockLeave){

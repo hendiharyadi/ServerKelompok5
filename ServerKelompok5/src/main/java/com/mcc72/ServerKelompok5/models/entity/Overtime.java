@@ -6,13 +6,13 @@
 package com.mcc72.ServerKelompok5.models.entity;
 
 
-import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 /**
  *
  * @author Hendi
- */
+ */ 
 @Entity
 @Data
 @AllArgsConstructor
@@ -48,23 +48,24 @@ public class Overtime {
     @Column(nullable = false)
     private String end_overtime;
     
-//    @Column(nullable = false)
-//    private Boolean status;
-    
     @Enumerated(EnumType.ORDINAL)
     private Status status;
     
-    @OneToMany(mappedBy = "overtime")
+    @JsonIgnore
+    @OneToMany(mappedBy = "overtime", cascade = CascadeType.ALL)
     private List<HistoryOvertime> historyOvertime;
     
+    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "employee")
     private Employee employee;
     
+    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "manager")
     private Employee manager;
     
+    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "project")
     private Project project;

@@ -5,12 +5,13 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.entity.LeaveType;
+import com.mcc72.ServerKelompok5.models.entity.Status;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
 
 /**
  *
@@ -18,18 +19,16 @@ import org.thymeleaf.context.Context;
  */
 @Service
 @AllArgsConstructor
-public class MailContentBuilder {
- 
+public class ConfirmationMailBuilder {
+    
     private TemplateEngine templateEngine;
     private UserRepository userRepository;
-
-    public String build(String username) {
-        String verifyCode = userRepository.findByUsername(username).get().getVerificationCode(); //get dari database
-        String verifyLink = "http://localhost:8081/api/user/verify/" + username +"/" +verifyCode;
+    
+    public String build(String firstName, LeaveType leaveType, Status status){
         Context context = new Context();
-        context.setVariable("username", username);
-        context.setVariable("verifyLink", verifyLink);
-        return templateEngine.process("mail", context);
+        context.setVariable("first_name", firstName);
+        context.setVariable("leave_type", leaveType);
+        context.setVariable("status", status);
+        return templateEngine.process("confirmationmail", context);
     }
- 
 }

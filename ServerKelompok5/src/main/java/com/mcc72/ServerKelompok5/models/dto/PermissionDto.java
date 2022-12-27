@@ -5,6 +5,7 @@
  */
 package com.mcc72.ServerKelompok5.models.dto;
 
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,5 +32,9 @@ public class PermissionDto {
     private Integer employee;
     
     private Integer manager;
+    
+    private Integer permission;
+    
+    private Timestamp date_history;
     
 }

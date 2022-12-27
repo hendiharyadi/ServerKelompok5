@@ -6,7 +6,9 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
+import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Overtime;
+import com.mcc72.ServerKelompok5.models.entity.Project;
 import com.mcc72.ServerKelompok5.models.entity.Status;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.OvertimeRepository;
@@ -14,6 +16,9 @@ import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,7 +32,10 @@ public class OvertimeService {
     
     private OvertimeRepository or;
     private EmployeeRepository er;
+    private OtRequest otRequest;
+    private OtConfirmation otConfirmation;
     private ProjectRepository pr;
+    private JavaMailSender mailSender;
     
     public List<Overtime> getAll(){
         return or.findAll();
@@ -45,8 +53,9 @@ public class OvertimeService {
         overtime.setEnd_overtime(o.getEnd_overtime());
         overtime.setStatus(Status.PENDING);
         overtime.setEmployee(er.findById(o.getEmployee_id()).get());
-//        overtime.setManager(er.findById(o.getManager_id()).get());
-        overtime.setProject(pr.findById(o.getProject_id()).get());
+        Project p = pr.findById(o.getProject_id()).get();
+        overtime.setProject(p);
+        overtime.setManager(p.getManager());
         return or.save(overtime);
     }
     
@@ -69,8 +78,9 @@ public class OvertimeService {
         Status stat = o.isStatus() ? Status.APPROVED : Status.REJECTED;
         overtime.setStatus(stat);
         overtime.setEmployee(er.findById(o.getEmployee_id()).get());
-//        overtime.setManager(er.findById(o.getManager_id()).get());
-        overtime.setProject(pr.findById(o.getProject_id()).get());
+        Project p = pr.findById(o.getProject_id()).get();
+        overtime.setProject(p);
+        overtime.setManager(p.getManager());
         return or.save(overtime);
     }
     
@@ -78,5 +88,31 @@ public class OvertimeService {
         Overtime overtime = getById(id);
         or.delete(overtime);
         return overtime;
+    }
+    
+        public void sendConfirmationMail(OvertimeDto overtime) {
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
+            Employee e = er.findById(overtime.getEmployee_id()).get();
+            Overtime o = or.findById(overtime.getEmployee_id()).get();
+            messageHelper.setTo(e.getEmail());
+            messageHelper.setSubject("Confirmation email");
+            String content = otConfirmation.build(e.getFirst_name(), o.getStatus());
+            messageHelper.setText(content, true);
+        };
+        mailSender.send(messagePreparator);
+    }
+    
+    public void sendRequestMail(OvertimeDto overtime) {
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
+            Employee e = er.findById(overtime.getManager_id()).get();
+            Overtime o = or.findById(overtime.getEmployee_id()).get();
+            messageHelper.setTo(e.getEmail());
+            messageHelper.setSubject("Request email");
+            String content = otRequest.build(e.getFirst_name(), o.getNote());
+            messageHelper.setText(content, true);
+        };
+        mailSender.send(messagePreparator);
     }
 }

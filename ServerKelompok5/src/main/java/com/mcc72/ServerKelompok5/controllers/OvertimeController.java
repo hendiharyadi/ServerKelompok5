@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@PreAuthorize("hasRole('ROLE_USER')")
 public class OvertimeController {
     
-    OvertimeService overtimeService;
+    private OvertimeService overtimeService;
     
 //    @PreAuthorize("hasAuthority('READ_USER')")
     @GetMapping

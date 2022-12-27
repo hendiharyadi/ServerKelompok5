@@ -11,5 +11,5 @@ package com.mcc72.ServerKelompok5.models.entity;
  */
 public enum LeaveType {
     
-    CUTI, IZIN
+    CUTI, IZIN;
 }

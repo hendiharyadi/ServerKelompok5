@@ -23,4 +23,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>{
     @Query("update UserEntity u set u.failedAttempt = ?1 where u.id = ?2")
     int setFailedAttemptForUser(Integer failedAttempt, Integer id);
     
+    @Modifying
+    @Query("update UserEntity u set u.stockLeave = ?1 where u.id = ?2")
+    int setStockLeave(Integer stockLeave, Integer id);
+    
 }

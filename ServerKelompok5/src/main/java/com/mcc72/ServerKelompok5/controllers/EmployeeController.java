@@ -4,6 +4,7 @@ package com.mcc72.ServerKelompok5.controllers;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.services.EmployeeService;
+import com.mcc72.ServerKelompok5.services.StockLeaveService;
 import com.mcc72.ServerKelompok5.services.UserEntityService;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @AllArgsConstructor
 @RestController
@@ -29,6 +29,7 @@ public class EmployeeController {
 
     private EmployeeService employeeService;
     private UserEntityService userEntityService;
+    private StockLeaveService stockLeaveService;
     
 //    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping
@@ -40,6 +41,7 @@ public class EmployeeController {
     public Employee insert(@RequestBody UserRegistrationDto employee) {
         Employee e = employeeService.insert(employee);
         userEntityService.insert(employee);
+        stockLeaveService.create(employee);
         userEntityService.sendVerifyMail(employee);
         return e;
     }

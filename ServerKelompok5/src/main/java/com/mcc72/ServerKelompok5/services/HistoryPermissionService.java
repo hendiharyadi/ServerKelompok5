@@ -5,8 +5,12 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
 import com.mcc72.ServerKelompok5.models.entity.HistoryPermission;
+import com.mcc72.ServerKelompok5.models.entity.Permission;
 import com.mcc72.ServerKelompok5.repositories.HistoryPermissionRepository;
+import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class HistoryPermissionService {
     
     private HistoryPermissionRepository historyPermissionRepository;
+    private PermissionRepository permissionRepository;
     
     public List<HistoryPermission> getAll(){
         return historyPermissionRepository.findAll();
@@ -32,8 +37,10 @@ public class HistoryPermissionService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public HistoryPermission create(HistoryPermission historyPermission){
-        return historyPermissionRepository.save(historyPermission);
+    public HistoryPermission create(PermissionDto historyPermission){
+        HistoryPermission hp = new HistoryPermission();
+        hp.setDate_history(historyPermission.getDate_history());
+        return historyPermissionRepository.save(hp);
     }
     
     public HistoryPermission update(int id, HistoryPermission historyPermission){

@@ -18,6 +18,6 @@ public class OvertimeDto {
     private String note;
     private int employee_id;
     private int project_id;
-//    private int manager_id;
+    private int manager_id;
     private boolean status;
 }

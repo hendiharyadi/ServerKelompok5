@@ -34,5 +34,7 @@ public class UserRegistrationDto {
     private Integer role_id;
     
     private Integer manager_id;
+    
+    private Integer stockLeave;
 
 }

@@ -6,10 +6,9 @@
 package com.mcc72.ServerKelompok5.controllers;
 
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
-import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
-import com.mcc72.ServerKelompok5.models.entity.Employee;
+import com.mcc72.ServerKelompok5.models.entity.HistoryPermission;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
-import com.mcc72.ServerKelompok5.models.entity.Project;
+import com.mcc72.ServerKelompok5.services.HistoryPermissionService;
 import com.mcc72.ServerKelompok5.services.PermissionService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -32,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PermissionController {
     
     private PermissionService permissionService;
+    private HistoryPermissionService historyPermissionService;
     
     @GetMapping
     public List<Permission> getAll(){
@@ -45,12 +45,21 @@ public class PermissionController {
     
     @PostMapping
     public Permission insert(@RequestBody PermissionDto permission){
-        return permissionService.create(permission);
+        Permission permit = permissionService.create(permission);
+        historyPermissionService.create(permission);
+        permissionService.sendRequestMail(permission);
+        return permit;
     }
     
     @PutMapping("/{id}")
     public Permission update(@PathVariable Integer id, @RequestBody PermissionDto permission) {
-        return permissionService.update(id, permission);
+        Permission permit = permissionService.update(id, permission);
+        if (permission.getStatus().equals(true)){
+            permissionService.sendConfirmationMail(permission);
+        } else {
+            permissionService.sendConfirmationMail(permission);
+        }
+        return permit;
     }
     
     @DeleteMapping("/{id}")

@@ -46,7 +46,7 @@ public class Employee {
     private UserEntity user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "manager")
+    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     private List<Employee> managers;
 
     @JsonIgnore
@@ -70,14 +70,14 @@ public class Employee {
     private StockLeave stockLeave;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Overtime> overtimes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Permission> permissions;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "manager")
+    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     private List<Project> projects;
 }
