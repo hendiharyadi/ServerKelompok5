@@ -74,21 +74,17 @@ public class EmployeeService {
         return er.save(employee);
     } 
 
-    public Employee update(UserRegistrationDto e) {
-        if (er.findByEmail(e.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not exist");
-        }
+    public Employee update(Integer id, UserRegistrationDto e) {
+        findById(id);
         Employee employee = new Employee();
+        employee.setId(id);
         return er.save(employee);
     }
 
-    public String deleteById(Integer id) {
-        if (!er.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not exist");
-        }
+    public Employee deleteById(Integer id) {
         Employee e = findById(id);
-        er.deleteById(id);
-        return "Delete for " + e.getFirst_name() + "success!!!";
+        er.delete(e);
+        return e;
     }
 
 }

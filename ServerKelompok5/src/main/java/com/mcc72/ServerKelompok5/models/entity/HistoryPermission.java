@@ -5,7 +5,8 @@
  */
 package com.mcc72.ServerKelompok5.models.entity;
 
-import java.util.Date;
+
+import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,12 +32,12 @@ public class HistoryPermission {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;  
+    private Integer id;  
     
     @ManyToOne
     @JoinColumn (name = "permission")
     private Permission permission;
     
     @Column
-    private Date date_history;
+    private String date_history;
 }

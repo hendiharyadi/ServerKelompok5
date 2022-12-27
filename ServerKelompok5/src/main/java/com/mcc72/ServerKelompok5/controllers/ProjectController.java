@@ -14,12 +14,12 @@ import java.util.List;
 public class ProjectController {
     private ProjectService projectService;
 
-    @RequestMapping
+    @GetMapping
     public List<Project> getAll(){
         return projectService.getAll();
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public Project getById(@PathVariable int id) {
         return projectService.getById(id);
     }

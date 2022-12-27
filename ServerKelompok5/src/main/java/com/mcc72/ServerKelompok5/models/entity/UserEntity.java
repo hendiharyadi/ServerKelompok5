@@ -26,7 +26,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(length = 255,unique = true)
     private String username;
@@ -38,7 +38,7 @@ public class UserEntity {
 
     private String verificationCode;
     
-    private int failedAttempt;
+    private Integer failedAttempt;
     
     @OneToOne
     @MapsId

@@ -5,10 +5,13 @@
  */
 package com.mcc72.ServerKelompok5.models.entity;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,29 +38,33 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private Enum leave_type;
+    @Enumerated(EnumType.ORDINAL)
+    private LeaveType leave_type;
     
     @Column(nullable = false)
-    private Date start_leave;
+    private String start_leave;
     
     @Column(nullable = false)
-    private Date end_leave;
+    private String end_leave;
     
     @Column(nullable = false)
     private String note;
     
-    @Column(nullable = false)
-    private Boolean status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
     
+    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "employee")
     private Employee employee;
     
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "manager")
     private Employee manager;
     
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "permission", fetch = FetchType.EAGER)
+    @Column(nullable = true)
     private List<HistoryPermission> histories;
 }

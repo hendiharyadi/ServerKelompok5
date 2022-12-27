@@ -16,23 +16,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class UserRegistrationDto {
-
-    private String first_name;
-
-    private String last_name;
-
-    private String email;
-
-    private String phone_number;
-
-    private String username;
-
-    private String password;
+public class PermissionDto {
     
-    private Integer role_id;
-    
-    private Integer manager_id;
+    private Boolean leave_type;
 
+    private String start_leave;
+
+    private String end_leave;
+
+    private String note;
+
+    private Integer employee;
+    
+    private Integer manager;
+    
 }

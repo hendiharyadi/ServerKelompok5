@@ -5,44 +5,63 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
+import com.mcc72.ServerKelompok5.models.entity.Employee;
+import com.mcc72.ServerKelompok5.models.entity.LeaveType;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
+import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
  * @author Hendi
  */
+
 @Service
 @AllArgsConstructor
 public class PermissionService {
     
     private PermissionRepository permissionRepository;
+    private EmployeeRepository employeeRepository;
     
     public List<Permission> getAll(){
         return permissionRepository.findAll();
     }
     
     public Permission getById(int id){
-        return permissionRepository.findById(id)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
+        return permissionRepository.findById(id).get();
     }
     
-    public Permission create(Permission permission){
-        return permissionRepository.save(permission);
+    public Permission create(PermissionDto permission){
+        Permission permit = new Permission();
+        LeaveType lt = permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN;
+        permit.setLeave_type(lt);
+        permit.setStart_leave(permission.getStart_leave());
+        permit.setEnd_leave(permission.getEnd_leave());
+        permit.setNote(permission.getNote());
+        permit.setEmployee(employeeRepository.findById(permission.getEmployee()).get());
+        permit.setManager(employeeRepository.findById(permission.getManager()).get());
+        return permissionRepository.save(permit);
     }
     
-    public Permission update(int id, Permission permission){
+    public Permission update(Integer id, PermissionDto permission){
+        Permission permit = new Permission();
         getById(id);
-        permission.setId(id);
-        return permissionRepository.save(permission);
+        permit.setId(id);
+        LeaveType lt = permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN;
+        permit.setLeave_type(lt);
+        permit.setStart_leave(permission.getStart_leave());
+        permit.setEnd_leave(permission.getEnd_leave());
+        permit.setNote(permission.getNote());
+        permit.setEmployee(employeeRepository.findById(permission.getEmployee()).get());
+        permit.setManager(employeeRepository.findById(permission.getManager()).get());
+        return permissionRepository.save(permit);
     }
     
-    public Permission delete (int id){
+    public Permission delete (Integer id){
         Permission permission = getById(id);
         permissionRepository.delete(permission);
         return permission;

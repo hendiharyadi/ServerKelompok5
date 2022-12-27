@@ -44,15 +44,20 @@ public class EmployeeController {
         return e;
     }
     
-    @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
-    @PutMapping
-    public Employee update(@RequestBody UserRegistrationDto employee) {
-        return employeeService.update(employee);
+    @GetMapping("/{id}")
+    public Employee getById(@PathVariable int id) {
+        return employeeService.findById(id);
     }
     
-    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
-    @DeleteMapping("{id}")
-    public String delete(@PathVariable Integer id) {
+//    @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
+    @PutMapping("/{id}")
+    public Employee update(@PathVariable Integer id, @RequestBody UserRegistrationDto employee) {
+        return employeeService.update(id, employee);
+    }
+    
+//    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
+    @DeleteMapping("/{id}")
+    public Employee delete(@PathVariable Integer id) {
         return employeeService.deleteById(id);
     }
 }

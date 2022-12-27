@@ -5,7 +5,8 @@
  */
 package com.mcc72.ServerKelompok5.models.entity;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;

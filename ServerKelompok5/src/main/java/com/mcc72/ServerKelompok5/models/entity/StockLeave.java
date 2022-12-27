@@ -32,7 +32,7 @@ public class StockLeave {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id", length = 6)
-    private int id;
+    private Integer id;
     
     @OneToOne
     @MapsId
@@ -40,5 +40,5 @@ public class StockLeave {
     private Employee employee;
     
     @Column (nullable = false)
-    private int stock_available;
+    private Integer stock_available;
 }
