@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class ProjectDto {
     private String name;
     private Integer managerId;
+    private Boolean status;
 }
