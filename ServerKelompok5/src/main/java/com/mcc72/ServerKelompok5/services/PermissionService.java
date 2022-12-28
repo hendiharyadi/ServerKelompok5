@@ -7,13 +7,13 @@ package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
-import com.mcc72.ServerKelompok5.models.entity.HistoryPermission;
 import com.mcc72.ServerKelompok5.models.entity.LeaveType;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
 import com.mcc72.ServerKelompok5.models.entity.Status;
+import com.mcc72.ServerKelompok5.models.entity.StockLeave;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
-import java.sql.Timestamp;
+import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -36,6 +36,7 @@ public class PermissionService {
     private RequestMailBuilder requestMailBuilder;
     private JavaMailSender mailSender;
     private HistoryPermissionService hps;
+    private StockLeaveRepository slr;
     
     public List<Permission> getAll(){
         return permissionRepository.findAll();

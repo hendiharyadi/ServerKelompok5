@@ -42,7 +42,7 @@ public class OvertimeController {
     }
     
     @PutMapping("/{id}")
-    public Overtime update(@PathVariable int id, @RequestBody OvertimeDto overtime){
+    public Overtime update(@PathVariable Integer id, @RequestBody OvertimeDto overtime){
         Overtime ot = overtimeService.update(id, overtime);
         if (overtime.getStatus().equals(true)){
             overtimeService.sendConfirmationMail(overtime);

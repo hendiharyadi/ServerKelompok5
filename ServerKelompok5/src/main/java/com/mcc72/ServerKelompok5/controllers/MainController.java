@@ -35,7 +35,7 @@ public class MainController {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
      
-    @PostMapping("/login")
+    @PostMapping("/login-user")
     public Map<String, Object> login(@RequestBody UserEntity userEntity) throws Exception{
     Authentication authentication;
 
