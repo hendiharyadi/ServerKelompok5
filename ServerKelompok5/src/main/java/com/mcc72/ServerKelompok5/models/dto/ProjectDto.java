@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectDto {
     private String name;
-    private Integer managerId;
 }

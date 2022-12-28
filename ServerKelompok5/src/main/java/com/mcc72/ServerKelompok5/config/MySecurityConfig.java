@@ -38,7 +38,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
       .disable()
       .authorizeRequests()
       .anyRequest()
-      .permitAll()
+      .authenticated()
       .and()
       .httpBasic();
 //        http

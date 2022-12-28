@@ -6,19 +6,20 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
-import com.mcc72.ServerKelompok5.models.entity.Employee;
-import com.mcc72.ServerKelompok5.models.entity.Overtime;
-import com.mcc72.ServerKelompok5.models.entity.Project;
-import com.mcc72.ServerKelompok5.models.entity.Status;
+import com.mcc72.ServerKelompok5.models.entity.*;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.OvertimeRepository;
 import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
 import java.util.List;
+
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -37,6 +38,8 @@ public class OvertimeService {
     private ProjectRepository pr;
     private JavaMailSender mailSender;
     private HistoryOvertimeService hos;
+    private UserRepository userRepository;
+    private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     
     public List<Overtime> getAll(){
         return or.findAll();
@@ -48,12 +51,14 @@ public class OvertimeService {
     }
     
     public Overtime create(OvertimeDto o){
+
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Overtime overtime = new Overtime();
         overtime.setNote(o.getNote());
         overtime.setStart_overtime(o.getStart_overtime());
         overtime.setEnd_overtime(o.getEnd_overtime());
         overtime.setStatus(Status.PENDING);
-        overtime.setEmployee(er.findById(o.getEmployee_id()).get());
+        overtime.setEmployee(er.findById(user.getId()).get());
         Project p = pr.findById(o.getProject_id()).get();
         overtime.setProject(p);
         overtime.setManager(p.getManager());
@@ -62,7 +67,7 @@ public class OvertimeService {
     }
     
     public Overtime update(int id, OvertimeDto o){
-    
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         if(!or.existsById(id)){
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not exist.");
         }
@@ -79,7 +84,7 @@ public class OvertimeService {
 //        }
         Status stat = o.getStatus() ? Status.APPROVED : Status.REJECTED;
         overtime.setStatus(stat);
-        overtime.setEmployee(er.findById(o.getEmployee_id()).get());
+        overtime.setEmployee(er.findById(user.getId()).get());
         Project p = pr.findById(o.getProject_id()).get();
         overtime.setProject(p);
         overtime.setManager(p.getManager());
@@ -93,10 +98,11 @@ public class OvertimeService {
     }
     
         public void sendConfirmationMail(OvertimeDto overtime) {
+            UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = er.findById(overtime.getEmployee_id()).get();
-            Overtime o = or.findById(overtime.getEmployee_id()).get();
+            Employee e = er.findById(user.getId()).get();
+            Overtime o = or.findById(user.getId()).get();
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Confirmation email");
             String content = otConfirmation.build(e.getFirst_name(), o.getStatus());
@@ -106,10 +112,11 @@ public class OvertimeService {
     }
     
     public void sendRequestMail(OvertimeDto overtime) {
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
             Employee e = er.findById(overtime.getManager_id()).get();
-            Overtime o = or.findById(overtime.getEmployee_id()).get();
+            Overtime o = or.findById(user.getId()).get();
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Request email");
             String content = otRequest.build(e.getFirst_name(), o.getNote());
