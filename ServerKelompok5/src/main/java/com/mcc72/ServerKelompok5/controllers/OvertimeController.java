@@ -37,7 +37,6 @@ public class OvertimeController {
     @PostMapping
     public Overtime create(@RequestBody OvertimeDto overtime){
         Overtime ot = overtimeService.create(overtime);
-        historyOvertimeService.create(overtime);
         overtimeService.sendRequestMail(overtime);
         return ot;
     }

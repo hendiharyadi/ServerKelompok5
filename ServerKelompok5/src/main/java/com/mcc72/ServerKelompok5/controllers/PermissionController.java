@@ -6,10 +6,12 @@
 package com.mcc72.ServerKelompok5.controllers;
 
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
-import com.mcc72.ServerKelompok5.models.entity.HistoryPermission;
+import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
+import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.services.HistoryPermissionService;
 import com.mcc72.ServerKelompok5.services.PermissionService;
+import com.mcc72.ServerKelompok5.services.StockLeaveService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +34,8 @@ public class PermissionController {
     
     private PermissionService permissionService;
     private HistoryPermissionService historyPermissionService;
+    private StockLeaveService stockLeaveService;
+    private EmployeeRepository er;
     
     @GetMapping
     public List<Permission> getAll(){
@@ -46,16 +50,16 @@ public class PermissionController {
     @PostMapping
     public Permission insert(@RequestBody PermissionDto permission){
         Permission permit = permissionService.create(permission);
-        historyPermissionService.create(permission);
         permissionService.sendRequestMail(permission);
         return permit;
     }
     
     @PutMapping("/{id}")
-    public Permission update(@PathVariable Integer id, @RequestBody PermissionDto permission) {
+    public Permission update(@PathVariable Integer id, @RequestBody PermissionDto permission, Employee e) {
         Permission permit = permissionService.update(id, permission);
         if (permission.getStatus().equals(true)){
             permissionService.sendConfirmationMail(permission);
+            stockLeaveService.updateCuti(e);
         } else {
             permissionService.sendConfirmationMail(permission);
         }

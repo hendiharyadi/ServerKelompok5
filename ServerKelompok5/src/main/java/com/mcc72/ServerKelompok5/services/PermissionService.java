@@ -56,6 +56,7 @@ public class PermissionService {
         Employee e = employeeRepository.findById(permission.getEmployee()).get();
         permit.setEmployee(e);
         permit.setManager(e.getManager());
+        hps.create(permit);
         return permissionRepository.save(permit);
     }
     

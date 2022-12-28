@@ -36,6 +36,7 @@ public class OvertimeService {
     private OtConfirmation otConfirmation;
     private ProjectRepository pr;
     private JavaMailSender mailSender;
+    private HistoryOvertimeService hos;
     
     public List<Overtime> getAll(){
         return or.findAll();
@@ -56,6 +57,7 @@ public class OvertimeService {
         Project p = pr.findById(o.getProject_id()).get();
         overtime.setProject(p);
         overtime.setManager(p.getManager());
+        hos.create(overtime);
         return or.save(overtime);
     }
     

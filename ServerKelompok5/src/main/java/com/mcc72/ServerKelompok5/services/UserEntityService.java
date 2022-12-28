@@ -100,7 +100,6 @@ public class UserEntityService implements UserDetailsService {
         ue.setPassword(passwordEncoder.encode(u.getPassword()));
         ue.setUserRole(Collections.singletonList(rr.findById(u.getRole_id()).get()));
         ue.setFailedAttempt(0);
-        ue.setStockLeave(12);
         ue.setEmployee(er.findByEmail(u.getEmail()).get());
         return ur.save(ue);
     }
@@ -110,13 +109,6 @@ public class UserEntityService implements UserDetailsService {
         System.out.println("updateAttempt here");
         UserEntity ue = ur.findByUsername(u.getUsername()).get();
         ur.setFailedAttemptForUser(ue.getFailedAttempt() + 1, ue.getId());
-        System.out.println("updateAttempt success");
-    }
-    
-    public void updateCuti(UserEntity u) {
-        System.out.println("updateAttempt here");
-        UserEntity ue = ur.findByUsername(u.getUsername()).get();
-        ur.setStockLeave(ue.getStockLeave() - 1, ue.getId());
         System.out.println("updateAttempt success");
     }
 

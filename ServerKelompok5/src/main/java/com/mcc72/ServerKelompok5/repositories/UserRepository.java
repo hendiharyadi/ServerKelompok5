@@ -10,11 +10,15 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Hendi
  */
+@Repository
+@Transactional
 public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 
     public Optional<UserEntity> findByUsername(String username);
@@ -22,9 +26,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>{
     @Modifying
     @Query("update UserEntity u set u.failedAttempt = ?1 where u.id = ?2")
     int setFailedAttemptForUser(Integer failedAttempt, Integer id);
-    
-    @Modifying
-    @Query("update UserEntity u set u.stockLeave = ?1 where u.id = ?2")
-    int setStockLeave(Integer stockLeave, Integer id);
-    
 }

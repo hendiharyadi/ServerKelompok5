@@ -6,7 +6,9 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
+import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.StockLeave;
+import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class StockLeaveService {
     
     private StockLeaveRepository stockLeaveRepository;
+    private EmployeeRepository employeeRepository;
     
     public List<StockLeave> getAll(){
         return stockLeaveRepository.findAll();
@@ -35,8 +38,9 @@ public class StockLeaveService {
     
     public StockLeave create(UserRegistrationDto stockLeave){
         StockLeave sl = new StockLeave();
-        stockLeave.setStockLeave(12);
-        return sl;
+        sl.setStock_available(12);
+        sl.setEmployee(employeeRepository.findByEmail(stockLeave.getEmail()).get());
+        return stockLeaveRepository.save(sl);
     }
     
     public StockLeave update(int id, StockLeave stockLeave){
@@ -49,5 +53,12 @@ public class StockLeaveService {
         StockLeave stockLeave = getById(id);
         stockLeaveRepository.delete(stockLeave);
         return stockLeave;
+    }
+    
+    public void updateCuti(Employee e) {
+        System.out.println("updateAttempt here");
+        Employee employee = employeeRepository.findById(e.getId()).get();
+        employeeRepository.setStockLeave(employee.getStockLeave().getStock_available() - 1, employee.getId());
+        System.out.println("updateAttempt success");
     }
 }

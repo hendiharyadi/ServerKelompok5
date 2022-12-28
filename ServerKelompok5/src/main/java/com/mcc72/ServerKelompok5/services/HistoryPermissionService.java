@@ -37,9 +37,10 @@ public class HistoryPermissionService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public HistoryPermission create(PermissionDto historyPermission){
+    public HistoryPermission create(Permission historyPermission){
         HistoryPermission hp = new HistoryPermission();
-        hp.setDate_history(historyPermission.getDate_history());
+        hp.setPermission(historyPermission);
+        hp.setDate_history(new Timestamp(System.currentTimeMillis()));
         return historyPermissionRepository.save(hp);
     }
     

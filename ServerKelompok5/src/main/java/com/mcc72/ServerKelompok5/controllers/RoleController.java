@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author DevidBa
+ * @author Hendi
  */
 @AllArgsConstructor
 @RestController

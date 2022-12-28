@@ -39,7 +39,7 @@ public class Employee {
 
     @Column(length = 20, nullable = false)
     private String phone_number;
-
+    
     @JsonIgnore
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

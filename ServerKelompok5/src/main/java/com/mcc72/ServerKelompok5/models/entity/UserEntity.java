@@ -40,8 +40,6 @@ public class UserEntity {
     
     private Integer failedAttempt;
     
-    private Integer stockLeave;
-    
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")

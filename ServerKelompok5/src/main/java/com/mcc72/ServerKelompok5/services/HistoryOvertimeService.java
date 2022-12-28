@@ -7,7 +7,9 @@ package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
 import com.mcc72.ServerKelompok5.models.entity.HistoryOvertime;
+import com.mcc72.ServerKelompok5.models.entity.Overtime;
 import com.mcc72.ServerKelompok5.repositories.HistoryOvertimeRepository;
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,9 +35,10 @@ public class HistoryOvertimeService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public HistoryOvertime create(OvertimeDto historyOvertime){
+    public HistoryOvertime create(Overtime historyOvertime){
         HistoryOvertime ho = new HistoryOvertime();
-        ho.setDate_history(historyOvertime.getDate_history());
+        ho.setOvertime(historyOvertime);
+        ho.setDate_history(new Timestamp(System.currentTimeMillis()));
         return historyOvertimeRepository.save(ho);
     }
     
