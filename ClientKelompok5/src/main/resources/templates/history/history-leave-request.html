@@ -24,17 +24,16 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../../static/images/favicon.png"
+      href="/images/favicon.png"
     />
     <!-- Custom CSS -->
-    <link href="../../static/js/chartist/dist/chartist.min.css" rel="stylesheet" />
+    <link href="/js/chartist/dist/chartist.min.css" rel="stylesheet" />
     <link
-      href="../../static/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
+      href="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
       rel="stylesheet"
     />
     <!-- Custom CSS -->
-    <link href="../../static/dist/css/style.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../src/css/style.css" />
+    <link href="/dist/css/style.min.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -74,26 +73,26 @@
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->
-            <a class="navbar-brand" href="../index.html">
+            <a class="navbar-brand" href="/">
               <!-- Logo icon -->
               <b class="logo-icon">
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                 <!-- Dark Logo icon -->
                 <img
-                  src="../../static/images/logo-icon.png"
+                  src="/images/logo-icon.png"
                   alt="homepage"
                   class="dark-logo"
                 />
                 <!-- Light Logo icon -->
                 <img
-                  src="../../static/images/logo-light-icon.png"
+                  src="/images/logo-light-icon.png"
                   alt="homepage"
                   class="light-logo"
                 />
               </b>
               <!--End Logo icon -->
               <!-- Logo text -->
-              <span class="logo-text fw-bolder text-dark"> FreeMonday </span>
+              <span class="logo-text fw-bold"> FreeMonday </span>
             </a>
             <!-- ============================================================== -->
             <!-- End Logo -->
@@ -154,7 +153,7 @@
                   aria-expanded="false"
                 >
                   <img
-                    src="../../static/images/users/profile.png"
+                    src="/images/users/profile.png"
                     alt="user"
                     class="rounded-circle"
                     width="31"
@@ -197,7 +196,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="../index.html"
+                  href="/"
                   aria-expanded="false"
                   ><i class="mdi mdi-view-dashboard"></i
                   ><span class="hide-menu">Dashboard</span></a
@@ -206,7 +205,16 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="../leave-request.html"
+                  href="/admin"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-account-settings"></i
+                  ><span class="hide-menu">Admin Dashboard</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/permission"
                   aria-expanded="false"
                   ><i class="mdi mdi-human-greeting"></i
                   ><span class="hide-menu">Leave Request</span></a
@@ -215,7 +223,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="../overtime-request.html"
+                  href="/overtime"
                   aria-expanded="false"
                   ><i class="mdi mdi-timelapse"></i
                   ><span class="hide-menu">Overtime Request</span></a
@@ -224,7 +232,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="../overtime-request.html"
+                  href="/history"
                   aria-expanded="false"
                   ><i class="mdi mdi-history"></i
                   ><span class="hide-menu">History</span></a
@@ -252,8 +260,8 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                   <li class="breadcrumb-item">
-                    <a href="history.html" class="link"
-                    ><i class="mdi mdi-home-outline fs-4"></i
+                    <a href="/history" class="link"
+                      ><i class="mdi mdi-home-outline fs-4"></i
                     ></a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
@@ -874,7 +882,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur d
                     >
                       Close
                     </button>
-                    <button class="btn btn-primary text-white">
+                    <button class="btn btn-primary text-white" type="button">
                       Save Changes
                     </button>
                   </div>
@@ -894,20 +902,15 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur d
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../../static/js/jquery/dist/jquery.min.js"></script>
+    <script src="/js/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../../static/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../static/dist/js/app-style-switcher.js"></script>
+    <script src="/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/app-style-switcher.js"></script>
     <!--Wave Effects -->
-    <script src="../../static/dist/js/waves.js"></script>
+    <script src="/dist/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="../../static/dist/js/sidebarmenu.js"></script>
+    <script src="/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="../../static/dist/js/custom.js"></script>
-    <!--This page JavaScript -->
-    <!--chartis chart-->
-    <script src="../../static/js/chartist/dist/chartist.min.js"></script>
-    <script src="../../static/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../../static/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="/dist/js/custom.js"></script>
   </body>
 </html>

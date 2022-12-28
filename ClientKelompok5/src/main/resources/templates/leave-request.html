@@ -21,17 +21,17 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../images/favicon.png"
+      href="/images/favicon.png"
     />
     <!-- Custom CSS -->
-    <link href="../static/js/chartist/dist/chartist.min.css" rel="stylesheet" />
+    <link href="/js/chartist/dist/chartist.min.css" rel="stylesheet" />
     <link
       href="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
       rel="stylesheet"
     />
     <!-- Custom CSS -->
-    <link href="../static/dist/css/style.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../src/css/style.css" />
+    <link href="/dist/css/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/css/style.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -77,13 +77,13 @@
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                 <!-- Dark Logo icon -->
                 <img
-                  src="../static/images/logo-icon.png"
+                  src="/images/logo-icon.png"
                   alt="homepage"
                   class="dark-logo"
                 />
                 <!-- Light Logo icon -->
                 <img
-                  src="../static/images/logo-light-icon.png"
+                  src="/images/logo-light-icon.png"
                   alt="homepage"
                   class="light-logo"
                 />
@@ -151,7 +151,7 @@
                   aria-expanded="false"
                 >
                   <img
-                    src="../static/images/users/profile.png"
+                    src="/images/users/profile.png"
                     alt="user"
                     class="rounded-circle"
                     width="31"
@@ -188,7 +188,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="index.html"
+                  href="/"
                   aria-expanded="false"
                   ><i class="mdi mdi-view-dashboard"></i
                   ><span class="hide-menu">Dashboard</span></a
@@ -197,7 +197,7 @@
               <li class="sidebar-item selected">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="leave-request.html"
+                  href="/permission"
                   aria-expanded="false"
                   ><i class="mdi mdi-human-greeting"></i
                   ><span class="hide-menu">Leave Request</span></a
@@ -206,7 +206,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="overtime-request.html"
+                  href="/overtime"
                   aria-expanded="false"
                   ><i class="mdi mdi-timelapse"></i
                   ><span class="hide-menu">Overtime Request</span></a
@@ -215,7 +215,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="history/history.html"
+                  href="history"
                   aria-expanded="false"
                   ><i class="mdi mdi-history"></i
                   ><span class="hide-menu">History</span></a
@@ -243,8 +243,8 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                   <li class="breadcrumb-item">
-                    <a href="index.html" class="link"
-                    ><i class="mdi mdi-home-outline fs-4"></i
+                    <a href="/" class="link"
+                      ><i class="mdi mdi-home-outline fs-4"></i
                     ></a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
@@ -273,9 +273,7 @@
                   <div class="d-md-flex">
                     <div>
                       <h4 class="card-title">Leave Request</h4>
-                      <h5 class="card-subtitle">
-                        Overview of leave request
-                      </h5>
+                      <h5 class="card-subtitle">Overview of leave request</h5>
                     </div>
 
                     <div class="ms-auto d-flex align-items-center gap-2">
@@ -453,7 +451,10 @@
                 <div class="form-group">
                   <label class="col-md-12">Unattended Plan Type</label>
                   <div class="col-sm-12">
-                    <select class="form-select shadow-none form-control-line" id="input-permissionType">
+                    <select
+                      class="form-select shadow-none form-control-line"
+                      id="input-permissionType"
+                    >
                       <option selected>Pilih permission</option>
                       <option value="1">Cuti</option>
                       <option value="2">Izin</option>
@@ -466,7 +467,11 @@
                   >
                   <div class="col-md-12">
                     <div class="input-group date" id="datepicker">
-                      <input type="date" class="form-control" id="input-date-start" />
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="input-date-start"
+                      />
                     </div>
                   </div>
                 </div>
@@ -476,7 +481,11 @@
                   >
                   <div class="col-md-12">
                     <div class="input-group date">
-                      <input type="date" class="form-control" id="input-date-end" />
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="input-date-end"
+                      />
                     </div>
                   </div>
                 </div>
@@ -485,14 +494,18 @@
                   <div class="col-md-12">
                     <textarea
                       rows="5"
-                      class="form-control form-control-line" id="input-note"
+                      class="form-control form-control-line"
+                      id="input-note"
                     ></textarea>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-12">Select Managers</label>
                   <div class="col-sm-12">
-                    <select class="form-select shadow-none form-control-line" id="input-manager">
+                    <select
+                      class="form-select shadow-none form-control-line"
+                      id="input-manager"
+                    >
                       <option value="0">Select</option>
                       <option value="1">Lisa</option>
                       <option value="2">Septi</option>
@@ -510,7 +523,11 @@
                     >
                       Close
                     </button>
-                    <button class="btn btn-primary text-white" type="button" id="submit-permission">
+                    <button
+                      class="btn btn-primary text-white"
+                      type="button"
+                      id="submit-permission"
+                    >
                       Save Changes
                     </button>
                   </div>
@@ -754,16 +771,16 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur d
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../static/js/jquery/dist/jquery.min.js"></script>
+    <script src="/js/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../static/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/dist/js/app-style-switcher.js"></script>
+    <script src="/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/app-style-switcher.js"></script>
     <!--Wave Effects -->
-    <script src="../static/dist/js/waves.js"></script>
+    <script src="/dist/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="../static/dist/js/sidebarmenu.js"></script>
+    <script src="/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="../static/dist/js/custom.js"></script>
+    <script src="/dist/js/custom.js"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
