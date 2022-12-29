@@ -95,7 +95,7 @@ public class UserEntityService implements UserDetailsService {
         String verificationCode = UUID.randomUUID().toString();
         UserEntity ue = new UserEntity();
         ue.setUsername(u.getUsername());
-        ue.setIsActive(true);
+        ue.setIsActive(false);
         ue.setVerificationCode(verificationCode);
         ue.setPassword(passwordEncoder.encode(u.getPassword()));
         ue.setUserRole(Collections.singletonList(rr.findById(u.getRole_id()).get()));

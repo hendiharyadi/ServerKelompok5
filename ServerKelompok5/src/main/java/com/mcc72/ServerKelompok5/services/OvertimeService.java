@@ -39,7 +39,7 @@ public class OvertimeService {
     private JavaMailSender mailSender;
     private HistoryOvertimeService hos;
     private UserRepository userRepository;
-    private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
     
     public List<Overtime> getAll(){
         return or.findAll();
@@ -51,7 +51,7 @@ public class OvertimeService {
     }
     
     public Overtime create(OvertimeDto o){
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Overtime overtime = new Overtime();
         overtime.setNote(o.getNote());
@@ -67,6 +67,7 @@ public class OvertimeService {
     }
     
     public Overtime update(int id, OvertimeDto o){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         if(!or.existsById(id)){
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not exist.");
@@ -98,6 +99,7 @@ public class OvertimeService {
     }
     
         public void sendConfirmationMail(OvertimeDto overtime) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
@@ -112,6 +114,7 @@ public class OvertimeService {
     }
     
     public void sendRequestMail(OvertimeDto overtime) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");

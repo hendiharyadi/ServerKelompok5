@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MyUser implements UserDetails{
 
-    private UserEntity userEntity;
+    private final UserEntity userEntity;
 
     public MyUser(UserEntity userEntity){
         this.userEntity = userEntity;
@@ -52,7 +52,7 @@ public class MyUser implements UserDetails{
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return  userEntity.getIsActive();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MyUser implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return userEntity.getIsActive();
+        return true;
     }
     
 }
