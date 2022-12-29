@@ -69,26 +69,10 @@ public class OvertimeService {
     public Overtime update(int id, OvertimeDto o){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        if(!or.existsById(id)){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not exist.");
-        }
-        
         Overtime overtime = or.findById(id).get();
-        overtime.setNote(o.getNote());
-        overtime.setStart_overtime(o.getStart_overtime());
-        overtime.setEnd_overtime(o.getEnd_overtime());
-//        if(o.isStatus()){
-//            overtime.setStatus(Status.APPROVED);
-//        }
-//        else {
-//            overtime.setStatus(Status.REJECTED);
-//        }
         Status stat = o.getStatus() ? Status.APPROVED : Status.REJECTED;
         overtime.setStatus(stat);
         overtime.setEmployee(er.findById(user.getId()).get());
-        Project p = pr.findById(o.getProject_id()).get();
-        overtime.setProject(p);
-        overtime.setManager(p.getManager());
         return or.save(overtime);
     }
     
