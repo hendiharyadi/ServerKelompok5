@@ -45,8 +45,8 @@ public class RestProjectController {
         return projectService.update(id, project);
     }
     
-   @DeleteMapping("/{id}")
-   public Project delete (@PathVariable int id){
+    @DeleteMapping("/{id}")
+    public Project delete (@PathVariable int id){
        return projectService.delete(id);
    }
 }

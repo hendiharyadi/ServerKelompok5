@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AllArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
+    
     @RequestMapping("/login")
     public String login(){
         return "auth/login";
     }
-
-
 }

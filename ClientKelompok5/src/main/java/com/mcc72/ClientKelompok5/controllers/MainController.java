@@ -37,6 +37,4 @@ public class MainController {
     public String profilePage(){
         return "pages-profile";
     }
-
-
 }

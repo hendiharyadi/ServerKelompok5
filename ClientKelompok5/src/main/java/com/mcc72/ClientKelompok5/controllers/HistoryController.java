@@ -13,12 +13,10 @@ public class HistoryController {
         return "history/history";
     }
 
-
     @RequestMapping("/history/permission")
     public String getHistoryPermission(){
         return "history/history-leave-request";
     }
-
 
     @RequestMapping("/history/overtime")
     public String getHistoryOvertime(){

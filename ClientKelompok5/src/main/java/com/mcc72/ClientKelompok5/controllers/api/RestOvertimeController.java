@@ -45,8 +45,8 @@ public class RestOvertimeController {
         return overtimeService.update(id, overtime);
     }
     
-   @DeleteMapping("/{id}")
-   public Overtime delete (@PathVariable int id){
+    @DeleteMapping("/{id}")
+    public Overtime delete (@PathVariable int id){
        return overtimeService.delete(id);
    }
 }

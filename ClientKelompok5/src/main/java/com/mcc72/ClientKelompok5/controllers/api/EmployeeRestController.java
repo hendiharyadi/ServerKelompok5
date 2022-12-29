@@ -45,8 +45,8 @@ public class EmployeeRestController {
         return employeeService.update(id, employee);
     }
     
-   @DeleteMapping("/{id}")
-   public Employee delete (@PathVariable int id){
+    @DeleteMapping("/{id}")
+    public Employee delete (@PathVariable int id){
        return employeeService.delete(id);
    }
 }

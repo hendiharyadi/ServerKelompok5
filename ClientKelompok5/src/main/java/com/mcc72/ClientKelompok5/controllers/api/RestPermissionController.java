@@ -45,8 +45,8 @@ public class RestPermissionController {
         return permissionService.update(id, permission);
     }
     
-   @DeleteMapping("/{id}")
-   public Permission delete (@PathVariable int id){
+    @DeleteMapping("/{id}")
+    public Permission delete (@PathVariable int id){
        return permissionService.delete(id);
    }
 }

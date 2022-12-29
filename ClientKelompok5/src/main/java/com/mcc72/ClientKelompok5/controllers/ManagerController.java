@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AllArgsConstructor
 @RequestMapping("/manager")
 public class ManagerController {
+    
     @RequestMapping
     public String index(){
         return "manager/manager";
@@ -18,24 +19,18 @@ public class ManagerController {
         return "manager/manager-employee";
     }
 
-
     @RequestMapping("/permission")
     public String managerPermission(){
         return "manager/manager-leave-request";
     }
-
 
     @RequestMapping("/overtime")
     public String managerOvertime(){
         return "manager/manager-overtime-request";
     }
 
-
-
     @RequestMapping("/project")
     public String managerProject(){
         return "manager/manager-project";
     }
-
-
 }
