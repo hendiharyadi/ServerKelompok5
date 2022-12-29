@@ -9,6 +9,7 @@ import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
+import com.mcc72.ServerKelompok5.models.entity.Status;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.services.HistoryPermissionService;
 import com.mcc72.ServerKelompok5.services.PermissionService;
@@ -58,13 +59,13 @@ public class PermissionController {
     @PutMapping("/{id}")
     public Permission update(@PathVariable Integer id, @RequestBody PermissionDto permission, Employee e) {
         Permission permit = permissionService.update(id, permission);
-        if (permission.getStatus().equals(true)){
-            permissionService.sendConfirmationMail(permission);
-            stockLeaveService.updateCuti(e);
-        } else {
-            permissionService.sendConfirmationMail(permission);
-        }
-        return permit;
+            if (permission.getStatus().equals(true)){
+                permissionService.sendConfirmationMail(permission);
+                stockLeaveService.updateCuti(e);
+            } else {
+                permissionService.sendConfirmationMail(permission);
+            }
+            return permit;
     }
     
     @DeleteMapping("/{id}")
