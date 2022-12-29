@@ -60,6 +60,7 @@ public class ProjectService {
         Project project = new Project();
         getById(id);
         project.setId(id);
+        project.setStatus(projectDto.getStatus());
         project.setName(projectDto.getName());
         project.setManager(employeeRepository.findById(user.getId()).get());
         return projectRepository.save(project);

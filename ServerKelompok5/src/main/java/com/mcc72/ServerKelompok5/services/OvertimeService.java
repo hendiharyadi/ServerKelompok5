@@ -38,9 +38,9 @@ public class OvertimeService {
     private ProjectRepository pr;
     private JavaMailSender mailSender;
     private HistoryOvertimeService hos;
+
     private UserRepository userRepository;
 
-    
     public List<Overtime> getAll(){
         return or.findAll();
     }
@@ -98,6 +98,7 @@ public class OvertimeService {
         return overtime;
     }
     
+
         public void sendConfirmationMail(OvertimeDto overtime) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserEntity user = userRepository.findByUsername(authentication.getName()).get();
@@ -112,18 +113,18 @@ public class OvertimeService {
         };
         mailSender.send(messagePreparator);
     }
-    
+
     public void sendRequestMail(OvertimeDto overtime) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = er.findById(overtime.getManager_id()).get();
-            Overtime o = or.findById(user.getId()).get();
-            messageHelper.setTo(e.getEmail());
-            messageHelper.setSubject("Request email");
-            String content = otRequest.build(e.getFirst_name(), o.getNote());
-            messageHelper.setText(content, true);
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
+        Employee e = er.findById(overtime.getManager_id()).get();
+        Overtime o = or.findById(user.getId()).get();
+        messageHelper.setTo(e.getEmail());
+        messageHelper.setSubject("Request email");
+        String content = otRequest.build(e.getFirst_name(), o.getNote());
+        messageHelper.setText(content, true);
         };
         mailSender.send(messagePreparator);
     }

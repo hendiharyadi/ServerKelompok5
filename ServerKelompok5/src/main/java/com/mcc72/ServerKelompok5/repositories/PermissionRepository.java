@@ -7,6 +7,7 @@ package com.mcc72.ServerKelompok5.repositories;
 
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,5 @@ import java.util.Optional;
  */
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Integer>{
-
     Optional<Permission> findPermissionByEmployee(Employee employee);
 }

@@ -21,12 +21,11 @@ import org.thymeleaf.context.Context;
 public class OtRequest {
     
     private TemplateEngine templateEngine;
-    private UserRepository userRepository;
     
     public String build(String firstName, String note){
         Context context = new Context();
         context.setVariable("first_name", firstName);
         context.setVariable("note", note);
-        return templateEngine.process("requestmail", context);
+        return templateEngine.process("otrequestmail", context);
     }
 }

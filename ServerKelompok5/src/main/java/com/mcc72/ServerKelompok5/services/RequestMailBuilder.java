@@ -21,7 +21,6 @@ import org.thymeleaf.context.Context;
 public class RequestMailBuilder {
     
     private TemplateEngine templateEngine;
-    private UserRepository userRepository;
     
     public String build(String firstName, LeaveType leaveType){
         Context context = new Context();
