@@ -52,7 +52,9 @@ public class PermissionService {
         Permission permit = new Permission();
         LeaveType lt = permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN;
         Employee e = employeeRepository.findById(permission.getEmployee()).get();
-        if(sl.getStock_available() != 0){
+        if(sl.getStock_available() <= 0 && permission.getLeave_type().equals(true)){
+            throw new Error("Your cuti quota has been running out. Please wait until next year.");
+        } else {
             permit.setLeave_type(lt);
             permit.setStart_leave(permission.getStart_leave());
             permit.setEnd_leave(permission.getEnd_leave());
@@ -62,8 +64,6 @@ public class PermissionService {
             permit.setManager(e.getManager());
             hps.create(permit);
             return permissionRepository.save(permit);
-        } else {
-            throw new Error("Your cuti quota has been running out. Please wait until next year.");
         }
     }
     
