@@ -6,6 +6,7 @@
 package com.mcc72.ServerKelompok5.controllers;
 
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
+import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;

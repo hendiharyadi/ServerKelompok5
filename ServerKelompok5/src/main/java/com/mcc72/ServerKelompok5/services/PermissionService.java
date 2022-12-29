@@ -6,6 +6,7 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
+import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.LeaveType;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
@@ -47,18 +48,23 @@ public class PermissionService {
     }
     
     public Permission create(PermissionDto permission){
+        StockLeave sl = slr.findById(permission.getEmployee()).get();
         Permission permit = new Permission();
         LeaveType lt = permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN;
-        permit.setLeave_type(lt);
-        permit.setStart_leave(permission.getStart_leave());
-        permit.setEnd_leave(permission.getEnd_leave());
-        permit.setNote(permission.getNote());
-        permit.setStatus(Status.PENDING);
         Employee e = employeeRepository.findById(permission.getEmployee()).get();
-        permit.setEmployee(e);
-        permit.setManager(e.getManager());
-        hps.create(permit);
-        return permissionRepository.save(permit);
+        if(sl.getStock_available() != 0){
+            permit.setLeave_type(lt);
+            permit.setStart_leave(permission.getStart_leave());
+            permit.setEnd_leave(permission.getEnd_leave());
+            permit.setNote(permission.getNote());
+            permit.setStatus(Status.PENDING);
+            permit.setEmployee(e);
+            permit.setManager(e.getManager());
+            hps.create(permit);
+            return permissionRepository.save(permit);
+        } else {
+            throw new Error("Your cuti quota has been running out. Please wait until next year.");
+        }
     }
     
     public Permission update(Integer id, PermissionDto permission){
