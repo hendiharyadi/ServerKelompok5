@@ -6,6 +6,8 @@
 package com.mcc72.ServerKelompok5.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,10 +53,11 @@ public class Project {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(mappedBy = "employeeProject")
     private List<Employee> employeeProject;
-    
+
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @Column(nullable = true)
     private List<Overtime> overtimes;
-    
-        
+
+
+
 }

@@ -5,16 +5,23 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.dto.EmployeeProjectDto;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
-import com.mcc72.ServerKelompok5.models.entity.Employee;
-import com.mcc72.ServerKelompok5.models.entity.StockLeave;
+import com.mcc72.ServerKelompok5.models.entity.*;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +34,8 @@ import org.springframework.web.server.ResponseStatusException;
 public class EmployeeService {
 
     private EmployeeRepository er;
+    private ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     public List<Employee> findAll() {
         if (er.findAll().isEmpty()) {
@@ -52,7 +61,7 @@ public class EmployeeService {
             m.put("user", employee.getUser());
             m.put("manager", employee.getManager());
             m.put("managers", employee.getManagers());
-            m.put("employeeProject", employee.getEmployeeProject());
+            m.put("employeeProject", employee.getProjects());
             m.put("stockLeave", employee.getStockLeave());
             m.put("overtimes", employee.getOvertimes());
             m.put("permissions", employee.getPermissions());
@@ -75,7 +84,7 @@ public class EmployeeService {
         m.put("user", employee.getUser());
         m.put("manager", employee.getManager());
         m.put("managers", employee.getManagers());
-        m.put("employeeProject", employee.getEmployeeProject());
+        m.put("employeeProject", employee.getProjects());
         m.put("stockLeave", employee.getStockLeave());
         m.put("overtimes", employee.getOvertimes());
         m.put("permissions", employee.getPermissions());
@@ -116,5 +125,29 @@ public class EmployeeService {
         Employee e = er.findById(id).get();
         er.delete(e);
         return "Success";
+    }
+
+    public List<Employee> findMyStaff(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity manager = userRepository.findByUsername(auth.getName()).get();
+        return manager.getEmployee().getManagers();
+    }
+
+    public List<Permission> findMyStaffPermission(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity manager = userRepository.findByUsername(auth.getName()).get();
+        return manager.getEmployee().getPermissions();
+    }
+
+    public Object addEmployeeToProject( EmployeeProjectDto empDto){
+        Project project = projectRepository.findById(empDto.getProject_id()).get();
+        Employee employee = er.findById(empDto.getEmployee_id()).get();
+        /*employee.setEmployeeProject(Collections.singletonList(project));*/
+        project.setEmployeeProject(Collections.singletonList(employee));
+        projectRepository.save(project);
+        Map<String, Object> map = new HashMap<>();
+        map.put("employee", employee);
+        map.put("employee project", employee.getEmployeeProject());
+        return map;
     }
 }

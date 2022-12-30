@@ -11,7 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List; 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hendi
@@ -64,6 +65,8 @@ public class Employee {
                     name = "project_id", referencedColumnName = "id"))
     private List<Project> employeeProject;
 
+
+
     @JsonIgnore
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -80,4 +83,7 @@ public class Employee {
     @JsonIgnore
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     private List<Project> projects;
+
+
+
 }

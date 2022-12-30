@@ -62,7 +62,7 @@ public class RoleService {
            m.put("user", usr.getEmployee().getUser());
            m.put("manager", usr.getEmployee().getManager());
            m.put("managers", usr.getEmployee().getManagers());
-           m.put("employeeProject", usr.getEmployee().getEmployeeProject());
+           m.put("employeeProject",usr.getEmployee().getProjects());
            m.put("stockLeave", usr.getEmployee().getStockLeave());
            m.put("overtimes", usr.getEmployee().getOvertimes());
            m.put("permissions", usr.getEmployee().getPermissions());

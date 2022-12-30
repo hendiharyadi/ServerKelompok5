@@ -1,6 +1,8 @@
 package com.mcc72.ServerKelompok5.controllers;
 
+import com.mcc72.ServerKelompok5.models.dto.EmployeeProjectDto;
 import com.mcc72.ServerKelompok5.models.dto.ProjectDto;
+import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Project;
 import com.mcc72.ServerKelompok5.services.ProjectService;
 import lombok.AllArgsConstructor;
@@ -14,8 +16,8 @@ import java.util.List;
 public class ProjectController {
     private ProjectService projectService;
 
-    @GetMapping
-    public List<Project> getAll(){
+    @GetMapping("/manager")
+    public Object getAll(){
         return projectService.getAll();
     }
 
@@ -23,6 +25,13 @@ public class ProjectController {
     public Project getById(@PathVariable int id) {
         return projectService.getById(id);
     }
+
+    @GetMapping("/members/{id}")
+    public List<Employee> getMembers(@PathVariable int id){
+        return projectService.getMemberProject(id);
+    }
+
+
 
     @PostMapping
     public Project create(@RequestBody ProjectDto projectDto){

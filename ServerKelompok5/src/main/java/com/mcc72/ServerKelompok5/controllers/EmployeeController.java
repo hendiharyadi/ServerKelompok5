@@ -1,8 +1,11 @@
 package com.mcc72.ServerKelompok5.controllers;
 
 
+import com.mcc72.ServerKelompok5.models.dto.EmployeeProjectDto;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
+import com.mcc72.ServerKelompok5.models.entity.Permission;
+import com.mcc72.ServerKelompok5.models.entity.Project;
 import com.mcc72.ServerKelompok5.services.EmployeeService;
 import com.mcc72.ServerKelompok5.services.StockLeaveService;
 import com.mcc72.ServerKelompok5.services.UserEntityService;
@@ -44,6 +47,21 @@ public class EmployeeController {
         stockLeaveService.create(employee);
         userEntityService.sendVerifyMail(employee);
         return e;
+    }
+
+    @PutMapping("/add-project")
+    public Object addProject(@RequestBody EmployeeProjectDto employeeProjectDto){
+        return employeeService.addEmployeeToProject(employeeProjectDto);
+    }
+
+    @GetMapping("/manager/list-staff")
+    public List<Employee> findStaff(){
+        return employeeService.findMyStaff();
+    }
+
+    @GetMapping("/manager/list-permission-staff")
+    public List<Permission> findMyStaffPermission(){
+        return employeeService.findMyStaffPermission();
     }
     
     @GetMapping("/{id}")

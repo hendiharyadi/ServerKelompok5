@@ -5,12 +5,17 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.dto.EmployeeProjectDto;
 import com.mcc72.ServerKelompok5.models.dto.ProjectDto;
+import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Project;
 import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
-import java.util.List;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.server.ResponseStatusException;
+import org.thymeleaf.util.ArrayUtils;
 
 /**
  *
@@ -33,8 +39,22 @@ public class ProjectService {
     private final EmployeeRepository employeeRepository;
     private UserRepository userRepository;
 
-    public List<Project> getAll(){
-        return projectRepository.findAll();
+    public Object getAll(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getProjects().stream().map(e -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", e.getId());
+            map.put("name", e.getName());
+            map.put("status", e.getStatus());
+//            map.put("members", e.getEmployeeProject().size());
+            return map;
+        }).collect(Collectors.toList());
+    }
+
+    public List<Employee> getMemberProject(int id){
+        Project project = projectRepository.findById(id).get();
+        return null;
     }
     
     public Project getById(int id){
@@ -57,15 +77,15 @@ public class ProjectService {
     public Project update(int id, ProjectDto projectDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        Project project = new Project();
+        Project project = projectRepository.findById(id).get();
         getById(id);
-        project.setId(id);
         project.setStatus(projectDto.getStatus());
         project.setName(projectDto.getName());
-        project.setManager(employeeRepository.findById(user.getId()).get());
         return projectRepository.save(project);
     }
-    
+
+
+
     public Project delete(int id){
         Project project = getById(id);
         projectRepository.delete(project);
