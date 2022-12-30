@@ -82,17 +82,17 @@ public class OvertimeService {
         return overtime;
     }
     
-
-        public void sendConfirmationMail(OvertimeDto overtime) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+    public void sendConfirmationMail(OvertimeDto overtime) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = er.findById(user.getId()).get();
-            Overtime o = or.findById(user.getId()).get();
+            Employee e = er.findById(overtime.getEmployee_id()).get();
+            Overtime o = or.findById(user.getEmployee().getId()).get();
+            Project p = pr.findById(overtime.getProject_id()).get();
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Confirmation email");
-            String content = otConfirmation.build(e.getFirst_name(), o.getStatus());
+            String content = otConfirmation.build(e.getFirst_name(), overtime.getStatus()? Status.APPROVED : Status.REJECTED);
             messageHelper.setText(content, true);
         };
         mailSender.send(messagePreparator);
@@ -103,11 +103,13 @@ public class OvertimeService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-        Employee e = er.findById(overtime.getManager_id()).get();
-        Overtime o = or.findById(user.getId()).get();
-        messageHelper.setTo(e.getEmail());
+        Employee m = er.findById(user.getEmployee().getManager().getId()).get();
+        Employee e = er.findById(user.getEmployee().getId()).get();
+        Overtime o = or.findById(user.getEmployee().getId()).get();
+        Project p = pr.findById(overtime.getProject_id()).get();
+        messageHelper.setTo(p.getManager().getEmail());
         messageHelper.setSubject("Request email");
-        String content = otRequest.build(e.getFirst_name(), o.getNote());
+        String content = otRequest.build(overtime.getStart_overtime(),overtime.getEnd_overtime(), overtime.getNote(), e.getFirst_name());
         messageHelper.setText(content, true);
         };
         mailSender.send(messagePreparator);

@@ -17,6 +17,7 @@ import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
 import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -99,11 +100,11 @@ public class PermissionService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = employeeRepository.findById(user.getId()).get();
-            Permission p = permissionRepository.findById(user.getId()).get();
+            Employee e = employeeRepository.findById(permission.getEmployee()).get();
+            Permission p = permissionRepository.findById(user.getEmployee().getId()).get(); 
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Confirmation email");
-            String content = confirmationMailBuilder.build(e.getFirst_name(), p.getLeave_type(), p.getStatus());
+            String content = confirmationMailBuilder.build(e.getFirst_name(), permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStatus() ? Status.APPROVED : Status.REJECTED);
             messageHelper.setText(content, true);
         };
         mailSender.send(messagePreparator);
@@ -114,11 +115,12 @@ public class PermissionService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = employeeRepository.findById(permission.getManager()).get();
-            Permission p = permissionRepository.findById(user.getId()).get();
-            messageHelper.setTo(e.getEmail());
+            Employee m = employeeRepository.findById(user.getEmployee().getManager().getId()).get();
+            Permission p = permissionRepository.findById(user.getEmployee().getId()).get();
+            Employee e = employeeRepository.findById(user.getEmployee().getId()).get();
+            messageHelper.setTo(m.getEmail());
             messageHelper.setSubject("Request email");
-            String content = requestMailBuilder.build(e.getFirst_name(), p.getLeave_type());
+            String content = requestMailBuilder.build(permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStart_leave(), permission.getEnd_leave(), e.getFirst_name());
             messageHelper.setText(content, true);
         };
         mailSender.send(messagePreparator);
