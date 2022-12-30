@@ -22,7 +22,7 @@ public class MyUser implements UserDetails{
         userEntity.getUserRole()
         .forEach(
         role ->  {
-            String roleName = "ROLE_" + role.getName().toUpperCase();
+            String roleName = role.getName().toUpperCase();
             authorities.add(new SimpleGrantedAuthority(roleName));
             role.getPrivileges().forEach(
             privilege -> {

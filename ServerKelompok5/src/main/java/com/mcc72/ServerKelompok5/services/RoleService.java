@@ -50,6 +50,27 @@ public class RoleService {
 //        return list;
     }
 
+    public Object getRoleManager(){
+        Role role = rr.findById(2).get();
+       return role.getUserRole().stream().map(usr -> {
+           Map<String, Object> m = new HashMap<>();
+           m.put("id", usr.getEmployee().getId());
+           m.put("first_name", usr.getEmployee().getFirst_name());
+           m.put("last_name", usr.getEmployee().getLast_name());
+           m.put("email", usr.getEmployee().getEmail());
+           m.put("phone_number", usr.getEmployee().getPhone_number());
+           m.put("user", usr.getEmployee().getUser());
+           m.put("manager", usr.getEmployee().getManager());
+           m.put("managers", usr.getEmployee().getManagers());
+           m.put("employeeProject", usr.getEmployee().getEmployeeProject());
+           m.put("stockLeave", usr.getEmployee().getStockLeave());
+           m.put("overtimes", usr.getEmployee().getOvertimes());
+           m.put("permissions", usr.getEmployee().getPermissions());
+           m.put("projects", usr.getEmployee().getProjects());
+           return m;
+       }).collect(Collectors.toList());
+    }
+
 
     public Role findById(Integer id) {
         if (!rr.existsById(id)) {

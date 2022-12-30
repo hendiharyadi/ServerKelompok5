@@ -7,6 +7,7 @@ package com.mcc72.ServerKelompok5.services;
 
 
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
+import com.mcc72.ServerKelompok5.models.entity.Role;
 import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.RoleRepository;
@@ -136,5 +137,10 @@ public class UserEntityService implements UserDetailsService {
         } else {
             return false;
         }
+    }
+
+    public List<UserEntity> getManagers(){
+        Role role = rr.findById(2).get();
+        return ur.findByUserRole(role);
     }
 }

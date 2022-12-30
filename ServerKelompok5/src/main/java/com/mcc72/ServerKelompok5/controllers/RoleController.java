@@ -28,14 +28,19 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @RequestMapping("role")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class RoleController {
  private RoleService roleService;
 
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+//    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping
     public List<Map<String, Object>> getAllMap(){
         return roleService.getAllMap();
+    }
+
+    @GetMapping("/managers")
+    public Object getManagers(){
+        return roleService.getRoleManager();
     }
     
     @PreAuthorize("hasAuthority('CREATE_ADMIN')")

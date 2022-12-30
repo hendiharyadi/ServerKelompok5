@@ -62,19 +62,9 @@ public class PermissionService {
     }
     
     public Permission update(Integer id, PermissionDto permission){
-        Permission permit = new Permission();
-        getById(id);
-        permit.setId(id);
-        LeaveType lt = permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN;
-        permit.setLeave_type(lt);
-        permit.setStart_leave(permission.getStart_leave());
-        permit.setEnd_leave(permission.getEnd_leave());
-        permit.setNote(permission.getNote());
+        Permission permit = permissionRepository.findById(id).get();
         Status stat = permission.getStatus() ? Status.APPROVED : Status.REJECTED;
         permit.setStatus(stat);
-        Employee e = employeeRepository.findById(permission.getEmployee()).get();
-        permit.setEmployee(e);
-        permit.setManager(e.getManager());
         return permissionRepository.save(permit);
     }
     

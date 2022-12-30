@@ -47,7 +47,7 @@ public class EmployeeController {
     }
     
     @GetMapping("/{id}")
-    public Employee getById(@PathVariable int id) {
+    public Object getById(@PathVariable int id) {
         return employeeService.findById(id);
     }
     
@@ -59,7 +59,7 @@ public class EmployeeController {
     
 //    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
-    public Employee delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Integer id) {
         return employeeService.deleteById(id);
     }
 }

@@ -6,10 +6,8 @@
 package com.mcc72.ServerKelompok5.controllers;
 
 
-
 import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.services.UserEntityService;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,8 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
- *
  * @author Hendi
  */
 @RestController
@@ -34,30 +35,40 @@ public class MainController {
     private UserEntityService ues;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
-     
-    @PostMapping("/login-user")
-    public Map<String, Object> login(@RequestBody UserEntity userEntity) throws Exception{
-    Authentication authentication;
 
-            authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(userEntity.getUsername(), userEntity.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+    @PostMapping("/login")
+    public Map<String, Object> login(@RequestBody UserEntity userEntity) throws Exception {
 
-       return ues.getLoginResponse();
+        UsernamePasswordAuthenticationToken authToken
+                = new UsernamePasswordAuthenticationToken(
+                userEntity.getUsername(),
+                userEntity.getPassword()
+        );
+        Authentication auth = authenticationManager.authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(auth); // Set Principle
+
+        // Authoritiy, Username
+        Map<String, Object> response = new HashMap<>();
+        response.put("authorities", auth.getAuthorities()
+                .stream().map(authority -> authority.getAuthority())
+                .collect(Collectors.toList()));
+
+        return response;
     }
-    
+
+
     @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("get-user")
     public String getUser() {
 //        ALT 1
 //        SecurityContext securityContext = SecurityContextHolder.getContext();
 //        return SecurityContextHolder.getContext().getName();
-        
+
 //        ALT 2
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
     }
-    
+
     @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("get-roles")
     public String getRoles() {

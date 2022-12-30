@@ -7,7 +7,8 @@ package com.mcc72.ServerKelompok5.config;
 
 
 import com.github.javafaker.Faker;
-import com.mcc72.ServerKelompok5.services.UserEntityService;
+import com.mcc72.ServerKelompok5.services.MyUserDetailsService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,32 +16,35 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- *
  * @author Hendi
  */
+@AllArgsConstructor
 @Configuration
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
-    
-    @Autowired
-    private CustomAuthenticationProvider authenticationProvider;
-    
+
+//    private CustomAuthenticationProvider authenticationProvider;
+    private MyUserDetailsService myUserDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-      .csrf()
-      .disable()
-      .cors()
-      .disable()
-      .authorizeRequests()
-      .anyRequest()
-      .authenticated()
-      .and()
-      .httpBasic();
+                .csrf()
+                .disable()
+                .cors()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
 //        http
 //                .csrf().disable()
 //                .authorizeRequests()
@@ -59,17 +63,17 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .authenticationProvider(authenticationProvider);
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder());
+//                .authenticationProvider(authenticationProvider);
+                .userDetailsService(myUserDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
-    
+
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
 //        return NoOpPasswordEncoder.getInstance();
     }
-    
+
     @Bean
     public Faker faker() {
         return new Faker();
@@ -80,5 +84,5 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

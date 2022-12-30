@@ -44,20 +44,43 @@ public class EmployeeService {
     public List<Map<String, Object>> getAllMap() {
         return er.findAll().stream().map(employee -> {
             Map<String, Object> m = new HashMap<>();
-            m.put("employeeId", employee.getId());
-            m.put("employeeFirstName", employee.getFirst_name());
-            m.put("employeeLastName", employee.getLast_name());
-            m.put("employeeEmail", employee.getEmail());
-            m.put("employeePhoneNumber", employee.getPhone_number());
+            m.put("id", employee.getId());
+            m.put("first_name", employee.getFirst_name());
+            m.put("last_name", employee.getLast_name());
+            m.put("email", employee.getEmail());
+            m.put("phone_number", employee.getPhone_number());
+            m.put("user", employee.getUser());
+            m.put("manager", employee.getManager());
+            m.put("managers", employee.getManagers());
+            m.put("employeeProject", employee.getEmployeeProject());
+            m.put("stockLeave", employee.getStockLeave());
+            m.put("overtimes", employee.getOvertimes());
+            m.put("permissions", employee.getPermissions());
+            m.put("projects", employee.getProjects());
             return m;
         }).collect(Collectors.toList());
     }
 
-    public Employee findById(Integer id) {
+    public Object findById(Integer id) {
         if (!er.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Data is not exist.");
         }
-        return er.findById(id).get();
+        Employee employee = er.findById(id).get();
+        Map<String, Object> m = new HashMap<>();
+        m.put("id", employee.getId());
+        m.put("first_name", employee.getFirst_name());
+        m.put("last_name", employee.getLast_name());
+        m.put("email", employee.getEmail());
+        m.put("phone_number", employee.getPhone_number());
+        m.put("user", employee.getUser());
+        m.put("manager", employee.getManager());
+        m.put("managers", employee.getManagers());
+        m.put("employeeProject", employee.getEmployeeProject());
+        m.put("stockLeave", employee.getStockLeave());
+        m.put("overtimes", employee.getOvertimes());
+        m.put("permissions", employee.getPermissions());
+        m.put("projects", employee.getProjects());
+        return m;
     }
 
     public Employee insert(UserRegistrationDto e) {
@@ -79,12 +102,19 @@ public class EmployeeService {
         findById(id);
         Employee employee = new Employee();
         employee.setId(id);
+        employee.setFirst_name(e.getFirst_name());
+        employee.setLast_name(e.getLast_name());
+        employee.setEmail(e.getEmail());
+        employee.setPhone_number(e.getPhone_number());
+        if (e.getManager_id() != null){
+            employee.setManager(er.findById(e.getManager_id()).get());
+        }
         return er.save(employee);
     }
 
-    public Employee deleteById(Integer id) {
-        Employee e = findById(id);
+    public String deleteById(Integer id) {
+        Employee e = er.findById(id).get();
         er.delete(e);
-        return e;
+        return "Success";
     }
 }

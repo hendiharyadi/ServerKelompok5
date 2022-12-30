@@ -52,4 +52,9 @@ public class UserController {
        Boolean isActivated = userEntityService.verify(username,token);
          return isActivated ? "Account Activated." : "Invalid Verification Code.";
     }
+
+    @GetMapping("/managers")
+    public List<UserEntity> findManagers(){
+        return userEntityService.getManagers();
+    }
 }

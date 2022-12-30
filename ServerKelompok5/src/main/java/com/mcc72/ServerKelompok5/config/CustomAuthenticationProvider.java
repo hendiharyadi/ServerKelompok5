@@ -54,7 +54,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             }
             if (passwordEncoder.matches(password, user.getPassword())) {
                 List<GrantedAuthority> authorities = getAuthorities(user.getUserRole());
-//                authorities.add(new SimpleGrantedAuthority(user.getUserRole().get(0).getName()));
+                authorities.add(new SimpleGrantedAuthority(user.getUserRole().get(0).getName()));
                 
 //                 ur.setFailedAttemptForUser(0, user.getId());
                 
@@ -89,7 +89,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                             );
                         }
                 );
-        System.out.println(authorities);
         return authorities;
     }
 }
