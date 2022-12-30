@@ -61,7 +61,7 @@ public class PermissionController {
         Permission permit = permissionService.update(id, permission);
             if (permission.getStatus().equals(true)){
                 permissionService.sendConfirmationMail(permission);
-                stockLeaveService.updateCuti(e);
+                stockLeaveService.updateCuti();
             } else {
                 permissionService.sendConfirmationMail(permission);
             }
