@@ -8,11 +8,15 @@ package com.mcc72.ServerKelompok5.services;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.StockLeave;
+import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,6 +30,7 @@ public class StockLeaveService {
     
     private StockLeaveRepository stockLeaveRepository;
     private EmployeeRepository employeeRepository;
+    private UserRepository userRepository;
     
     public List<StockLeave> getAll(){
         return stockLeaveRepository.findAll();
@@ -55,10 +60,11 @@ public class StockLeaveService {
         return stockLeave;
     }
     
-    public void updateCuti(Employee e) {
+    public void updateCuti() {
         System.out.println("updateAttempt here");
-        Employee employee = employeeRepository.findById(e.getId()).get();
-        employeeRepository.setStockLeave(employee.getStockLeave().getStock_available() - 1, employee.getId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        employeeRepository.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - 1, user.getEmployee().getId());
         System.out.println("updateAttempt success");
     }
 }
