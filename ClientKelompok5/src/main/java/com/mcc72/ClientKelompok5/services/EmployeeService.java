@@ -53,9 +53,9 @@ public class EmployeeService {
                 }).getBody();
     }
     
-    public Employee delete(int id) {
+    public String delete(int id) {
         return restTemplate.exchange(url + "/"+id, HttpMethod.DELETE, null,
-                new ParameterizedTypeReference<Employee>() {
+                new ParameterizedTypeReference<String>() {
                 }).getBody();
     }
 }

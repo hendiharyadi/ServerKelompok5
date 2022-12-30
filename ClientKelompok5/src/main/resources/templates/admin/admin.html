@@ -4,6 +4,11 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- Tell the browser to be responsive to screen width -->
+
+    <!-- Generate CSRF Token For AJAX -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="keywords"
@@ -324,41 +329,8 @@
                           <th class="border-top-0">Action</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>syaiful</td>
-                          <td>Syaifullah Adam</td>
-                          <td>Muhammad</td>
-                          <td>syaiful@gmail.com</td>
-                          <td>John Doe</td>
-                          <td>
-                            <button
-                              class="btn btn-sm btn-primary"
-                              data-bs-toggle="modal"
-                              id="trigger-detail"
-                              data-bs-target="#modalDetailEmployee"
-                            >
-                              <i class="mdi mdi-looks"></i>
-                              Detail
-                            </button>
-                            <button
-                              class="btn btn-sm btn-orange text-white"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalEditEmployee"
-                              id="trigger-edit"
-                            >
-                              <i class="mdi mdi-account-edit"></i>
-                              Edit
-                            </button>
-                            <span
-                              class="btn btn-sm btn-danger text-white"
-                              id="trigger-delete"
-                              ><i class="mdi mdi-delete"></i>
-                              Delete
-                            </span>
-                          </td>
-                        </tr>
+                      <tbody id="table-wrapper">
+
                       </tbody>
                     </table>
                   </div>
@@ -437,6 +409,18 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-md-12" for="input-username">Username</label>
+                  <div class="col-md-12">
+                    <input
+                      type="text"
+                      placeholder="Doe"
+                      class="form-control form-control-line"
+                      id="input-username"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
                   <label for="input-email" class="col-md-12">Email</label>
                   <div class="col-md-12">
                     <input
@@ -445,6 +429,19 @@
                       class="form-control form-control-line"
                       name="example-email"
                       id="input-email"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="input-email" class="col-md-12">Password</label>
+                  <div class="col-md-12">
+                    <input
+                      type="text"
+                      placeholder="***"
+                      class="form-control form-control-line"
+                      name="example-email"
+                      id="input-password"
                       required
                     />
                   </div>
@@ -475,7 +472,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="content-add-manager">
                   <label class="col-sm-12" for="input-manager"
                     >Select Managers</label
                   >
@@ -486,11 +483,6 @@
                       required
                     >
                       <option selected>Select Manager</option>
-                      <option value="1">Lisa</option>
-                      <option value="2">Septi</option>
-                      <option value="3">Nasya</option>
-                      <option value="4">Ilham</option>
-                      <option value="5">John</option>
                     </select>
                   </div>
                 </div>
@@ -502,8 +494,13 @@
                       type="button"
                       class="btn btn-secondary"
                       data-bs-dismiss="modal"
+                      id="btn-close"
                     >
                       Close
+                    </button>
+                    <button class="btn btn-primary d-none" type="button" id="spinner-button" disabled>
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      Loading...
                     </button>
                     <button
                       class="btn btn-primary text-white"
@@ -555,7 +552,7 @@
                       placeholder="John"
                       class="form-control form-control-line"
                       id="detail-fName"
-                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -567,7 +564,7 @@
                       placeholder="Doe"
                       class="form-control form-control-line"
                       id="detail-lName"
-                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -580,7 +577,7 @@
                       class="form-control form-control-line"
                       name="example-email"
                       id="detail-email"
-                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -592,7 +589,7 @@
                       placeholder="123 456 7890"
                       class="form-control form-control-line"
                       id="detail-phone"
-                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -607,7 +604,7 @@
                     ></select>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="detail-manager-emp">
                   <label class="col-sm-12" for="detail-manager"
                     >Select Managers</label
                   >
@@ -670,6 +667,7 @@
                 <div class="form-group">
                   <label class="col-md-12">First Name</label>
                   <div class="col-md-12">
+                    <input type="hidden" id="edit-id">
                     <input
                       type="text"
                       placeholder="John"
@@ -751,7 +749,7 @@
                     </button>
                     <button
                       type="button"
-                      id="submit-update"
+                      onclick="updateEmployee()"
                       class="btn btn-primary text-white"
                     >
                       Save Changes
@@ -785,6 +783,7 @@
     <script src="/dist/js/custom.js"></script>
     <!--This page JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/script/util/csrf.js"></script>
     <script src="/js/script/admin.js"></script>
   </body>
 </html>

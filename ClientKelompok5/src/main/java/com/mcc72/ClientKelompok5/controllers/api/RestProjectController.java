@@ -34,7 +34,8 @@ public class RestProjectController {
     public Project getById(@PathVariable int id){
         return projectService.getById(id);
     }
-    
+
+    //manager
     @PostMapping
     public Project create (@RequestBody ProjectDto project){
         return projectService.create(project);

@@ -15,7 +15,7 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
 
-        if (!request.getURI().getPath().equals("/security/login")) { // Selain Endpoint Login
+        if (!request.getURI().getPath().equals("/api/login")) { // Selain Endpoint Login
             request.getHeaders().add("Authorization", "Basic " + BasicHeader.createHeaders());
         }
 

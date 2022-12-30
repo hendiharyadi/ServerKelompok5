@@ -1,9 +1,13 @@
 package com.mcc72.ClientKelompok5.controllers.api;
 
+import com.mcc72.ClientKelompok5.models.dto.ManagersResponse;
 import com.mcc72.ClientKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ClientKelompok5.models.entities.Employee;
+import com.mcc72.ClientKelompok5.models.entities.UserEntity;
 import com.mcc72.ClientKelompok5.services.EmployeeService;
 import java.util.List;
+
+import com.mcc72.ClientKelompok5.services.ManagerService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/employee")
 @AllArgsConstructor
 public class EmployeeRestController {
-    
+    private ManagerService managerService;
     private EmployeeService employeeService;
     
     @GetMapping
@@ -33,6 +37,11 @@ public class EmployeeRestController {
     @GetMapping("/{id}")
     public Employee getById(@PathVariable int id){
         return employeeService.getById(id);
+    }
+
+    @GetMapping("/managers")
+    public List<Employee> getAllManagers(){
+        return managerService.getManagers();
     }
     
     @PostMapping
@@ -46,7 +55,7 @@ public class EmployeeRestController {
     }
     
    @DeleteMapping("/{id}")
-   public Employee delete (@PathVariable int id){
+   public String delete (@PathVariable int id){
        return employeeService.delete(id);
    }
 }
