@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
+import java.util.Collections;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.util.ArrayUtils;
 
@@ -71,6 +71,8 @@ public class ProjectService {
         project.setStatus(false);
         project.setManager(employeeRepository.findById(user.getId()).get());
         project.setName(projectDto.getName());
+        Employee employee = employeeRepository.findById(projectDto.getManagerId()).get();
+        project.setEmployeeProject(Collections.singletonList(employee));
         return projectRepository.save(project);
     }
     

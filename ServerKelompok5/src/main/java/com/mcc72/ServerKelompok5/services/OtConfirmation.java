@@ -27,6 +27,6 @@ public class OtConfirmation {
     Context context = new Context();
     context.setVariable("first_name", firstName);
     context.setVariable("status", status);
-    return templateEngine.process("requestmail", context);
+    return templateEngine.process("otconfirmation", context);
     }
 }

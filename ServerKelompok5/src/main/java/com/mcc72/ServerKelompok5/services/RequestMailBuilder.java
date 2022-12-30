@@ -22,10 +22,12 @@ public class RequestMailBuilder {
     
     private TemplateEngine templateEngine;
     
-    public String build(String firstName, LeaveType leaveType){
+    public String build(LeaveType leaveType, String startLeave, String endLeave, String employee){
         Context context = new Context();
-        context.setVariable("first_name", firstName);
         context.setVariable("leave_type", leaveType);
+        context.setVariable("start_leave", startLeave);
+        context.setVariable("end_leave", endLeave);
+        context.setVariable("first_name", employee);
         return templateEngine.process("requestmail", context);
     }
 }
