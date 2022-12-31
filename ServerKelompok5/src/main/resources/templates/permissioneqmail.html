@@ -144,14 +144,15 @@
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 20px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align" style="color: #132f40; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px;">Dear, <span th:text="${first_name}" style="font-weight: bold;"></span></span></p><br>
-    <p style="font-size: 14px; line-height: 140%;">Your <span th:text="${leave_type}" style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px; font-weight: bold;"></span> request has been <span th:text="${status}" style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px; font-weight: bold;"></span> </p><br>
-    <p style="font-size: 14px; line-height: 140%;">Please reach me personally in case you need a further assistance.</p> <br>
-    <p style="font-size: 14px; line-height: 140%;">Wishing you good luck!</p> <br>
+    <p style="font-size: 14px; line-height: 140%;"><span style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px;">Sir/Maam, </p><br>
+    <p style="font-size: 14px; line-height: 140%;">I would like to request a <span th:text="${leave_type}" style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px; font-weight: bold;"></span>. I am planning to be away from <span th:text="${start_leave}" style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px; font-weight: bold;"></span> until <span th:text="${end_leave}" style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px; font-weight: bold;">.</span></p><br>
+    <p style="font-size: 14px; line-height: 140%;">I am doing this because <span th:text="${note}"></span>.</p>
+    <p style="font-size: 14px; line-height: 140%;">All my responsibilities and the outstanding work will be taken care of by me, before I leave.</p> <br>
+    <p style="font-size: 14px; line-height: 140%;">Looking forward to a positive reply at the earliest!</p><br>
     <p style="font-size: 14px; line-height: 140%;">
-      Regards,
+      Sincerely,
     </p>
-    <p style="font-size: 14px; line-height: 140%;">Your manager</p>
+    <p style="font-size: 14px; line-height: 140%;"><span th:text="${first_name}" style="font-family: Rubik, sans-serif; font-size: 16px; line-height: 22.4px; font-weight: bold;"></span></p>
   </div>
 
       </td>

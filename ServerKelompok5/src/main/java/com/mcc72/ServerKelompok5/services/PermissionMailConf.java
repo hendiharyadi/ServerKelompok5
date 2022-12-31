@@ -5,8 +5,8 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.entity.LeaveType;
 import com.mcc72.ServerKelompok5.models.entity.Status;
-import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -18,14 +18,15 @@ import org.thymeleaf.context.Context;
  */
 @Service
 @AllArgsConstructor
-public class OtConfirmation {
+public class PermissionMailConf {
     
     private TemplateEngine templateEngine;
     
-    public String build(String firstName, Status status){
-    Context context = new Context();
-    context.setVariable("first_name", firstName);
-    context.setVariable("status", status);
-    return templateEngine.process("otconfirmation", context);
+    public String build(String firstName, LeaveType leaveType, Status status){
+        Context context = new Context();
+        context.setVariable("first_name", firstName);
+        context.setVariable("leave_type", leaveType);
+        context.setVariable("status", status);
+        return templateEngine.process("permissionconfmail", context);
     }
 }
