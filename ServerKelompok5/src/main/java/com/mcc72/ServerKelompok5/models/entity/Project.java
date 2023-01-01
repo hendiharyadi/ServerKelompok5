@@ -40,7 +40,6 @@ public class Project {
     @Column(nullable = false)
     private Boolean status;
 
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "tb_employee_project",

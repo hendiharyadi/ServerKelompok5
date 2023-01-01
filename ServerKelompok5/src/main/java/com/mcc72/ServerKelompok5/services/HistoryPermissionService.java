@@ -5,15 +5,20 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
-import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
 import com.mcc72.ServerKelompok5.models.entity.HistoryPermission;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
+import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.HistoryPermissionRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,9 +32,17 @@ public class HistoryPermissionService {
     
     private HistoryPermissionRepository historyPermissionRepository;
     private PermissionRepository permissionRepository;
+    private UserRepository userRepository;
     
-    public List<HistoryPermission> getAll(){
-        return historyPermissionRepository.findAll();
+    public Object getAll(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getPermissions().stream().map(e -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", e.getId());
+            map.put("history permission", e.getHistories());
+            return map;
+        }).collect(Collectors.toList());
     }
     
     public HistoryPermission getById(int id){

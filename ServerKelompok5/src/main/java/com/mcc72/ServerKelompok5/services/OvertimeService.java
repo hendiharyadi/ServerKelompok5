@@ -13,6 +13,9 @@ import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
 import java.util.List;
 
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -41,8 +44,18 @@ public class OvertimeService {
 
     private UserRepository userRepository;
 
-    public List<Overtime> getAll(){
-        return or.findAll();
+    public Object getAll(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getOvertimes().stream().map(o -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", o.getId());
+            map.put("start_overtime",o.getStart_overtime());
+            map.put("end_overtime", o.getEnd_overtime());
+            map.put("notes", o.getNote());
+            map.put("status", o.getStatus());
+            return map;
+        }).collect(Collectors.toList());
     }
     
     public Overtime getById(int id){

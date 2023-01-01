@@ -28,8 +28,8 @@ public class PermissionDto {
     private String note;
     private Boolean status;
 
-    /*
     private Integer employee;
+    /*
 
     private Integer manager;
 

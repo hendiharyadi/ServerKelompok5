@@ -16,7 +16,9 @@ import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
 import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -45,8 +47,18 @@ public class PermissionService {
     private PermissionMailReq pmr;
     private PermissionMailConf pmc;
     
-    public List<Permission> getAll(){
-        return permissionRepository.findAll();
+    public Object getAll(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getPermissions().stream().map(p -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", p.getId());
+            map.put("start_leave", p.getStart_leave());
+            map.put("end_leave", p.getEnd_leave());
+            map.put("notes", p.getNote());
+            map.put("status", p.getStatus());
+            return map;
+        }).collect(Collectors.toList());
     }
     
     public Permission getById(int id){

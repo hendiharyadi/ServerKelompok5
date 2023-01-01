@@ -30,7 +30,7 @@ public class OvertimeController {
     
 //    @PreAuthorize("hasAuthority('READ_USER')")
     @GetMapping
-    public List<Overtime> getAll() {
+    public Object getAll() {
         return overtimeService.getAll();
     }
     
