@@ -40,7 +40,7 @@ public class PermissionController {
     private EmployeeRepository er;
     
     @GetMapping
-    public List<Permission> getAll(){
+    public Object getAll(){
         return permissionService.getAll();
     }
 

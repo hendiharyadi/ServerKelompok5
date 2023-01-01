@@ -6,12 +6,8 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
-import com.mcc72.ServerKelompok5.models.dto.StatusDto;
 import com.mcc72.ServerKelompok5.models.entity.*;
 import com.mcc72.ServerKelompok5.repositories.*;
-
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -47,7 +48,7 @@ public class OvertimeService {
         return user.getEmployee().getOvertimes();
     }
 
-    public List<Overtime> findByManager(){
+    public List<Overtime> findByManager() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         return or.findAllByManager(user.getEmployee());

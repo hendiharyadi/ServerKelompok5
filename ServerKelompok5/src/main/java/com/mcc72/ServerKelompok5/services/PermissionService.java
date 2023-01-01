@@ -16,7 +16,10 @@ import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
 import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -45,6 +48,7 @@ public class PermissionService {
     private PermissionMailReq pmr;
     private PermissionMailConf pmc;
     
+
     public List<Permission> getAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
@@ -52,7 +56,7 @@ public class PermissionService {
 //        return permissionRepository.findAll();
     }
 
-    public List<Permission> getByManager(){
+    public List<Permission> getByManager() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         return permissionRepository.findPermissionByManager(user.getEmployee());
