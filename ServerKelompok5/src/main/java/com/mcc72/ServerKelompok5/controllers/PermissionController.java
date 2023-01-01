@@ -52,14 +52,18 @@ public class PermissionController {
     @PostMapping
     public Permission insert(@RequestBody PermissionDto permission){
         Permission permit = permissionService.create(permission);
-        permissionService.sendRequestMail(permission);
+        if(permission.getLeave_type().equals(true)){
+            permissionService.sendRequestMail(permission);
+        } else {
+            permissionService.sendRequestPermitMail(permission);
+        }
         return permit;
     }
     
     @PutMapping("/{id}")
     public Permission update(@PathVariable Integer id, @RequestBody PermissionDto permission, Employee e) {
         Permission permit = permissionService.update(id, permission);
-            if (permission.getStatus().equals(true)){
+            if (permission.getStatus().equals(true) && permission.getLeave_type().equals(true)){
                 permissionService.sendConfirmationMail(permission);
                 stockLeaveService.updateCuti();
             } else {
