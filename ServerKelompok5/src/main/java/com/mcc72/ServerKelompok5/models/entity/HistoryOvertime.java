@@ -38,7 +38,6 @@ public class HistoryOvertime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn (name = "overtime")
     private Overtime overtime;

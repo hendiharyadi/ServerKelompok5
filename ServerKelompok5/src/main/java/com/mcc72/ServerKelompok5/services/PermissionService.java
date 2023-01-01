@@ -93,13 +93,12 @@ public class PermissionService {
     }
     
     public Permission update(Integer id, PermissionDto permission){
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Permission permit = permissionRepository.findById(id).get();
         Status stat = permission.getStatus() ? Status.APPROVED : Status.REJECTED;
         permit.setStatus(stat);
-        permit.setEmployee(employeeRepository.findById(user.getId()).get());
+        hps.create(permit);
         return permissionRepository.save(permit);
     }
     

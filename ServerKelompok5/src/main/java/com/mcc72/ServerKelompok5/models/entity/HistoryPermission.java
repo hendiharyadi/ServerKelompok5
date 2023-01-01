@@ -37,7 +37,7 @@ public class HistoryPermission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;  
     
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn (name = "permission")
     private Permission permission;

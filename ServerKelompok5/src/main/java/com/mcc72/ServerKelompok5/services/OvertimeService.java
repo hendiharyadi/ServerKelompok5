@@ -79,6 +79,7 @@ public class OvertimeService {
         Overtime overtime = or.findById(id).get();
         Status stat = o.getStatus() ? Status.APPROVED : Status.REJECTED;
         overtime.setStatus(stat);
+        hos.create(overtime);
         return or.save(overtime);
     }
     
