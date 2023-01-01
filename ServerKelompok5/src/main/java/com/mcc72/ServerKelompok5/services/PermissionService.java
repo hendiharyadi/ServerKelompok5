@@ -55,10 +55,10 @@ public class PermissionService {
     public Permission create(PermissionDto permission){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        StockLeave sl = slr.findById(permission.getEmployee()).get();
+        StockLeave sl = user.getEmployee().getStockLeave();
         Permission permit = new Permission();
         LeaveType lt = permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN;
-        Employee e = employeeRepository.findById(permission.getEmployee()).get();
+        Employee e = user.getEmployee();
         if(sl.getStock_available() <= 0 && permission.getLeave_type().equals(true)){
             throw new Error("Your cuti quota has been running out. Please wait until next year.");
         } else {
@@ -100,7 +100,7 @@ public class PermissionService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = employeeRepository.findById(permission.getEmployee()).get();
+            Employee e = user.getEmployee();
             Permission p = permissionRepository.findById(user.getEmployee().getId()).get(); 
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Confirmation email");
@@ -116,7 +116,6 @@ public class PermissionService {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
             Employee m = employeeRepository.findById(user.getEmployee().getManager().getId()).get();
-            Permission p = permissionRepository.findById(user.getEmployee().getId()).get();
             Employee e = employeeRepository.findById(user.getEmployee().getId()).get();
             messageHelper.setTo(m.getEmail());
             messageHelper.setSubject("Request email");

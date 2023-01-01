@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PermissionDto {
-    
+
     private Boolean leave_type;
 
     private String start_leave;
@@ -26,15 +26,15 @@ public class PermissionDto {
     private String end_leave;
 
     private String note;
-    
     private Boolean status;
 
+    /*
     private Integer employee;
-    
+
     private Integer manager;
-    
+
     private Integer permission;
-    
-    private Timestamp date_history;
-    
+
+    private Timestamp date_history;*/
+
 }

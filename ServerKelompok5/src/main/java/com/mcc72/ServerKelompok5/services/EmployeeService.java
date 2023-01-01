@@ -6,6 +6,7 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.EmployeeProjectDto;
+import com.mcc72.ServerKelompok5.models.dto.StockResponse;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.*;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
@@ -149,5 +150,13 @@ public class EmployeeService {
         map.put("employee", employee);
         map.put("employee project", employee.getEmployeeProject());
         return map;
+    }
+
+    public StockResponse getUserStockLeave(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity manager = userRepository.findByUsername(auth.getName()).get();
+        StockResponse stockResponse = new StockResponse();
+        stockResponse.setStock_available(manager.getEmployee().getStockLeave().getStock_available());
+        return stockResponse;
     }
 }

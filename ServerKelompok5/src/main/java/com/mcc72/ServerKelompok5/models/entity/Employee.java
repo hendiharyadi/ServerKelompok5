@@ -6,6 +6,7 @@
 package com.mcc72.ServerKelompok5.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,17 +56,10 @@ public class Employee {
     @JoinColumn(name = "manager")
     private Employee manager;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "tb_employee_project",
-            joinColumns = @JoinColumn(
-                    name = "employee_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "project_id", referencedColumnName = "id"))
-    private List<Project> employeeProject;
 
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(mappedBy = "employeeProject")
+    private List<Project> employeeProject = new ArrayList<>();
 
     @JsonIgnore
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)

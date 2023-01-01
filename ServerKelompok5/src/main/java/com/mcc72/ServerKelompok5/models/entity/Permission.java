@@ -58,8 +58,7 @@ public class Permission {
     @ManyToOne
     @JoinColumn (name = "employee")
     private Employee employee;
-    
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "manager")
     private Employee manager;

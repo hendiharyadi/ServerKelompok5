@@ -2,10 +2,12 @@ package com.mcc72.ServerKelompok5.controllers;
 
 
 import com.mcc72.ServerKelompok5.models.dto.EmployeeProjectDto;
+import com.mcc72.ServerKelompok5.models.dto.StockResponse;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
 import com.mcc72.ServerKelompok5.models.entity.Project;
+import com.mcc72.ServerKelompok5.models.entity.StockLeave;
 import com.mcc72.ServerKelompok5.services.EmployeeService;
 import com.mcc72.ServerKelompok5.services.StockLeaveService;
 import com.mcc72.ServerKelompok5.services.UserEntityService;
@@ -52,6 +54,11 @@ public class EmployeeController {
     @PutMapping("/add-project")
     public Object addProject(@RequestBody EmployeeProjectDto employeeProjectDto){
         return employeeService.addEmployeeToProject(employeeProjectDto);
+    }
+
+    @GetMapping("/stock-leave")
+    public StockResponse getStock(){
+        return employeeService.getUserStockLeave();
     }
 
     @GetMapping("/manager/list-staff")
