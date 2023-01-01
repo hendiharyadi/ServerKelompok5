@@ -42,19 +42,19 @@ public class EmployeeService {
         if (er.findAll().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data available.");
         }
-        for (Employee employee : er.findAll()) {
+        /*for (Employee employee : er.findAll()) {
             employee.getFirst_name();
             employee.getLast_name();
             employee.getEmail();
             employee.getPhone_number();
-        }
+        }*/
         return er.findAll();
     }
 
     public List<Map<String, Object>> getAllMap() {
         return er.findAll().stream().map(employee -> {
             Map<String, Object> m = new HashMap<>();
-            m.put("id", employee.getId());
+           m.put("id", employee.getId());
             m.put("first_name", employee.getFirst_name());
             m.put("last_name", employee.getLast_name());
             m.put("email", employee.getEmail());

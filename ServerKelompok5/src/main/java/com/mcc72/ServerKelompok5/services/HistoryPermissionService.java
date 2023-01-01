@@ -8,12 +8,17 @@ package com.mcc72.ServerKelompok5.services;
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
 import com.mcc72.ServerKelompok5.models.entity.HistoryPermission;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
+import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.HistoryPermissionRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
 import java.sql.Timestamp;
 import java.util.List;
+
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,9 +32,12 @@ public class HistoryPermissionService {
     
     private HistoryPermissionRepository historyPermissionRepository;
     private PermissionRepository permissionRepository;
+    private UserRepository userRepository;
     
     public List<HistoryPermission> getAll(){
-        return historyPermissionRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getHistoryPermissions();
     }
     
     public HistoryPermission getById(int id){
@@ -38,9 +46,12 @@ public class HistoryPermissionService {
     }
     
     public HistoryPermission create(Permission historyPermission){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         HistoryPermission hp = new HistoryPermission();
         hp.setPermission(historyPermission);
         hp.setDate_history(new Timestamp(System.currentTimeMillis()));
+        hp.setEmployee(user.getEmployee());
         return historyPermissionRepository.save(hp);
     }
     

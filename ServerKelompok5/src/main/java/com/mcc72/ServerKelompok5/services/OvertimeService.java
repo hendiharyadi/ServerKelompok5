@@ -6,13 +6,12 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
+import com.mcc72.ServerKelompok5.models.dto.StatusDto;
 import com.mcc72.ServerKelompok5.models.entity.*;
-import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
-import com.mcc72.ServerKelompok5.repositories.OvertimeRepository;
-import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
+import com.mcc72.ServerKelompok5.repositories.*;
+
 import java.util.List;
 
-import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -40,9 +39,18 @@ public class OvertimeService {
     private HistoryOvertimeService hos;
 
     private UserRepository userRepository;
+    private final HistoryOvertimeRepository historyOvertimeRepository;
 
     public List<Overtime> getAll(){
-        return or.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getOvertimes();
+    }
+
+    public List<Overtime> findByManager(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return or.findAllByManager(user.getEmployee());
     }
     
     public Overtime getById(int id){
@@ -67,12 +75,9 @@ public class OvertimeService {
     }
     
     public Overtime update(int id, OvertimeDto o){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Overtime overtime = or.findById(id).get();
         Status stat = o.getStatus() ? Status.APPROVED : Status.REJECTED;
         overtime.setStatus(stat);
-        overtime.setEmployee(er.findById(user.getId()).get());
         return or.save(overtime);
     }
     
@@ -87,8 +92,7 @@ public class OvertimeService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = er.findById(overtime.getEmployee_id()).get();
-            Overtime o = or.findById(user.getEmployee().getId()).get();
+            Employee e = er.findById(user.getEmployee().getId()).get();
             Project p = pr.findById(overtime.getProject_id()).get();
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Confirmation email");
@@ -103,9 +107,7 @@ public class OvertimeService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-        Employee m = er.findById(user.getEmployee().getManager().getId()).get();
         Employee e = er.findById(user.getEmployee().getId()).get();
-        Overtime o = or.findById(user.getEmployee().getId()).get();
         Project p = pr.findById(overtime.getProject_id()).get();
         messageHelper.setTo(p.getManager().getEmail());
         messageHelper.setSubject("Request email");

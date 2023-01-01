@@ -51,7 +51,6 @@ public class Employee {
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     private List<Employee> managers;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "manager")
     private Employee manager;
@@ -78,6 +77,11 @@ public class Employee {
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     private List<Project> projects;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<HistoryPermission> historyPermissions = new ArrayList<>();
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee", cascade=CascadeType.ALL)
+    private List<HistoryOvertime> historyOvertimes = new ArrayList<>();
 }

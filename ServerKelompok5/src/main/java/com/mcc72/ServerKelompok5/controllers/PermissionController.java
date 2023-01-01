@@ -43,6 +43,11 @@ public class PermissionController {
     public List<Permission> getAll(){
         return permissionService.getAll();
     }
+
+    @GetMapping("/manager")
+    public List<Permission> getPermitByManager(){
+        return permissionService.getByManager();
+    }
     
     @GetMapping("/{id}")
     public Permission getById(@PathVariable int id) {

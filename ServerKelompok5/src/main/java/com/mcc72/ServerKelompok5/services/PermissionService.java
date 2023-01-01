@@ -46,7 +46,16 @@ public class PermissionService {
     private PermissionMailConf pmc;
     
     public List<Permission> getAll(){
-        return permissionRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getPermissions();
+//        return permissionRepository.findAll();
+    }
+
+    public List<Permission> getByManager(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return permissionRepository.findPermissionByManager(user.getEmployee());
     }
     
     public Permission getById(int id){
@@ -102,7 +111,6 @@ public class PermissionService {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
             Employee e = user.getEmployee();
-            Permission p = permissionRepository.findById(user.getEmployee().getId()).get(); 
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Confirmation email");
             String content = confirmationMailBuilder.build(e.getFirst_name(), permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStatus() ? Status.APPROVED : Status.REJECTED);
@@ -131,7 +139,7 @@ public class PermissionService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = employeeRepository.findById(permission.getEmployee()).get();
+            Employee e = employeeRepository.findById(user.getEmployee().getId()).get();
             Permission p = permissionRepository.findById(user.getEmployee().getId()).get(); 
             messageHelper.setTo(e.getEmail());
             messageHelper.setSubject("Confirmation email");

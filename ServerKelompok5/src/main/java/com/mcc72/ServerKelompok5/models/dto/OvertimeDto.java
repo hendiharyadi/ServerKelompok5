@@ -18,8 +18,5 @@ public class OvertimeDto {
     private String end_overtime;
     private String note;
     private Integer project_id;
-    private Integer manager_id;
-    private Integer employee_id;
     private Boolean status;
-    private Timestamp date_history;
 }

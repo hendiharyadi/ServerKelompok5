@@ -33,6 +33,11 @@ public class OvertimeController {
     public List<Overtime> getAll() {
         return overtimeService.getAll();
     }
+
+    @GetMapping("/manager")
+    public List<Overtime> findByManager(){
+        return overtimeService.findByManager();
+    }
     
     @PostMapping
     public Overtime create(@RequestBody OvertimeDto overtime){

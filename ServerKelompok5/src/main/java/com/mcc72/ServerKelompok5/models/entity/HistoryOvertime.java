@@ -6,6 +6,7 @@
 package com.mcc72.ServerKelompok5.models.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
 import javax.persistence.CascadeType;
@@ -44,4 +45,8 @@ public class HistoryOvertime {
     
     @Column
     private Timestamp date_history;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }

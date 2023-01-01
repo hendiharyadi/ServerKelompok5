@@ -44,4 +44,8 @@ public class HistoryPermission {
     
     @Column
     private Timestamp date_history;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }

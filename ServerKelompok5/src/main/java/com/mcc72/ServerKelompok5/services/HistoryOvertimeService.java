@@ -8,11 +8,16 @@ package com.mcc72.ServerKelompok5.services;
 import com.mcc72.ServerKelompok5.models.dto.OvertimeDto;
 import com.mcc72.ServerKelompok5.models.entity.HistoryOvertime;
 import com.mcc72.ServerKelompok5.models.entity.Overtime;
+import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.HistoryOvertimeRepository;
 import java.sql.Timestamp;
 import java.util.List;
+
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,9 +30,12 @@ import org.springframework.web.server.ResponseStatusException;
 public class HistoryOvertimeService {
     
     private HistoryOvertimeRepository historyOvertimeRepository;
+    private UserRepository userRepository;
     
     public List<HistoryOvertime> getAll(){
-        return historyOvertimeRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return user.getEmployee().getHistoryOvertimes();
     }
     
     public HistoryOvertime getById(int id){
@@ -36,17 +44,20 @@ public class HistoryOvertimeService {
     }
     
     public HistoryOvertime create(Overtime historyOvertime){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         HistoryOvertime ho = new HistoryOvertime();
         ho.setOvertime(historyOvertime);
         ho.setDate_history(new Timestamp(System.currentTimeMillis()));
+        ho.setEmployee(user.getEmployee());
         return historyOvertimeRepository.save(ho);
     }
     
     public HistoryOvertime update(int id, OvertimeDto historyOvertime){
-        HistoryOvertime ho = new HistoryOvertime();
-        getById(id);
-        ho.setId(id);
-        ho.setDate_history(historyOvertime.getDate_history());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        HistoryOvertime ho = getById(id);
+        ho.setEmployee(user.getEmployee());
         return ho;
     }
     
