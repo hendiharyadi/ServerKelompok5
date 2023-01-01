@@ -15,6 +15,9 @@
     />
     <meta name="robots" content="noindex,nofollow" />
     <title>FreeMonday | Overtime Request</title>
+    <!-- Generate CSRF Token For AJAX -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <link
       rel="canonical"
       href="https://www.wrappixel.com/templates/Flexy-admin-lite/"
@@ -315,98 +318,15 @@
                       class="table mb-0 table-hover align-middle text-nowrap"
                     >
                       <thead class="fw-bold">
-                        <tr>
-                          <th class="border-top-0">No</th>
-                          <th class="border-top-0">Submission Date</th>
-                          <th class="border-top-0">Start Date</th>
-                          <th class="border-top-0">End Date</th>
-                          <th class="border-top-0">Project</th>
-                          <th class="border-top-0">Approved By</th>
-                          <th class="border-top-0">Status</th>
-                          <th class="border-top-0">Detail</th>
-                        </tr>
+                      <tr>
+                        <th class="border-top-0">No</th>
+                        <th class="border-top-0">Start Date</th>
+                        <th class="border-top-0">End Date</th>
+                        <th class="border-top-0">Status</th>
+                        <th class="border-top-0">Detail</th>
+                      </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>12-Dec-2022</td>
-                          <td>2022-12-08 18:00</td>
-                          <td>2022-12-08 20:00</td>
-                          <td>MCC72</td>
-                          <td><span class="badge bg-purple">Jamal</span></td>
-                          <td>
-                            <label class="badge bg-warning">Waiting</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>10-Oct-2022</td>
-                          <td>2022-12-08 18:00</td>
-                          <td>2022-12-08 20:00</td>
-                          <td>MCC73</td>
-                          <td><span class="badge bg-purple">Amanah</span></td>
-                          <td>
-                            <label class="badge bg-success">Accepted</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>12-Dec-2022</td>
-                          <td>2022-12-08 18:00</td>
-                          <td>2022-12-08 20:00</td>
-                          <td>MCC73</td>
-                          <td><span class="badge bg-purple">Bardi</span></td>
-                          <td>
-                            <label class="badge bg-success">Accepted</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>12-Dec-2022</td>
-                          <td>2022-12-08 18:00</td>
-                          <td>2022-12-08 20:00</td>
-                          <td>MCC74</td>
-                          <td><span class="badge bg-purple">Ibnu</span></td>
-                          <td>
-                            <label class="badge bg-danger">Rejected</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
+                      <tbody id="table-wrapper">
                       </tbody>
                     </table>
                   </div>
@@ -525,7 +445,7 @@
                     <button
                       class="btn btn-primary text-white"
                       type="button"
-                      id="submit-overtime"
+                      onclick="submitData()"
                     >
                       Save Changes
                     </button>
@@ -566,59 +486,13 @@
             <div class="modal-body">
               <form class="form-horizontal form-material mx-2">
                 <div class="form-group">
-                  <label class="col-md-12">First Name</label>
-                  <div class="col-md-12">
-                    <input
-                      type="text"
-                      placeholder="Johnathan Doe"
-                      class="form-control form-control-line"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-12">Last Name</label>
-                  <div class="col-md-12">
-                    <input
-                      type="text"
-                      placeholder="Johnathan Doe"
-                      class="form-control form-control-line"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="example-email" class="col-md-12">Email</label>
-                  <div class="col-md-12">
-                    <input
-                      type="email"
-                      placeholder="johnathan@admin.com"
-                      class="form-control form-control-line"
-                      name="example-email"
-                      id="example-email"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-12">Phone No</label>
-                  <div class="col-md-12">
-                    <input
-                      type="text"
-                      placeholder="123 456 7890"
-                      class="form-control form-control-line"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
                   <label for class="col-md-12"
                     >Start Date of Overtime Plan</label
                   >
                   <div class="col-md-12">
                     <div class="input-group date">
                       <input
-                        type="date"
+                        type="text"
                         class="form-control"
                         id="detail-date-start"
                         value="2022-12-15"
@@ -632,7 +506,7 @@
                   <div class="col-md-12">
                     <div class="input-group date">
                       <input
-                        type="date"
+                        type="text"
                         class="form-control"
                         id="detail-date-end"
                         value="2022-12-17"
@@ -647,25 +521,10 @@
                     <textarea
                       rows="5"
                       class="form-control form-control-line"
+                      id="detail-note"
                       disabled
+                    ></textarea
                     >
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur deserunt dolores doloribus eos molestias obcaecati quos ratione sunt.</textarea
-                    >
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-12">Select Managers</label>
-                  <div class="col-sm-12">
-                    <select
-                      class="form-select shadow-none form-control-line"
-                      disabled
-                    >
-                      <option>Lisa</option>
-                      <option selected>Septi</option>
-                      <option>Nasya</option>
-                      <option>Ilham</option>
-                      <option>John</option>
-                    </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -708,6 +567,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur d
     <script src="/dist/js/custom.js"></script>
     <!--This page JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/script/util/csrf.js"></script>
     <script src="/js/script/overtime.js"></script>
   </body>
 </html>

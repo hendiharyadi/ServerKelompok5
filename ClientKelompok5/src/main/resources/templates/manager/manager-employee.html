@@ -306,29 +306,10 @@
                           <th class="border-top-0">First Name</th>
                           <th class="border-top-0">Last Name</th>
                           <th class="border-top-0">Email</th>
-                          <th class="border-top-0">Manager</th>
-                          <th class="border-top-0">Action</th>
+                          <th class="border-top-0">Phone Number</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Syaifullah</td>
-                          <td>Muhammad</td>
-                          <td>syaiful@gmail.com</td>
-                          <td>John Doe</td>
-                          <td>
-                            <button
-                              class="btn btn-sm btn-primary"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailEmployee"
-                              id="triggerDetailEmployee"
-                            >
-                              <i class="mdi mdi-looks"></i>
-                              Detail
-                            </button>
-                          </td>
-                        </tr>
+                      <tbody id="table-wrapper">
                       </tbody>
                     </table>
                   </div>
@@ -337,106 +318,6 @@
             </div>
           </div>
         </div>
-
-        <!-- ============================================================== -->
-        <!-- Modal Detail Employee  -->
-        <!-- ============================================================== -->
-        <div
-          class="modal fade"
-          id="modalDetailEmployee"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <form class="form-horizontal form-material mx-2">
-                  <div class="form-group">
-                    <label class="col-md-12" for="detail-fName"
-                      >First Name</label
-                    >
-                    <div class="col-md-12">
-                      <input
-                        type="text"
-                        placeholder="John"
-                        class="form-control form-control-line"
-                        id="detail-fName"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-12" for="detail-lName"
-                      >Last Name</label
-                    >
-                    <div class="col-md-12">
-                      <input
-                        type="text"
-                        placeholder="Doe"
-                        class="form-control form-control-line"
-                        id="detail-lName"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="detail-email" class="col-md-12">Email</label>
-                    <div class="col-md-12">
-                      <input
-                        type="email"
-                        placeholder="johnathan@admin.com"
-                        class="form-control form-control-line"
-                        name="example-email"
-                        id="detail-email"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-12" for="detail-phone">Phone No</label>
-                    <div class="col-md-12">
-                      <input
-                        type="text"
-                        placeholder="123 456 7890"
-                        class="form-control form-control-line"
-                        id="detail-phone"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div
-                      class="col-sm-12 d-flex align-items-center justify-content-end gap-2"
-                    >
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Modal Detail Employee  -->
-        <!-- ============================================================== -->
 
         <!-- ============================================================== -->
         <!-- End Container fluid  -->

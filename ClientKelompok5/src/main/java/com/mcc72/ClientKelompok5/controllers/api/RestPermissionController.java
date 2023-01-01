@@ -1,6 +1,7 @@
 package com.mcc72.ClientKelompok5.controllers.api;
 
 import com.mcc72.ClientKelompok5.models.dto.PermissionDto;
+import com.mcc72.ClientKelompok5.models.dto.PermissionResponse;
 import com.mcc72.ClientKelompok5.models.entities.Permission;
 import com.mcc72.ClientKelompok5.services.PermissionService;
 import java.util.List;
@@ -26,22 +27,22 @@ public class RestPermissionController {
     private PermissionService permissionService;
     
     @GetMapping
-    public List<Permission> getAll(){
+    public List<PermissionResponse> getAll(){
         return permissionService.getAll();
     }
     
     @GetMapping("/{id}")
-    public Permission getById(@PathVariable int id){
+    public PermissionResponse getById(@PathVariable int id){
         return permissionService.getById(id);
     }
     
     @PostMapping
-    public Permission create (@RequestBody PermissionDto permission){
+    public PermissionResponse create (@RequestBody PermissionDto permission){
         return permissionService.create(permission);
     }
-    
+
     @PutMapping("/{id}")
-    public Permission update (@PathVariable int id, @RequestBody PermissionDto permission){
+    public PermissionResponse update (@PathVariable int id, @RequestBody PermissionDto permission){
         return permissionService.update(id, permission);
     }
     

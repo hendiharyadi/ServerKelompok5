@@ -13,6 +13,9 @@
       name="description"
       content="Flexy Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
     />
+    <!-- Generate CSRF Token For AJAX -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <meta name="robots" content="noindex,nofollow" />
     <title>FreeMonday | Manager - Employees</title>
     <link
@@ -315,61 +318,13 @@
                         <tr>
                           <th class="border-top-0">No</th>
                           <th class="border-top-0">Project Name</th>
-                          <th class="border-top-0">Manager</th>
                           <th class="border-top-0">Status</th>
                           <th class="border-top-0">Member</th>
                           <th class="border-top-0">Action</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Payment for clients</td>
-                          <td><span class="badge bg-purple">John Doe</span></td>
-                          <td>
-                            <span class="badge bg-gradient bg-warning"
-                              >On Going</span
-                            >
-                          </td>
-                          <td>4</td>
-                          <td>
-                            <button
-                              class="btn btn-sm bg-gradient btn-dark"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalCheckMember"
-                              id="trigger-check-project"
-                            >
-                              <i class="mdi mdi-eye"></i>
-                              Check Member
-                            </button>
-                            <button
-                              class="btn btn-sm bg-gradient btn-primary bg-cyan border-0"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalAddMember"
-                              id="trigger-add-member-project"
-                            >
-                              <i class="mdi mdi-plus"></i>
-                              Add Member
-                            </button>
-                            <span
-                              class="btn btn-sm bg-gradient btn-orange text-white"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalEditProject"
-                              id="trigger-edit-project"
-                            >
-                              <i class="mdi mdi-account-edit"></i>
-                              Edit
-                            </span>
-                            <span
-                              class="btn btn-sm bg-gradient btn-danger text-white"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDeleteProject"
-                              id="trigger-delete-project"
-                              ><i class="mdi mdi-delete"></i>
-                              Delete
-                            </span>
-                          </td>
-                        </tr>
+                      <tbody id="table-wrapper">
+
                       </tbody>
                     </table>
                   </div>
@@ -605,13 +560,18 @@
                 <div class="form-group">
                   <label class="col-md-12">Project Name</label>
                   <div class="col-md-12">
-                    <input type="hidden" value="1" />
+                    <input type="hidden" id="project-edit-id" />
                     <input
                       type="text"
                       value="Payment for clients"
+                      id="edit-project-name"
                       class="form-control form-control-line"
                     />
                   </div>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="isFinished">
+                  <span class="form-check-label" id="text-status">Selesai</span>
                 </div>
                 <div class="form-group">
                   <div
@@ -624,7 +584,7 @@
                     >
                       Close
                     </button>
-                    <button class="btn btn-primary text-white">
+                    <button class="btn btn-primary text-white" type="button" onclick="editProject()">
                       Save Changes
                     </button>
                   </div>
@@ -656,6 +616,7 @@
     <script src="/dist/js/custom.js"></script>
     <!--This page JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/script/util/csrf.js"></script>
     <script src="/js/script/manager-project.js"></script>
   </body>
 </html>

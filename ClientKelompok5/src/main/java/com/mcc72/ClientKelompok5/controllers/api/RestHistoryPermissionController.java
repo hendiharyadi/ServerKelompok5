@@ -1,5 +1,6 @@
 package com.mcc72.ClientKelompok5.controllers.api;
 
+import com.mcc72.ClientKelompok5.models.dto.HistoryPermissionResponse;
 import com.mcc72.ClientKelompok5.models.entities.HistoryPermission;
 import com.mcc72.ClientKelompok5.services.HistoryPermissionService;
 import java.util.List;
@@ -21,7 +22,7 @@ public class RestHistoryPermissionController {
     private HistoryPermissionService hpService;
     
     @GetMapping
-    public List<HistoryPermission> getAll(){
+    public List<HistoryPermissionResponse> getAll(){
         return hpService.getAll();
     }
     

@@ -1,6 +1,7 @@
 package com.mcc72.ClientKelompok5.services;
 
 import com.mcc72.ClientKelompok5.models.dto.PermissionDto;
+import com.mcc72.ClientKelompok5.models.dto.PermissionResponse;
 import com.mcc72.ClientKelompok5.models.entities.Overtime;
 import com.mcc72.ClientKelompok5.models.entities.Permission;
 import com.mcc72.ClientKelompok5.util.BasicHeader;
@@ -21,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class PermissionService {
     
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     @Autowired
     public PermissionService(RestTemplate restTemplate) {
@@ -31,27 +32,27 @@ public class PermissionService {
     @Value("${server.baseUrl}/permission")
     private String url;
     
-    public List<Permission> getAll(){
+    public List<PermissionResponse> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Permission>>(){
+                new ParameterizedTypeReference<List<PermissionResponse>>(){
                 }).getBody();
     }
     
-    public Permission getById(int id){
+    public PermissionResponse getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
-                new ParameterizedTypeReference<Permission>() {
+                new ParameterizedTypeReference<PermissionResponse>() {
                 }).getBody();
     }
     
-    public Permission create(PermissionDto permission) {
+    public PermissionResponse create(PermissionDto permission) {
         return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(permission),
-                new ParameterizedTypeReference<Permission>() {
+                new ParameterizedTypeReference<PermissionResponse>() {
                 }).getBody();
     }
     
-    public Permission update(int id, PermissionDto permisssion) {
+    public PermissionResponse update(int id, PermissionDto permisssion) {
         return restTemplate.exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(permisssion),
-                new ParameterizedTypeReference<Permission>() {
+                new ParameterizedTypeReference<PermissionResponse>() {
                 }).getBody();
     }
     

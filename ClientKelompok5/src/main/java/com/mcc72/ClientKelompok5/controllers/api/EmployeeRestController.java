@@ -1,8 +1,11 @@
 package com.mcc72.ClientKelompok5.controllers.api;
 
+import com.mcc72.ClientKelompok5.models.dto.EmployeeResponse;
 import com.mcc72.ClientKelompok5.models.dto.ManagersResponse;
+import com.mcc72.ClientKelompok5.models.dto.StockResponse;
 import com.mcc72.ClientKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ClientKelompok5.models.entities.Employee;
+import com.mcc72.ClientKelompok5.models.entities.StockLeave;
 import com.mcc72.ClientKelompok5.models.entities.UserEntity;
 import com.mcc72.ClientKelompok5.services.EmployeeService;
 import java.util.List;
@@ -43,7 +46,22 @@ public class EmployeeRestController {
     public List<Employee> getAllManagers(){
         return managerService.getManagers();
     }
-    
+
+    @GetMapping("/stock-leave")
+    public StockResponse getStockLeave(){
+        return employeeService.getStock();
+    }
+
+    @GetMapping("/get-stock")
+    public String test(){
+        return "Success";
+    }
+
+    @GetMapping("/manager/list-staff")
+    public List<EmployeeResponse> getStaff(){
+        return employeeService.getMyStaff();
+    }
+
     @PostMapping
     public Employee create (@RequestBody UserRegistrationDto employee){
         return employeeService.create(employee);

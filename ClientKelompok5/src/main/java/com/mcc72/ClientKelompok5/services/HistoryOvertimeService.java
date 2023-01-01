@@ -1,5 +1,6 @@
 package com.mcc72.ClientKelompok5.services;
 
+import com.mcc72.ClientKelompok5.models.dto.HistoryOvertimeResponse;
 import com.mcc72.ClientKelompok5.models.entities.HistoryOvertime;
 import com.mcc72.ClientKelompok5.util.BasicHeader;
 import java.util.List;
@@ -28,15 +29,15 @@ public class HistoryOvertimeService {
     @Value("${server.baseUrl}/history-overtime")
     private String url;
     
-    public List<HistoryOvertime> getAll(){
+    public List<HistoryOvertimeResponse> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<HistoryOvertime>>(){
+                new ParameterizedTypeReference<List<HistoryOvertimeResponse>>(){
                 }).getBody();
     }
     
-    public HistoryOvertime getById(int id){
+    public HistoryOvertimeResponse getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
-                new ParameterizedTypeReference<HistoryOvertime>() {
+                new ParameterizedTypeReference<HistoryOvertimeResponse>() {
                 }).getBody();
     }
 }

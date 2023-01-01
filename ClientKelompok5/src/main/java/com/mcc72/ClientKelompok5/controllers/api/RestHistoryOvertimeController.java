@@ -1,5 +1,6 @@
 package com.mcc72.ClientKelompok5.controllers.api;
 
+import com.mcc72.ClientKelompok5.models.dto.HistoryOvertimeResponse;
 import com.mcc72.ClientKelompok5.models.entities.HistoryOvertime;
 import com.mcc72.ClientKelompok5.services.HistoryOvertimeService;
 import java.util.List;
@@ -14,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @author HP
  */
 @RestController
-@RequestMapping("/api/history-overtime")
+@RequestMapping("/api/history/overtime")
 @AllArgsConstructor
 public class RestHistoryOvertimeController {
     
     private HistoryOvertimeService hoService;
     
     @GetMapping
-    public List<HistoryOvertime> getAll(){
+    public List<HistoryOvertimeResponse> getAll(){
         return hoService.getAll();
     }
     
     @GetMapping("/{id}")
-    public HistoryOvertime getById(@PathVariable int id){
+    public HistoryOvertimeResponse getById(@PathVariable int id){
         return hoService.getById(id);
     }
 }

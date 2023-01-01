@@ -1,7 +1,10 @@
 package com.mcc72.ClientKelompok5.services;
 
+import com.mcc72.ClientKelompok5.models.dto.EmployeeResponse;
+import com.mcc72.ClientKelompok5.models.dto.StockResponse;
 import com.mcc72.ClientKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ClientKelompok5.models.entities.Employee;
+import com.mcc72.ClientKelompok5.models.entities.StockLeave;
 import com.mcc72.ClientKelompok5.util.BasicHeader;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,19 @@ public class EmployeeService {
     public List<Employee> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
                 new ParameterizedTypeReference<List<Employee>>(){
+                }).getBody();
+    }
+
+    public List<EmployeeResponse> getMyStaff(){
+        return restTemplate.exchange(url + "/manager/list-staff", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<List<EmployeeResponse>>(){
+                }).getBody();
+    }
+
+    public StockResponse getStock(){
+        System.out.println("Stock");
+        return restTemplate.exchange("http://localhost:8081/api/employee/stock-leave", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<StockResponse>(){
                 }).getBody();
     }
     

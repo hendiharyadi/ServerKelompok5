@@ -1,6 +1,7 @@
 package com.mcc72.ClientKelompok5.controllers.api;
 
 import com.mcc72.ClientKelompok5.models.dto.ProjectDto;
+import com.mcc72.ClientKelompok5.models.dto.ProjectResponse;
 import com.mcc72.ClientKelompok5.models.entities.Project;
 import com.mcc72.ClientKelompok5.services.ProjectService;
 import java.util.List;
@@ -26,7 +27,7 @@ public class RestProjectController {
     private ProjectService projectService;
     
     @GetMapping
-    public List<Project> getAll(){
+    public List<ProjectResponse> getAll(){
         return projectService.getAll();
     }
     

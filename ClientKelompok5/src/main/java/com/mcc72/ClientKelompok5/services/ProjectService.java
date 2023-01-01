@@ -1,6 +1,7 @@
 package com.mcc72.ClientKelompok5.services;
 
 import com.mcc72.ClientKelompok5.models.dto.ProjectDto;
+import com.mcc72.ClientKelompok5.models.dto.ProjectResponse;
 import com.mcc72.ClientKelompok5.models.entities.Project;
 import com.mcc72.ClientKelompok5.util.BasicHeader;
 import java.util.List;
@@ -30,9 +31,9 @@ public class ProjectService {
     @Value("${server.baseUrl}/project")
     private String url;
     
-    public List<Project> getAll(){
-        return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<Project>>(){
+    public List<ProjectResponse> getAll(){
+        return restTemplate.exchange(url + "/manager", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<List<ProjectResponse>>(){
                 }).getBody();
     }
     

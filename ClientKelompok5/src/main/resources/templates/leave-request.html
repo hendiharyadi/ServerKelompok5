@@ -13,6 +13,9 @@
       name="description"
       content="FreeMonday Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
     />
+    <!-- Generate CSRF Token For AJAX -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <meta name="robots" content="noindex,nofollow" />
     <title>FreeMonday | Leave Request</title>
 
@@ -282,6 +285,7 @@
                           class="btn btn-sm btn-primary"
                           data-bs-toggle="modal"
                           data-bs-target="#leaveStock"
+                          onclick="getStock()"
                         >
                           <i class="mdi mdi-timer-sand-empty"></i>
                           Stock Permission
@@ -308,92 +312,14 @@
                       <thead class="fw-bold">
                         <tr>
                           <th class="border-top-0">No</th>
-                          <th class="border-top-0">Submission Date</th>
-                          <th class="border-top-0">Unattended Plan Type</th>
+                          <th class="border-top-0">Permission Type</th>
                           <th class="border-top-0">Start Date</th>
                           <th class="border-top-0">End Date</th>
                           <th class="border-top-0">Status</th>
                           <th class="border-top-0">Detail</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>12-Dec-2022</td>
-                          <td>Cuti Tahunan</td>
-                          <td>22-Dec-2022</td>
-                          <td>24-Dec-2022</td>
-                          <td>
-                            <label class="badge bg-success">Accepted</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>10-Oct-2022</td>
-                          <td>Izin Sakit</td>
-                          <td>10-Oct-2022</td>
-                          <td>11-Oct-2022</td>
-                          <td>
-                            <label class="badge bg-success">Accepted</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>12-Dec-2022</td>
-                          <td>Cuti Melahirkan</td>
-                          <td>19-Jul-2022</td>
-                          <td>2-Ags-2022</td>
-                          <td>
-                            <label class="badge bg-success">Accepted</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>12-Dec-2022</td>
-                          <td>Cuti Tahunan</td>
-                          <td>12-Feb-2022</td>
-                          <td>13-Feb-2022</td>
-                          <td>
-                            <label class="badge bg-danger">Rejected</label>
-                          </td>
-                          <td>
-                            <label
-                              class="text-primary pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalDetailLeave"
-                            >
-                              Detail
-                            </label>
-                          </td>
-                        </tr>
-                      </tbody>
+                      <tbody id="table-wrapper"></tbody>
                     </table>
                   </div>
                 </div>
@@ -489,7 +415,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="note-add-wrapper">
                   <label class="col-md-12">Notes</label>
                   <div class="col-md-12">
                     <textarea
@@ -497,19 +423,6 @@
                       class="form-control form-control-line"
                       id="input-note"
                     ></textarea>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-12">Select Managers</label>
-                  <div class="col-sm-12">
-                    <select
-                      class="form-select shadow-none form-control-line"
-                      id="input-manager"
-                    >
-                      <option value="0">Select</option>
-                      <option value="1">Lisa</option>
-                      <option value="2">Septi</option>
-                    </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -526,7 +439,7 @@
                     <button
                       class="btn btn-primary text-white"
                       type="button"
-                      id="submit-permission"
+                      onclick="submitPermission()"
                     >
                       Save Changes
                     </button>
@@ -570,33 +483,10 @@
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Leave Type</th>
                       <th scope="col">Stock</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Cuti Tahunan</td>
-                      <td>
-                        <span class="badge bg-success bg-gradient">12</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Cuti Hari Raya</td>
-                      <td>
-                        <span class="badge bg-success bg-gradient">5</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Cuti Mendadak</td>
-                      <td>
-                        <span class="badge bg-danger bg-gradient">0</span>
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody id="table-stock-wrapper"></tbody>
                 </table>
               </div>
             </div>
@@ -622,7 +512,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Leave Request Form</h5>
+              <h5 class="modal-title">Detail</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -633,61 +523,13 @@
             <div class="modal-body">
               <form class="form-horizontal form-material mx-2">
                 <div class="form-group">
-                  <label class="col-md-12">First Name</label>
-                  <div class="col-md-12">
-                    <input
-                      type="text"
-                      placeholder="Johnathan Doe"
-                      class="form-control form-control-line"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-12">Last Name</label>
-                  <div class="col-md-12">
-                    <input
-                      type="text"
-                      placeholder="Johnathan Doe"
-                      class="form-control form-control-line"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="example-email" class="col-md-12">Email</label>
-                  <div class="col-md-12">
-                    <input
-                      type="email"
-                      placeholder="johnathan@admin.com"
-                      class="form-control form-control-line"
-                      name="example-email"
-                      id="example-email"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-12">Phone No</label>
-                  <div class="col-md-12">
-                    <input
-                      type="text"
-                      placeholder="123 456 7890"
-                      class="form-control form-control-line"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="col-md-12">Unattended Plan Type</label>
                   <div class="col-sm-12">
-                    <select class="form-select shadow-none form-control-line">
-                      <option>Cuti Tahunan</option>
-                      <option>Cuti Lebaran</option>
-                      <option selected>Cuti Besar</option>
-                      <option>Cuti Natal & Tahun baru</option>
-                      <option>Cuti Melahirkan</option>
-                    </select>
+                    <select
+                      class="form-select shadow-none form-control-line"
+                      id="detail-permission-type"
+                      disabled
+                    ></select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -700,7 +542,7 @@
                         type="date"
                         class="form-control"
                         id="detail-date-start"
-                        value="2022-12-15"
+                        disabled
                       />
                     </div>
                   </div>
@@ -715,31 +557,19 @@
                         type="date"
                         class="form-control"
                         id="detail-date-end"
-                        value="2022-12-17"
+                        disabled
                       />
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="detail-note-wrapper">
                   <label class="col-md-12">Notes</label>
                   <div class="col-md-12">
-                    <textarea rows="5" class="form-control form-control-line">
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur deserunt dolores doloribus eos molestias obcaecati quos ratione sunt.</textarea
+                    <textarea rows="5" class="form-control form-control-line" id="detail-note" disabled></textarea
                     >
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-12">Select Managers</label>
-                  <div class="col-sm-12">
-                    <select class="form-select shadow-none form-control-line">
-                      <option>Lisa</option>
-                      <option selected>Septi</option>
-                      <option>Nasya</option>
-                      <option>Ilham</option>
-                      <option>John</option>
-                    </select>
-                  </div>
-                </div>
+
                 <div class="form-group">
                   <div
                     class="col-sm-12 d-flex align-items-center justify-content-end gap-2"
@@ -750,9 +580,6 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur d
                       data-bs-dismiss="modal"
                     >
                       Close
-                    </button>
-                    <button class="btn btn-primary text-white">
-                      Save Changes
                     </button>
                   </div>
                 </div>
@@ -784,6 +611,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. A animi consequuntur d
     <!--This page JavaScript -->
     <!--chartis chart-->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/script/util/csrf.js"></script>
     <script src="/js/script/permission.js"></script>
   </body>
 </html>

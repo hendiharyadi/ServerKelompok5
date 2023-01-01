@@ -4,15 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author HP
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectDto {
-    
-    private String name;
-    private boolean status;
+public class StockResponse {
+    private int stock_available;
 }

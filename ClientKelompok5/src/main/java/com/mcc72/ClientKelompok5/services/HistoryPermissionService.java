@@ -1,5 +1,6 @@
 package com.mcc72.ClientKelompok5.services;
 
+import com.mcc72.ClientKelompok5.models.dto.HistoryPermissionResponse;
 import com.mcc72.ClientKelompok5.models.entities.HistoryPermission;
 import com.mcc72.ClientKelompok5.util.BasicHeader;
 import java.util.List;
@@ -25,12 +26,12 @@ public class HistoryPermissionService {
         this.restTemplate = restTemplate;
     }
     
-    @Value("${server.baseUrl}/history-permission")
+    @Value("${server.baseUrl}/history/permission")
     private String url;
     
-    public List<HistoryPermission> getAll(){
+    public List<HistoryPermissionResponse> getAll(){
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
-                new ParameterizedTypeReference<List<HistoryPermission>>(){
+                new ParameterizedTypeReference<List<HistoryPermissionResponse>>(){
                 }).getBody();
     }
     
