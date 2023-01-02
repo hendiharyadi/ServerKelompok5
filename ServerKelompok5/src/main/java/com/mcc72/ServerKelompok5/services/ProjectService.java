@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.catalina.Manager;
 
 /**
  * @author Hendi
@@ -44,8 +45,9 @@ public class ProjectService {
             Map<String, Object> map = new HashMap<>();
             map.put("id", e.getId());
             map.put("name", e.getName());
-            map.put("status", e.getStatus());
-//            map.put("members", e.getEmployeeProject().size());
+            map.put("start_project", e.getStart_project());
+            map.put("end_project", e.getEnd_project());
+            map.put("members", e.getEmployeeProject());
             return map;
         }).collect(Collectors.toList());
     }
@@ -65,27 +67,32 @@ public class ProjectService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
 
-        Employee emp1 = employeeRepository.findById(17).get();
-        Employee emp2 = employeeRepository.findById(18).get();
-        Employee emp3 = employeeRepository.findById(19).get();
+        Employee emp1 = employeeRepository.findById(1).get();
+        Employee emp2 = employeeRepository.findById(2).get();
+        Employee emp3 = employeeRepository.findById(3).get();
         List<Employee> employees = Arrays.asList(emp1, emp2, emp3);
 
         Project project = new Project();
-        project.setStatus(false);
         project.setManager(user.getEmployee());
         project.setName(projectDto.getName());
-        project.setEmployeeProject(employees);
-
+        project.setStart_project(projectDto.getStart_project());
+        project.setEnd_project(projectDto.getEnd_project());
+        project.setEmployeeProject(selectByManager());
         projectRepository.save(project);
         return project;
     }
-
+    
+    public List<Employee> selectByManager(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return projectRepository.getEmployeeManager(user.getEmployee().getId());
+    }
+    
     public Project update(int id, ProjectDto projectDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Project project = projectRepository.findById(id).get();
         getById(id);
-        project.setStatus(projectDto.getStatus());
         project.setName(projectDto.getName());
         return projectRepository.save(project);
     }
