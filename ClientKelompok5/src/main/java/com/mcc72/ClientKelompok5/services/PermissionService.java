@@ -37,7 +37,14 @@ public class PermissionService {
                 new ParameterizedTypeReference<List<PermissionResponse>>(){
                 }).getBody();
     }
-    
+
+
+    public List<Permission> getAllByManager(){
+        return restTemplate.exchange(url + "/manager", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<List<Permission>>(){
+                }).getBody();
+    }
+
     public PermissionResponse getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
                 new ParameterizedTypeReference<PermissionResponse>() {

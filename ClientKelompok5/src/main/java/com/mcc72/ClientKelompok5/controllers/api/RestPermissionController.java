@@ -1,8 +1,10 @@
 package com.mcc72.ClientKelompok5.controllers.api;
 
+import com.mcc72.ClientKelompok5.models.dto.HistoryPermissionResponse;
 import com.mcc72.ClientKelompok5.models.dto.PermissionDto;
 import com.mcc72.ClientKelompok5.models.dto.PermissionResponse;
 import com.mcc72.ClientKelompok5.models.entities.Permission;
+import com.mcc72.ClientKelompok5.services.HistoryPermissionService;
 import com.mcc72.ClientKelompok5.services.PermissionService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -25,10 +27,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestPermissionController {
     
     private PermissionService permissionService;
+    private HistoryPermissionService historyPermissionService;
     
     @GetMapping
     public List<PermissionResponse> getAll(){
         return permissionService.getAll();
+    }
+
+    @GetMapping("/manager")
+    public List<Permission> getAllByManager(){
+        return permissionService.getAllByManager();
     }
     
     @GetMapping("/{id}")
@@ -49,5 +57,10 @@ public class RestPermissionController {
     @DeleteMapping("/{id}")
     public Permission delete (@PathVariable int id){
        return permissionService.delete(id);
+   }
+
+   @GetMapping("/history")
+    public List<HistoryPermissionResponse> getHistory(){
+        return historyPermissionService.getAll();
    }
 }

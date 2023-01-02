@@ -26,7 +26,7 @@ public class HistoryPermissionService {
         this.restTemplate = restTemplate;
     }
     
-    @Value("${server.baseUrl}/history/permission")
+    @Value("${server.baseUrl}/history-permission")
     private String url;
     
     public List<HistoryPermissionResponse> getAll(){

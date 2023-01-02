@@ -5,6 +5,7 @@ const loadPage = async () => {
   try {
     const res = await fetch(URL);
     const json = await res.json();
+    console.log(json);
     let i = 0;
     json.forEach((e) => {
       i += 1;

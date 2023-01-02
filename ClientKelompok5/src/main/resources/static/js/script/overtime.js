@@ -59,6 +59,7 @@ const loadedPage = async () => {
         p.id,
         p.start_overtime,
         p.end_overtime,
+        p.project.name,
         p.status
       );
     });
@@ -81,11 +82,12 @@ const detailOvertime = async (id) => {
   }
 };
 
-const tableContent = (no, id, start_date, end_date, status) => {
+const tableContent = (no, id, start_date, end_date, project_name, status) => {
   return ` <tr>
               <td>${no}</td>
               <td>${start_date}</td>
               <td>${end_date}</td>
+              <td>${project_name}</td>
               <td>
                 <label class="badge ${
                   status === "PENDING" ? "bg-warning" : "bg-success"

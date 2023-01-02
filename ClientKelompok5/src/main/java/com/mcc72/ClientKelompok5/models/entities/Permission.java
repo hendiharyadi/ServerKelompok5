@@ -21,6 +21,4 @@ public class Permission {
     private String note;
     private Status status;
     private Employee employee;
-    private Employee manager;
-    private List<HistoryPermission> histories;
 }

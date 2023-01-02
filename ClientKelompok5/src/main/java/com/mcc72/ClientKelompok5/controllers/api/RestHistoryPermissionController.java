@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author HP
  */
 @RestController
-@RequestMapping("/api/history-permission")
+@RequestMapping("/api/history/permission")
 @AllArgsConstructor
 public class RestHistoryPermissionController {
     

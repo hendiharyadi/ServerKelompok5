@@ -29,6 +29,11 @@ public class RestOvertimeController {
     public List<Overtime> getAll(){
         return overtimeService.getAll();
     }
+
+    @GetMapping("/manager")
+    public List<Overtime> getAllByManager(){
+        return overtimeService.getAllByManager();
+    }
     
     @GetMapping("/{id}")
     public Overtime getById(@PathVariable int id){

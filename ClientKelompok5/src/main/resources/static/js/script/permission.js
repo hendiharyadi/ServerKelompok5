@@ -111,7 +111,7 @@ const tableContent = (no, id, leave_type, start_date, end_date, status) => {
                   class="text-primary pointer"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDetailLeave"
-                  onclick="detailEmployee(${id})"
+                  onclick="detailPermission(${id})"
                 >
                   Detail
                 </label>
@@ -148,7 +148,7 @@ const tableLeaveStock = (stock_available) => {
             </tr>`;
 };
 
-const detailEmployee = async (id) => {
+const detailPermission = async (id) => {
   try {
     const response = await fetch(`${URL}/${id}`);
     if (!response.ok) {

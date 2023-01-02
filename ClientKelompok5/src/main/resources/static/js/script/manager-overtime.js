@@ -1,69 +1,125 @@
-const URL = "";
-const loadManagerOvertime = () => {
-  const triggerDetailOvertime = document.getElementById(
-    "triggerDetailOvertime"
-  );
-  const triggerUpdateOvertime = document.getElementById(
-    "triggerUpdateOvertime"
-  );
+const URL = "/api/overtime/manager";
 
-  triggerDetailOvertime.addEventListener("click", () => {
-    const DOFname = document.getElementById("detail-overtime-fName");
-    const DOLname = document.getElementById("detail-overtime-lName");
-    const DOEmail = document.getElementById("detail-overtime-email");
-    const DOPhone = document.getElementById("detail-overtime-phone");
-    const DOStart = document.getElementById("detail-overtime-date-start");
-    const DOEnd = document.getElementById("detail-overtime-date-end");
-    const DONote = document.getElementById("detail-overtime-note");
-    DOFname.value = "First Name";
-    DOLname.value = "Last Name";
-    DOEmail.value = "myemail@gmail.com";
-    DOPhone.value = "0192091031";
-    DOStart.value = "2022-12-08 20:00";
-    DOEnd.value = "2022-12-08 20:00";
-    DONote.value =
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, expedita!";
-  });
+const loadManagerOvertime = async () => {
+  const tableWrapper = document.getElementById("table-wrapper");
+  try {
+    const response = await fetch(URL);
+    const json = await response.json();
+    console.log(json);
+    let i = 0;
+    json.forEach((o) => {
+      i += 1;
+      let classStatus = "";
+      if (o.status === "PENDING") {
+        classStatus = "bg-warning";
+      } else if (o.status === "APPROVED") {
+        classStatus = "bg-success";
+      } else {
+        classStatus = "bg-danger";
+      }
+      tableWrapper.innerHTML += ` <tr>
+                          <td>${i}</td>
+                          <td>${o.employee.first_name}</td>
+                          <td>${o.start_overtime}</td>
+                          <td>${o.end_overtime}</td>
+                          <td>${o.project.name}</td>
+                          <td>
+                            <label class="badge ${classStatus}">${
+        o.status
+      }</label>
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-sm btn-primary"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalDetailOvertime"
+                              onclick="detailOvertime(${o.id})"
+                                                          >
+                              <i class="mdi mdi-looks"></i>
+                              Detail
+                            </button>
+                            <button
+                              class="btn btn-sm btn-orange text-white ${
+                                o.status !== "PENDING" ? "d-none" : ""
+                              }"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalUpdateOvertime"
+                              onclick="preUpdateOvertime(${o.id}, ${
+        o.project.id
+      })"
+               
+                            >
+                              <i class="mdi mdi-account-edit"></i>
+                              Update
+                            </button>
+                          </td>
+                        </tr>`;
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-  triggerUpdateOvertime.addEventListener("click", () => {
-    const updateStatus = document.getElementById("update-status-overtime");
-    const submitUpdateStatus = document.getElementById(
-      "submit-update-overtime"
-    );
-    updateStatus.add(generateOption(1, "Running", true));
-    updateStatus.add(generateOption(2, "Finished", false));
+const x = {
+  note: "",
+  start_overtime: "",
+  end_overtime: "",
+  project_id: 2,
+  status: false,
+};
 
-    submitUpdateStatus.addEventListener("click", () => {
-      $.ajax({
-        url: URL,
-        method: "POST",
-        dataType: "JSON",
-        data: JSON.stringify({
-          status: submitUpdateStatus.value,
-        }),
-        contentType: "application/json",
-        success: (result) => {
-          console.log(result);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!",
-          });
-          console.log({ xhr, ajaxOptions, thrownError });
-        },
-      });
+const preUpdateOvertime = (id, project_id) => {
+  document.getElementById("submit-update").addEventListener("click", () => {
+    const updateStatus = $("#update-status").find(":selected").val();
+    /* console.log({
+      start_overtime: "",
+      end_overtime: "",
+      project_id,
+      note: "",
+      status: updateStatus === "1",
+    });*/
+    $.ajax({
+      url: "/api/overtime/" + id,
+      method: "PUT",
+      dataType: "JSON",
+      beforeSend: addCsrfToken(),
+      data: JSON.stringify({
+        start_overtime: "",
+        end_overtime: "",
+        project_id,
+        note: "",
+        status: updateStatus === "1",
+      }),
+      contentType: "application/json",
+      success: (result) => {
+        console.log(result);
+        Swal.fire("Saved!", "", "success").then(
+          (e) => (window.location.href = "")
+        );
+        $("#modalUpdateLeave").modal("hide");
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+        console.log({ xhr, ajaxOptions, thrownError });
+      },
     });
   });
 };
 
-const generateOption = (id, name, isSelected) => {
-  const option = document.createElement("option");
-  option.value = id;
-  option.text = name;
-  option.selected = isSelected;
-  return option;
+const detailOvertime = async (id) => {
+  try {
+    const res = await fetch(`/api/overtime/${id}`);
+    const json = await res.json();
+    $("#detail-overtime-date-start").val(json.start_overtime);
+    $("#detail-overtime-date-end").val(json.end_overtime);
+    document.getElementById("detail-overtime-note").textContent = json.note;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 document.addEventListener("DOMContentLoaded", loadManagerOvertime);

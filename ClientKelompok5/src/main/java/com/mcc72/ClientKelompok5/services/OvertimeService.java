@@ -35,7 +35,14 @@ public class OvertimeService {
                 new ParameterizedTypeReference<List<Overtime>>(){
                 }).getBody();
     }
-    
+
+
+    public List<Overtime> getAllByManager(){
+        return restTemplate.exchange(url + "/manager", HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<List<Overtime>>(){
+                }).getBody();
+    }
+
     public Overtime getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
                 new ParameterizedTypeReference<Overtime>() {
