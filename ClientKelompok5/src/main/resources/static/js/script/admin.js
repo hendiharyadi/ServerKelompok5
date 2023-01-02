@@ -140,10 +140,18 @@ const getAllEmployees = () => {
     dataType: "JSON",
     contentType: "application/json",
     success: (results) => {
+      let i = 0;
       // console.log(results);
       results.forEach((emp) => {
+        /*<span
+            class="btn btn-sm btn-danger text-white"
+            onclick="deleteEmployee(${emp.id})"
+            ><i class="mdi mdi-delete"></i>
+            Delete
+          </span>*/
+        i += 1;
         tableWrapper.innerHTML += `<tr>
-                          <td>${emp.id}</td>
+                          <td>${i}</td>
                           <td>${emp.user.username}</td>
                           <td>${emp.first_name}</td>
                           <td>${emp.last_name}</td>
@@ -171,12 +179,7 @@ const getAllEmployees = () => {
                               <i class="mdi mdi-account-edit"></i>
                               Edit
                             </button>
-                            <span
-                              class="btn btn-sm btn-danger text-white"
-                              onclick="deleteEmployee(${emp.id})"
-                              ><i class="mdi mdi-delete"></i>
-                              Delete
-                            </span>
+                            
                           </td>
                         </tr>`;
       });

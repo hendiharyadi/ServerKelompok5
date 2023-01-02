@@ -1,4 +1,18 @@
+const URL = "/api/permission";
+let stock = 0;
 const loadedData = async () => {
+  await loadTable();
+};
+
+const loadTable = async () => {
+  await getStock();
+  if (stock === 0) {
+    const triggerAdd = document.getElementById("trigger-addPermission");
+    triggerAdd.classList.remove("btn-primary");
+    triggerAdd.classList.add("btn-danger");
+    triggerAdd.classList.add("text-white");
+    // return;
+  }
   document
     .getElementById("trigger-addPermission")
     .addEventListener("click", preAddEmployee);
@@ -32,9 +46,14 @@ const loadedData = async () => {
   }
 };
 
-const URL = "/api/permission";
-
 const preAddEmployee = () => {
+  if (stock === 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Can't add a request, because leave stock has run out",
+    }).then((e) => $("#modalAddItem").modal("hide"));
+  }
   const noteWrapper = document.getElementById("note-add-wrapper");
   const permissionType = document.getElementById("input-permissionType");
   permissionType.addEventListener("change", (event) => {
@@ -49,19 +68,16 @@ const preAddEmployee = () => {
   });
 };
 
-const submitPermission = () => {
+const submitPermission = async () => {
+  const btnSpinner = document.getElementById("spinner-button");
+  const btnSubmit = document.getElementById("btn-submit");
   const start_leave = document.getElementById("input-date-start").value;
   const end_leave = document.getElementById("input-date-end").value;
   const leave_type = $("#input-permissionType").find(":selected").val();
   const note = $("#input-note").val();
-  console.log({
-    leave_type: leave_type === "1",
-    start_leave,
-    end_leave,
-    note,
-    status: false,
-  });
 
+  btnSpinner.classList.remove("d-none");
+  btnSubmit.classList.add("d-none");
   $.ajax({
     url: URL,
     method: "POST",
@@ -75,11 +91,13 @@ const submitPermission = () => {
       status: false,
     }),
     contentType: "application/json",
-    success: (result) => {
+    success: async (result) => {
       console.log({ result });
-      Swal.fire("Saved!", "", "success").then(
-        (r) => (window.location.href = "")
-      );
+      Swal.fire("Saved!", "", "success");
+      btnSpinner.classList.add("d-none");
+      btnSubmit.classList.remove("d-none");
+      $("#modalAddItem").modal("hide");
+      await loadTable();
     },
     error: function (xhr, ajaxOptions, thrownError) {
       Swal.fire({
@@ -87,6 +105,8 @@ const submitPermission = () => {
         title: "Oops...",
         text: "Something went wrong!",
       });
+      btnSpinner.classList.add("d-none");
+      btnSubmit.classList.remove("d-none");
       console.log({ xhr, ajaxOptions, thrownError });
     },
   });
@@ -95,16 +115,21 @@ const submitPermission = () => {
 const tableContent = (no, id, leave_type, start_date, end_date, status) => {
   /* const start = new Date(start_date).toISOString().slice(0, 10);
   const end = new Date(end_date).toISOString().slice(0, 10);*/
-
+  let classStatus = "";
+  if (status === "PENDING") {
+    classStatus = "bg-warning";
+  } else if (status === "APPROVED") {
+    classStatus = "bg-success";
+  } else {
+    classStatus = "bg-danger";
+  }
   return ` <tr>
               <td>${no}</td>
               <td>${leave_type}</td>
               <td>${start_date}</td>
               <td>${end_date}</td>
               <td>
-                <label class="badge ${
-                  status === "PENDING" ? "bg-warning" : "bg-success"
-                }">${status}</label>
+                <label class="badge ${classStatus}">${status}</label>
               </td>
               <td>
                 <label
@@ -126,14 +151,16 @@ const getStock = async () => {
   const data = res.json();
   const json = await data;
   const { stock_available } = json;
+  stock = stock_available;
 
   stockWrapper.innerHTML = tableLeaveStock(stock_available);
 };
 
 const tableLeaveStock = (stock_available) => {
-  let badgeBg = "bg-danger";
+  console.log(stock_available);
+  let badgeBg;
 
-  if (stock_available <= 5) {
+  if (stock_available <= 5 && stock_available >= 1) {
     badgeBg = "bg-warning";
   } else if (stock_available >= 6) {
     badgeBg = "bg-success";

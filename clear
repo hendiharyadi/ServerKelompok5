@@ -1,0 +1,125 @@
+[33mcommit 55c6ac37d0cf7e1c39a6b81778a34a30f39f411f[m[33m ([m[1;36mHEAD -> [m[1;32mclient[m[33m, [m[1;31morigin/client[m[33m)[m
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Mon Jan 2 07:23:40 2023 +0700
+
+    update for user (history, permission, overtime), manager (crud history & overtime)
+    
+    update page manager(permission/overtime), history user (permission/overtime), adjustment for frontend
+
+[33mcommit 8500262e5282fa884f383b416f433f2c6e1cd921[m
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Sun Jan 1 21:00:21 2023 +0700
+
+    update crud
+
+[33mcommit ae5fd5e81faa57d6de45329997a20bbb82751d76[m
+Merge: ba442ca 7c81068
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Fri Dec 30 08:57:48 2022 +0700
+
+    Merge branch 'client' of https://github.com/hendiharyadi/ServerKelompok5 into client
+
+[33mcommit ba442ca77c659a47d2ff7ed41323d0ddee7e606e[m
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Fri Dec 30 08:57:32 2022 +0700
+
+    Update error-404.html
+
+[33mcommit 7c810684e7ffe7bf40e60c8f5e104d8c7603ba0b[m
+Author: Hendi Haryadi <117700749+hendiharyadi@users.noreply.github.com>
+Date:   Fri Dec 30 08:38:53 2022 +0700
+
+    add error pages
+
+[33mcommit 7c510ead8f82164ae60fb3f051a9072fc589269b[m
+Merge: 3f2d0c0 5f04ac1
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Fri Dec 30 07:22:27 2022 +0700
+
+    Merge branch 'client' of https://github.com/hendiharyadi/ServerKelompok5 into client
+
+[33mcommit 3f2d0c090e5cb1147e05670a6ac0e279456c4467[m
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Fri Dec 30 07:20:10 2022 +0700
+
+    init update crud admin
+
+[33mcommit 5f04ac1b3f79a5c71c00d376ba1bd84fda09ffc0[m
+Author: Sukma <hayatulsukma2399@gmail.com>
+Date:   Thu Dec 29 16:58:35 2022 +0700
+
+    add history
+
+[33mcommit 3ddaeaf0260ab6dd9f63745603e1b1f81576031c[m
+Merge: f71d5ab 84af335
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Wed Dec 28 10:20:25 2022 +0700
+
+    Merge branch 'client' of https://github.com/hendiharyadi/ServerKelompok5 into client
+
+[33mcommit f71d5ab89f8b7429d7e744022e99ae2f9cade3a0[m
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Wed Dec 28 10:20:22 2022 +0700
+
+    fix path source css / js at html templates
+
+[33mcommit 84af33502d777cc198d058f23fda032101531892[m
+Author: Sukma <hayatulsukma2399@gmail.com>
+Date:   Wed Dec 28 10:17:26 2022 +0700
+
+    crud overtime, permission, project
+
+[33mcommit d2d06a99f41136d7dfb8018d297e2c91702aede1[m
+Merge: 458decd 230609e
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Tue Dec 27 16:43:00 2022 +0700
+
+    Merge branch 'client' of https://github.com/hendiharyadi/ServerKelompok5 into client
+
+[33mcommit 458decd007bb06e367411f716f1878eaa9665729[m
+Author: ZeusCoder <zeusselalusalah@gmail.com>
+Date:   Tue Dec 27 16:40:21 2022 +0700
+
+    add pages and a few controller
+
+[33mcommit 230609eba8c4da1613ecc5cb99a836ebba8df502[m
+Author: Sukma <hayatulsukma2399@gmail.com>
+Date:   Tue Dec 27 16:39:05 2022 +0700
+
+    add services
+
+[33mcommit 504c3c83a22c403674dcf95cfb60de57dee95bfe[m
+Author: Sukma <hayatulsukma2399@gmail.com>
+Date:   Tue Dec 27 16:08:47 2022 +0700
+
+    add depedencies
+
+[33mcommit ee54b5c8bb6b21e63a99596a0db0b582ed0ae4be[m
+Author: hayatulsukma <117700940+hayatulsukma@users.noreply.github.com>
+Date:   Tue Dec 27 15:18:24 2022 +0700
+
+    Update README.md
+
+[33mcommit fa04d43b96321b020af42acb5116ca92a97a490d[m
+Author: Sukma <hayatulsukma2399@gmail.com>
+Date:   Tue Dec 27 15:16:31 2022 +0700
+
+    client
+
+[33mcommit 610debd563779e24530806f3f63933b1a2e13a82[m
+Author: Sukma <hayatulsukma2399@gmail.com>
+Date:   Tue Dec 27 15:10:51 2022 +0700
+
+    client
+
+[33mcommit d845756019b4bfd960e21290f99eba43f4727384[m
+Author: Sukma <hayatulsukma2399@gmail.com>
+Date:   Tue Dec 27 14:57:14 2022 +0700
+
+    client
+
+[33mcommit f6cf629220e44da974c546589745817d1a97dc5f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Hendi Haryadi <117700749+hendiharyadi@users.noreply.github.com>
+Date:   Mon Dec 26 09:26:15 2022 +0700
+
+    Initial commit

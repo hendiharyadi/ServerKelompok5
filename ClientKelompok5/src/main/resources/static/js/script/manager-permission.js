@@ -1,5 +1,9 @@
 const URL = "/api/permission/manager";
 const loadDataPage = async () => {
+  await loadDataTable();
+};
+
+const loadDataTable = async () => {
   try {
     const res = await fetch(URL);
     const json = await res.json();
@@ -15,11 +19,12 @@ const loadDataPage = async () => {
       } else if (e.status === "APPROVED") {
         status = true;
         classStatus = "bg-success";
-      } else {
+      } else if (e.status === "REJECTED") {
         classStatus = "bg-danger";
       }
+      const type = e.leave_type === "CUTI" ? 1 : 2;
       tableWrapper.innerHTML += `  <tr>
-                          <td>i</td>
+                          <td>${i}</td>
                           <td>${e.employee.first_name}</td>
                           <td>${e.leave_type}</td>
                           <td>${e.start_leave}</td>
@@ -45,7 +50,9 @@ const loadDataPage = async () => {
                               }"
                               data-bs-toggle="modal"
                               data-bs-target="#modalUpdateLeave"
-                              onclick="preUpdatePermission(${e.id}, ${status})"
+                              onclick="preUpdatePermission(${e.id}, ${type}, ${
+        e.employee.id
+      })"
                             >
                               <i class="mdi mdi-account-edit"></i>
                               Update
@@ -87,39 +94,64 @@ const detailPermission = async (id) => {
   }
 };
 
-const preUpdatePermission = (id, leave_type) => {
-  document.getElementById("submit-update").addEventListener("click", () => {
-    const updateStatus = $("#update-status").find(":selected").val();
-    // console.log({ id, leave_type, status: updateStatus === "1" });
-    $.ajax({
-      url: "/api/permission/" + id,
-      method: "PUT",
-      dataType: "JSON",
-      beforeSend: addCsrfToken(),
-      data: JSON.stringify({
-        leave_type,
-        start_leave: "",
-        end_leave: "",
-        note: "",
-        status: updateStatus === "1",
-      }),
-      contentType: "application/json",
-      success: (result) => {
-        console.log(result);
-        Swal.fire("Saved!", "", "success").then(
-          (e) => (window.location.href = "")
-        );
-        $("#modalUpdateLeave").modal("hide");
-      },
-      error: function (xhr, ajaxOptions, thrownError) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-        });
-        console.log({ xhr, ajaxOptions, thrownError });
-      },
-    });
+const preUpdatePermission = (id, leave_type, employee_id) => {
+  $("#leave-type").val(leave_type);
+  $("#request-id").val(id);
+  $("#employee-id").val(employee_id);
+};
+
+const updatePermission = () => {
+  const btnSpinner = document.getElementById("spinner-button");
+  const btnUpdate = document.getElementById("update-data");
+  btnSpinner.classList.remove("d-none");
+  btnUpdate.classList.add("d-none");
+
+  const updateStatus = $("#update-status").find(":selected").val();
+  const leave_type = $("#leave-type").val();
+  const employee_id = $("#employee-id").val();
+  const id = $("#request-id").val();
+  console.log({
+    leave_type: leave_type === "1",
+    start_leave: "",
+    end_leave: "",
+    note: "",
+    status: updateStatus === "1",
+    employee_id,
+  });
+
+  $.ajax({
+    url: "/api/permission/" + id,
+    method: "PUT",
+    dataType: "JSON",
+    beforeSend: addCsrfToken(),
+    data: JSON.stringify({
+      leave_type: true,
+      start_leave: "",
+      end_leave: "",
+      note: "",
+      status: updateStatus === "1",
+      employee_id,
+    }),
+    contentType: "application/json",
+    success: async (result) => {
+      console.log(result);
+      Swal.fire("Saved!", "", "success");
+      btnSpinner.classList.add("d-none");
+      btnUpdate.classList.remove("d-none");
+      $("#modalUpdateLeave").modal("hide");
+      await loadDataTable();
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+      btnSpinner.classList.add("d-none");
+      btnUpdate.classList.remove("d-none");
+      $("#modalUpdateLeave").modal("hide");
+      console.log({ xhr, ajaxOptions, thrownError });
+    },
   });
 };
 

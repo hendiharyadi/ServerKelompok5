@@ -1,7 +1,11 @@
 const URL = "/api/overtime";
 
-const triggerAddOvertime = document.getElementById("trigger-add-overtime");
 const submitData = () => {
+  const btnSpinner = document.getElementById("spinner-button");
+  const btnSubmit = document.getElementById("btn-submit");
+
+  btnSpinner.classList.remove("d-none");
+  btnSubmit.classList.add("d-none");
   const start_overtime = document.getElementById(
     "input-overtime-date-start"
   ).value;
@@ -22,11 +26,13 @@ const submitData = () => {
       project_id,
     }),
     contentType: "application/json",
-    success: (result) => {
+    success: async (result) => {
       console.log(result);
-      Swal.fire("Saved!", "", "success").then(
-        (r) => (window.location.href = "")
-      );
+      Swal.fire("Saved!", "", "success");
+      btnSpinner.classList.add("d-none");
+      btnSubmit.classList.remove("d-none");
+      $("#modalAddOvertime").modal("hide");
+      await loadData();
     },
     error: function (xhr, ajaxOptions, thrownError) {
       Swal.fire({
@@ -34,11 +40,14 @@ const submitData = () => {
         title: "Oops...",
         text: "Something went wrong!",
       });
+      btnSpinner.classList.add("d-none");
+      btnSubmit.classList.remove("d-none");
       console.log({ xhr, ajaxOptions, thrownError });
     },
   });
 };
-const loadedPage = async () => {
+
+const loadData = async () => {
   try {
     const res = await fetch(URL);
     if (!res.ok) {
@@ -66,7 +75,9 @@ const loadedPage = async () => {
   } catch (e) {
     console.log(e);
   }
-  triggerAddOvertime.addEventListener("click", preSubmitData);
+};
+const loadedPage = async () => {
+  await loadData();
 };
 
 const detailOvertime = async (id) => {

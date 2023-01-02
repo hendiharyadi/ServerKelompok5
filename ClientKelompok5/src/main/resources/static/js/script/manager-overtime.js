@@ -1,7 +1,11 @@
 const URL = "/api/overtime/manager";
 
 const loadManagerOvertime = async () => {
+  await loadDataTable();
+};
+const loadDataTable = async () => {
   const tableWrapper = document.getElementById("table-wrapper");
+
   try {
     const response = await fetch(URL);
     const json = await response.json();
@@ -20,8 +24,10 @@ const loadManagerOvertime = async () => {
       tableWrapper.innerHTML += ` <tr>
                           <td>${i}</td>
                           <td>${o.employee.first_name}</td>
-                          <td>${o.start_overtime}</td>
-                          <td>${o.end_overtime}</td>
+                          <td>${new Date(
+                            o.start_overtime
+                          ).toLocaleString()}</td>
+                          <td>${new Date(o.end_overtime).toLocaleString()}</td>
                           <td>${o.project.name}</td>
                           <td>
                             <label class="badge ${classStatus}">${
@@ -59,25 +65,14 @@ const loadManagerOvertime = async () => {
     console.log(e);
   }
 };
-
-const x = {
-  note: "",
-  start_overtime: "",
-  end_overtime: "",
-  project_id: 2,
-  status: false,
-};
-
 const preUpdateOvertime = (id, project_id) => {
-  document.getElementById("submit-update").addEventListener("click", () => {
+  const submitUpdate = document.getElementById("submit-update");
+  const btnSpinner = document.getElementById("spinner-button");
+
+  submitUpdate.addEventListener("click", () => {
+    btnSpinner.classList.remove("d-none");
+    submitUpdate.classList.add("d-none");
     const updateStatus = $("#update-status").find(":selected").val();
-    /* console.log({
-      start_overtime: "",
-      end_overtime: "",
-      project_id,
-      note: "",
-      status: updateStatus === "1",
-    });*/
     $.ajax({
       url: "/api/overtime/" + id,
       method: "PUT",
@@ -91,12 +86,13 @@ const preUpdateOvertime = (id, project_id) => {
         status: updateStatus === "1",
       }),
       contentType: "application/json",
-      success: (result) => {
+      success: async (result) => {
         console.log(result);
-        Swal.fire("Saved!", "", "success").then(
-          (e) => (window.location.href = "")
-        );
-        $("#modalUpdateLeave").modal("hide");
+        Swal.fire("Saved!", "", "success");
+        btnSpinner.classList.add("d-none");
+        submitUpdate.classList.remove("d-none");
+        await loadDataTable();
+        $("#modalUpdateOvertime").modal("hide");
       },
       error: function (xhr, ajaxOptions, thrownError) {
         Swal.fire({
@@ -104,6 +100,8 @@ const preUpdateOvertime = (id, project_id) => {
           title: "Oops...",
           text: "Something went wrong!",
         });
+        btnSpinner.classList.add("d-none");
+        submitUpdate.classList.remove("d-none");
         console.log({ xhr, ajaxOptions, thrownError });
       },
     });

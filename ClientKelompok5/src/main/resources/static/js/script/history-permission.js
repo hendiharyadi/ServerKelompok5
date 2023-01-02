@@ -13,6 +13,7 @@ const loadPage = async () => {
         i,
         e.id,
         e.permission.leave_type,
+        new Date(e.date_history).toLocaleDateString(),
         e.permission.start_leave,
         e.permission.end_leave,
         e.permission.status
@@ -40,16 +41,32 @@ const detailHistoryRequest = async (id) => {
   }
 };
 
-const tableContent = (no, id, leave_type, start_date, end_date, status) => {
+const tableContent = (
+  no,
+  id,
+  leave_type,
+  date_history,
+  start_date,
+  end_date,
+  status
+) => {
+  let classStatus = "";
+  if (status === "PENDING") {
+    classStatus = "bg-warning";
+  } else if (status === "APPROVED") {
+    classStatus = "bg-success";
+  } else if (status === "REJECTED") {
+    classStatus = "bg-danger";
+  }
+  console.log(status);
   return ` <tr>
               <td>${no}</td>
               <td>${leave_type}</td>
+              <td>${date_history}</td>
               <td>${start_date}</td>
               <td>${end_date}</td>
               <td>
-                <label class="badge ${
-                  status === "PENDING" ? "bg-warning" : "bg-success"
-                }">${status}</label>
+                <span class="badge ${classStatus}">${status}</span>
               </td>
               <td>
                 <label
