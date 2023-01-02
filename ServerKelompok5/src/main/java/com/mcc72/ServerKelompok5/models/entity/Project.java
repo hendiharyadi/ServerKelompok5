@@ -39,7 +39,10 @@ public class Project {
     private String name;
     
     @Column(nullable = false)
-    private Boolean status;
+    private String start_project;
+    
+    @Column(nullable = false)
+    private String end_project; 
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
