@@ -5,6 +5,7 @@
  */
 package com.mcc72.ServerKelompok5.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class Project {
                     name = "employee_id", referencedColumnName = "id"))
     private List<Employee> employeeProject;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @Column(nullable = true)
     private List<Overtime> overtimes;

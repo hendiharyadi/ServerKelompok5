@@ -55,7 +55,6 @@ public class Overtime {
     @OneToMany(mappedBy = "overtime", cascade = CascadeType.ALL)
     private List<HistoryOvertime> historyOvertime;
     
-    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "employee")
     private Employee employee;
@@ -65,7 +64,6 @@ public class Overtime {
     @JoinColumn (name = "manager")
     private Employee manager;
     
-    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "project")
     private Project project;

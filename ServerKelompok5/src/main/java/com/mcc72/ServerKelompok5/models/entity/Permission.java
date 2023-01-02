@@ -54,7 +54,6 @@ public class Permission {
     @Enumerated(EnumType.ORDINAL)
     private Status status;  
     
-    @JsonIgnore
     @ManyToOne
     @JoinColumn (name = "employee")
     private Employee employee;

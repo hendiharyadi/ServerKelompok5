@@ -158,7 +158,6 @@ public class PermissionService {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
             Employee m = employeeRepository.findById(user.getEmployee().getManager().getId()).get();
-            Permission p = permissionRepository.findById(user.getEmployee().getId()).get();
             Employee e = employeeRepository.findById(user.getEmployee().getId()).get();
             messageHelper.setTo(m.getEmail());
             messageHelper.setSubject("Request email");

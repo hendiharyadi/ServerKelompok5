@@ -18,5 +18,5 @@ import java.util.List;
  */
 @Repository
 public interface OvertimeRepository extends JpaRepository<Overtime, Integer>{
-    List<Overtime> findAllByManager(Employee manager);
+    List<Overtime> findOvertimeByManager(Employee manager);
 }

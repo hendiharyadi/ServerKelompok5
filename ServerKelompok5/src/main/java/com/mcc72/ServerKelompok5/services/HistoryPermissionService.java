@@ -54,9 +54,8 @@ public class HistoryPermissionService {
     }
     
     public HistoryPermission update(int id, HistoryPermission historyPermission){
-        HistoryPermission hp = new HistoryPermission();
+        HistoryPermission hp = historyPermissionRepository.findById(id).get();
         getById(id);
-        hp.setId(id);
         hp.setDate_history(historyPermission.getDate_history());
         return historyPermissionRepository.save(historyPermission);
     }
