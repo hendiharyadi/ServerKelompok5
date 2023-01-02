@@ -60,10 +60,9 @@ public class StockLeaveService {
         return stockLeave;
     }
     
-    public void updateCuti() {
+    public void updateCuti(int id) {
         System.out.println("updateAttempt here");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        UserEntity user = userRepository.findById(id).get();
         employeeRepository.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - 1, user.getEmployee().getId());
         System.out.println("updateAttempt success");
     }

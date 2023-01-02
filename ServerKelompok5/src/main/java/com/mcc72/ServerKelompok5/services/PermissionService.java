@@ -86,19 +86,17 @@ public class PermissionService {
 //                if(permit.getStart_leave().equals(permission.getStart_leave())){
 //                    throw new Error("You can't pick this date. Please choose another date.");
 //                } else{
-                    hps.create(permit);
+                    hps.create(permit, e.getId());
                     return permissionRepository.save(permit); 
 //                }
         }
     }
     
     public Permission update(Integer id, PermissionDto permission){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Permission permit = permissionRepository.findById(id).get();
         Status stat = permission.getStatus() ? Status.APPROVED : Status.REJECTED;
         permit.setStatus(stat);
-        hps.create(permit);
+        hps.create(permit, permission.getEmployee_id());
         return permissionRepository.save(permit);
     }
     

@@ -11,6 +11,7 @@ import com.mcc72.ServerKelompok5.models.entity.Overtime;
 import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.HistoryOvertimeRepository;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
@@ -48,7 +49,10 @@ public class HistoryOvertimeService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         HistoryOvertime ho = new HistoryOvertime();
         ho.setOvertime(historyOvertime);
-        ho.setDate_history(new Timestamp(System.currentTimeMillis()));
+//        ho.setDate_history(new Timestamp(System.currentTimeMillis()));
+        Date date = new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+        ho.setDate_history(ts);
         ho.setEmployee(user.getEmployee());
         return historyOvertimeRepository.save(ho);
     }

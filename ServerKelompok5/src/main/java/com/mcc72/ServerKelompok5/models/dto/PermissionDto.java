@@ -28,7 +28,7 @@ public class PermissionDto {
     private String note;
     private Boolean status;
 
-    private Integer employee;
+    private Integer employee_id;
     /*
 
     private Integer manager;

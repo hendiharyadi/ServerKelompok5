@@ -12,6 +12,7 @@ import com.mcc72.ServerKelompok5.repositories.HistoryPermissionRepository;
 import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,12 +44,15 @@ public class HistoryPermissionService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public HistoryPermission create(Permission historyPermission){
+    public HistoryPermission create(Permission historyPermission, int id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         HistoryPermission hp = new HistoryPermission();
         hp.setPermission(historyPermission);
-        hp.setDate_history(new Timestamp(System.currentTimeMillis()));
+//        hp.setDate_history(new Timestamp(System.currentTimeMillis()));
+        Date date = new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+        hp.setDate_history(ts);
         hp.setEmployee(user.getEmployee());
         return historyPermissionRepository.save(hp);
     }
