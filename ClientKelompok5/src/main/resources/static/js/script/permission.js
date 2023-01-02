@@ -6,13 +6,6 @@ const loadedData = async () => {
 
 const loadTable = async () => {
   await getStock();
-  if (stock === 0) {
-    const triggerAdd = document.getElementById("trigger-addPermission");
-    triggerAdd.classList.remove("btn-primary");
-    triggerAdd.classList.add("btn-danger");
-    triggerAdd.classList.add("text-white");
-    // return;
-  }
   document
     .getElementById("trigger-addPermission")
     .addEventListener("click", preAddEmployee);
@@ -47,13 +40,6 @@ const loadTable = async () => {
 };
 
 const preAddEmployee = () => {
-  if (stock === 0) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Can't add a request, because leave stock has run out",
-    }).then((e) => $("#modalAddItem").modal("hide"));
-  }
   const noteWrapper = document.getElementById("note-add-wrapper");
   const permissionType = document.getElementById("input-permissionType");
   permissionType.addEventListener("change", (event) => {
@@ -75,6 +61,30 @@ const submitPermission = async () => {
   const end_leave = document.getElementById("input-date-end").value;
   const leave_type = $("#input-permissionType").find(":selected").val();
   const note = $("#input-note").val();
+
+  if (leave_type === "1") {
+    if (stock === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Can't add a request type CUTI, because leave stock has run out",
+      });
+      return;
+    }
+  }
+
+  if (
+    leave_type.length !== 1 ||
+    start_leave.length === 0 ||
+    end_leave.length === 0
+  ) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Fill in all the data in this form",
+    });
+    return;
+  }
 
   btnSpinner.classList.remove("d-none");
   btnSubmit.classList.add("d-none");
