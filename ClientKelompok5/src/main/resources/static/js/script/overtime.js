@@ -4,8 +4,6 @@ const submitData = () => {
   const btnSpinner = document.getElementById("spinner-button");
   const btnSubmit = document.getElementById("btn-submit");
 
-  btnSpinner.classList.remove("d-none");
-  btnSubmit.classList.add("d-none");
   const start_overtime = document.getElementById(
     "input-overtime-date-start"
   ).value;
@@ -13,7 +11,22 @@ const submitData = () => {
   const note = document.getElementById("input-note-overtime").value;
   const project_id = document.getElementById("input-select-project").value;
 
-  console.log({ start_overtime, end_overtime, note, project_id });
+  if (
+    project_id.length === 1 ||
+    end_overtime.length !== 0 ||
+    start_overtime.length === 0 ||
+    note.length === 0
+  ) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Fill in all the data in this form",
+    });
+    return;
+  }
+
+  btnSpinner.classList.remove("d-none");
+  btnSubmit.classList.add("d-none");
   $.ajax({
     url: URL,
     method: "POST",
