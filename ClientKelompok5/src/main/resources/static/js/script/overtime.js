@@ -12,8 +12,8 @@ const submitData = () => {
   const project_id = document.getElementById("input-select-project").value;
 
   if (
-    project_id.length === 1 ||
-    end_overtime.length !== 0 ||
+    project_id === "0" ||
+    end_overtime.length === 0 ||
     start_overtime.length === 0 ||
     note.length === 0
   ) {

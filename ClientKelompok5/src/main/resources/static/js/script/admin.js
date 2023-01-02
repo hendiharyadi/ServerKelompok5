@@ -143,14 +143,9 @@ const getAllEmployees = () => {
       let i = 0;
       // console.log(results);
       results.forEach((emp) => {
-        /*<span
-            class="btn btn-sm btn-danger text-white"
-            onclick="deleteEmployee(${emp.id})"
-            ><i class="mdi mdi-delete"></i>
-            Delete
-          </span>*/
         i += 1;
-        tableWrapper.innerHTML += `<tr>
+        if (emp.user.userRole[0].id !== 3) {
+          tableWrapper.innerHTML += `<tr>
                           <td>${i}</td>
                           <td>${emp.user.username}</td>
                           <td>${emp.first_name}</td>
@@ -182,6 +177,7 @@ const getAllEmployees = () => {
                             
                           </td>
                         </tr>`;
+        }
       });
     },
     error: function (xhr, ajaxOptions, thrownError) {

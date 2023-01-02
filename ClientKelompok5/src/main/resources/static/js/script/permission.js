@@ -54,6 +54,12 @@ const preAddEmployee = () => {
   });
 };
 
+const days = (date_1, date_2) => {
+  let difference = date_1 - date_2;
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  return TotalDays;
+};
+
 const submitPermission = async () => {
   const btnSpinner = document.getElementById("spinner-button");
   const btnSubmit = document.getElementById("btn-submit");
@@ -61,8 +67,12 @@ const submitPermission = async () => {
   const end_leave = document.getElementById("input-date-end").value;
   const leave_type = $("#input-permissionType").find(":selected").val();
   const note = $("#input-note").val();
+  let leave_day;
 
   if (leave_type === "1") {
+    const start = new Date(start_leave).getTime();
+    const end = new Date(end_leave).getTime();
+    leave_day = days(end, start);
     if (stock === 0) {
       Swal.fire({
         icon: "error",
