@@ -58,10 +58,10 @@ public class StockLeaveService {
         return stockLeave;
     }
     
-    public void updateCuti(int id, PermissionDto permission) {
+    public void updateCuti(int id, Integer permission) {
         System.out.println("updateAttempt here");
         UserEntity user = userRepository.findById(id).get();
-        employeeRepository.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - permission.getLeave_days(), user.getEmployee().getId());
+        employeeRepository.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - permission, user.getEmployee().getId());
         System.out.println("updateAttempt success");
     }
 }

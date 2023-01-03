@@ -77,7 +77,7 @@ public class PermissionController {
         Permission permit = permissionService.update(id, permission);
             if (permission.getStatus().equals(true) && permission.getLeave_type().equals(true)){
                 permissionService.sendConfirmationMail(id, permission);
-                stockLeaveService.updateCuti(permission.getEmployee_id(), permission);
+                stockLeaveService.updateCuti(permission.getEmployee_id(), permission.getLeave_day());
             } else {
                 permissionService.sendConfirmationMail(id, permission);
             }
