@@ -70,12 +70,12 @@ public class PermissionService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         StockLeave sl = user.getEmployee().getStockLeave();
-        Permission permit = new Permission();
         LeaveType lt = permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN;
         Employee e = user.getEmployee();
         if(sl.getStock_available() <= 0 && permission.getLeave_type().equals(true)){
             throw new Error("Your cuti quota has been running out. Please wait until next year.");
         } else {
+            Permission permit = new Permission();
             permit.setLeave_type(lt);
             permit.setStart_leave(permission.getStart_leave());
             permit.setEnd_leave(permission.getEnd_leave());
@@ -106,15 +106,13 @@ public class PermissionService {
         return permission;
     }
     
-    public void sendConfirmationMail(PermissionDto permission) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+    public void sendConfirmationMail(Integer id, PermissionDto permission) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = user.getEmployee();
-            messageHelper.setTo(e.getEmail());
-            messageHelper.setSubject("Confirmation email");
-            String content = confirmationMailBuilder.build(e.getFirst_name(), permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStatus() ? Status.APPROVED : Status.REJECTED);
+            Permission permit = permissionRepository.findById(id).get();
+            messageHelper.setTo(permit.getEmployee().getEmail());
+            messageHelper.setSubject("Leave Confirmation Email");
+            String content = confirmationMailBuilder.build(permit.getEmployee().getFirst_name(), permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStatus() ? Status.APPROVED : Status.REJECTED);
             messageHelper.setText(content, true);
         };
         mailSender.send(messagePreparator);
@@ -128,7 +126,7 @@ public class PermissionService {
             Employee m = employeeRepository.findById(user.getEmployee().getManager().getId()).get();
             Employee e = employeeRepository.findById(user.getEmployee().getId()).get();
             messageHelper.setTo(m.getEmail());
-            messageHelper.setSubject("Request email");
+            messageHelper.setSubject("Cuti Request Email");
             String content = requestMailBuilder.build(permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStart_leave(), permission.getEnd_leave(), e.getFirst_name());
             messageHelper.setText(content, true);
         };
@@ -140,10 +138,10 @@ public class PermissionService {
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = employeeRepository.findById(user.getEmployee().getId()).get();
+            Employee e = user.getEmployee();
             Permission p = permissionRepository.findById(user.getEmployee().getId()).get(); 
             messageHelper.setTo(e.getEmail());
-            messageHelper.setSubject("Confirmation email");
+            messageHelper.setSubject("Izin Confirmation email");
             String content = pmc.build(e.getFirst_name(), permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStatus() ? Status.APPROVED : Status.REJECTED);
             messageHelper.setText(content, true);
         };
@@ -158,7 +156,7 @@ public class PermissionService {
             Employee m = employeeRepository.findById(user.getEmployee().getManager().getId()).get();
             Employee e = employeeRepository.findById(user.getEmployee().getId()).get();
             messageHelper.setTo(m.getEmail());
-            messageHelper.setSubject("Request email");
+            messageHelper.setSubject("Izin Request email");
             String content = pmr.build(permission.getLeave_type() ? LeaveType.CUTI : LeaveType.IZIN, permission.getStart_leave(), permission.getEnd_leave(), permission.getNote(), e.getFirst_name());
             messageHelper.setText(content, true);
         };

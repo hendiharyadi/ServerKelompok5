@@ -50,9 +50,9 @@ public class OvertimeController {
     public Overtime update(@PathVariable Integer id, @RequestBody OvertimeDto overtime){
         Overtime ot = overtimeService.update(id, overtime);
         if (overtime.getStatus().equals(true)){
-            overtimeService.sendConfirmationMail(overtime);
+            overtimeService.sendConfirmationMail(id, overtime);
         } else {
-            overtimeService.sendConfirmationMail(overtime);
+            overtimeService.sendConfirmationMail(id, overtime);
         }
         return ot;
     }

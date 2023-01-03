@@ -7,19 +7,21 @@ package com.mcc72.ServerKelompok5.repositories;
 
 import com.mcc72.ServerKelompok5.models.entity.Role;
 
-import java.util.List;
 import java.util.Optional;
 
-import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Hendi
  */
 @Repository
+@Transactional
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     public Optional<Role> findByName(String name);
+
 }

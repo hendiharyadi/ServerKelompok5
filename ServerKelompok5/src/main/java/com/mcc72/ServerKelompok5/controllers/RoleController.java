@@ -37,7 +37,12 @@ public class RoleController {
     public List<Map<String, Object>> getAllMap(){
         return roleService.getAllMap();
     }
-
+    
+    @GetMapping("/getrolemanagers")
+    public Object getRoleManager(){
+        return roleService.getRoleManager();
+    }
+    
     @GetMapping("/managers")
     public Object getManagers(){
         return roleService.getRoleManager();
