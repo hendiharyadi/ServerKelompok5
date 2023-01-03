@@ -29,6 +29,7 @@ public class PermissionDto {
     private Boolean status;
 
     private Integer employee_id;
+    private Integer leave_days;
     /*
 
     private Integer manager;

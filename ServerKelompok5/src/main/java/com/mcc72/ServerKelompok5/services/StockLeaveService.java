@@ -5,8 +5,8 @@
  */
 package com.mcc72.ServerKelompok5.services;
 
+import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
-import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.StockLeave;
 import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
@@ -15,8 +15,6 @@ import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -60,10 +58,10 @@ public class StockLeaveService {
         return stockLeave;
     }
     
-    public void updateCuti(int id) {
+    public void updateCuti(int id, PermissionDto permission) {
         System.out.println("updateAttempt here");
         UserEntity user = userRepository.findById(id).get();
-        employeeRepository.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - 1, user.getEmployee().getId());
+        employeeRepository.setStockLeave(user.getEmployee().getStockLeave().getStock_available() - permission.getLeave_days(), user.getEmployee().getId());
         System.out.println("updateAttempt success");
     }
 }
