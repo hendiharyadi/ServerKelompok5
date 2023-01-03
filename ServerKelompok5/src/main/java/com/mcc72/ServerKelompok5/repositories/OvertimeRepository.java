@@ -11,12 +11,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Hendi
  */
 @Repository
+@Transactional
 public interface OvertimeRepository extends JpaRepository<Overtime, Integer>{
     List<Overtime> findOvertimeByManager(Employee manager);
+    
+    @Query("SELECT o FROM Overtime as o WHERE o.employee.id= ?1 ORDER BY (CASE WHEN o.status = 'PENDING' THEN 0 WHEN o.status = 'ACCEPTED' THEN 1 ELSE 2 END)")
+    List<Overtime> orderOvertime(Integer id);
 }

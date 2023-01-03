@@ -6,14 +6,21 @@
 package com.mcc72.ServerKelompok5.repositories;
 
 import com.mcc72.ServerKelompok5.models.entity.HistoryPermission;
+import com.mcc72.ServerKelompok5.models.entity.Overtime;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Hendi
  */
 @Repository
+@Transactional
 public interface HistoryPermissionRepository extends JpaRepository<HistoryPermission, Integer>{
     
+    @Query("SELECT hp FROM HistoryPermission as hp WHERE hp.employee.id= ?1 ORDER BY (CASE WHEN hp.permission.status = 'PENDING' THEN 0 WHEN hp.permission.status = 'ACCEPTED' THEN 1 ELSE 2 END)")
+    List<HistoryPermission> orderHistoryPermission(Integer id);
 }
