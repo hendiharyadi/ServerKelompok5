@@ -62,17 +62,21 @@ public class OvertimeService {
     public Overtime create(OvertimeDto o){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        Project p = pr.findById(o.getProject_id()).get();
+//        if(!pr.existsById(user.getEmployee().getEmp)){
+//            throw new Error("Your can't ask for overtime as long as you don't take part in a project.");
+//        } else{
         Overtime overtime = new Overtime();
         overtime.setNote(o.getNote());
         overtime.setStart_overtime(o.getStart_overtime());
         overtime.setEnd_overtime(o.getEnd_overtime());
         overtime.setStatus(Status.PENDING);
         overtime.setEmployee(er.findById(user.getId()).get());
-        Project p = pr.findById(o.getProject_id()).get();
         overtime.setProject(p);
         overtime.setManager(p.getManager());
         hos.create(overtime);
         return or.save(overtime);
+//        }
     }
     
     public Overtime update(int id, OvertimeDto o){
@@ -97,7 +101,7 @@ public class OvertimeService {
             Employee e = er.findById(user.getEmployee().getId()).get();
             Project p = pr.findById(overtime.getProject_id()).get();
             messageHelper.setTo(e.getEmail());
-            messageHelper.setSubject("Confirmation email");
+            messageHelper.setSubject("Overtime Confirmation email");
             String content = otConfirmation.build(e.getFirst_name(), overtime.getStatus()? Status.APPROVED : Status.REJECTED);
             messageHelper.setText(content, true);
         };
@@ -112,7 +116,7 @@ public class OvertimeService {
         Employee e = er.findById(user.getEmployee().getId()).get();
         Project p = pr.findById(overtime.getProject_id()).get();
         messageHelper.setTo(p.getManager().getEmail());
-        messageHelper.setSubject("Request email");
+        messageHelper.setSubject("Overtime Request email");
         String content = otRequest.build(overtime.getStart_overtime(),overtime.getEnd_overtime(), overtime.getNote(), e.getFirst_name());
         messageHelper.setText(content, true);
         };

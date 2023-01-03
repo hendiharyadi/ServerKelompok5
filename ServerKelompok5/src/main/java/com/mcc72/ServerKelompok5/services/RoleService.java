@@ -6,9 +6,10 @@
 package com.mcc72.ServerKelompok5.services;
 
 
-import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Role;
+import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.RoleRepository;
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * @author Hendi
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 public class RoleService {
 
     private RoleRepository rr;
+    private UserRepository ur;
 
     public List<Role> findAll() {
         if (rr.findAll().isEmpty()) {
@@ -49,9 +53,11 @@ public class RoleService {
         }).collect(Collectors.toList());
 //        return list;
     }
-
+    
     public Object getRoleManager() {
-        Role role = rr.findById(2).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = ur.findByUsername(authentication.getName()).get();
+        Role role = rr.findById(user.getEmployee().getId()).get();
         return role.getUserRole().stream().map(usr -> {
             Map<String, Object> m = new HashMap<>();
             m.put("id", usr.getEmployee().getId());

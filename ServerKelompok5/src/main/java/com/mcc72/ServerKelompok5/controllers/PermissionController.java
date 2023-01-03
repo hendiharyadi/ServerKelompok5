@@ -6,16 +6,19 @@
 package com.mcc72.ServerKelompok5.controllers;
 
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
-import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
-import com.mcc72.ServerKelompok5.models.entity.Status;
+import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
+import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
+import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import com.mcc72.ServerKelompok5.services.HistoryPermissionService;
 import com.mcc72.ServerKelompok5.services.PermissionService;
 import com.mcc72.ServerKelompok5.services.StockLeaveService;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +41,8 @@ public class PermissionController {
     private HistoryPermissionService historyPermissionService;
     private StockLeaveService stockLeaveService;
     private EmployeeRepository er;
+    private UserRepository ur;
+    private PermissionRepository pr;
     
     @GetMapping
     public Object getAll(){
@@ -67,12 +72,14 @@ public class PermissionController {
     
     @PutMapping("/{id}")
     public Permission update(@PathVariable Integer id, @RequestBody PermissionDto permission, Employee e) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = ur.findByUsername(authentication.getName()).get();
         Permission permit = permissionService.update(id, permission);
             if (permission.getStatus().equals(true) && permission.getLeave_type().equals(true)){
-                permissionService.sendConfirmationMail(permission);
+                permissionService.sendConfirmationMail(id, permission);
                 stockLeaveService.updateCuti(permission.getEmployee_id());
             } else {
-                permissionService.sendConfirmationMail(permission);
+                permissionService.sendConfirmationMail(id, permission);
             }
             return permit;
     }
