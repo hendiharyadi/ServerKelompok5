@@ -53,7 +53,7 @@ public class ProjectService {
 
     public List<Employee> getMemberProject(int id) {
         Project project = projectRepository.findById(id).get();
-        return null;
+        return project.getEmployeeProject();
     }
 
     public Project getById(int id) {
@@ -65,12 +65,6 @@ public class ProjectService {
     public Project create(ProjectDto projectDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-
-//        Employee emp1 = employeeRepository.findById(1).get();
-//        Employee emp2 = employeeRepository.findById(2).get();
-//        Employee emp3 = employeeRepository.findById(3).get();
-//        List<Employee> employees = Arrays.asList(emp1, emp2, emp3);
-        
         Project project = new Project();
         project.setManager(user.getEmployee());
         project.setName(projectDto.getName());
@@ -101,9 +95,10 @@ public class ProjectService {
     }
 
 
-    public Project delete(int id) {
-        Project project = getById(id);
-        projectRepository.delete(project);
+    public Project deleteProjectById(int id) {
+        Project project = projectRepository.findById(id).get();
+        System.out.println("Project ID : " + id);
+        projectRepository.deleteById(id);
         return project;
     }
 }
