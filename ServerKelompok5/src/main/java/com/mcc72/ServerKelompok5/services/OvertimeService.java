@@ -93,16 +93,13 @@ public class OvertimeService {
         return overtime;
     }
     
-    public void sendConfirmationMail(OvertimeDto overtime) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+    public void sendConfirmationMail(Integer id, OvertimeDto overtime) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
-            Employee e = er.findById(user.getEmployee().getId()).get();
-            Project p = pr.findById(overtime.getProject_id()).get();
-            messageHelper.setTo(e.getEmail());
+            Overtime o = or.findById(id).get();
+            messageHelper.setTo(o.getEmployee().getEmail());
             messageHelper.setSubject("Overtime Confirmation email");
-            String content = otConfirmation.build(e.getFirst_name(), overtime.getStatus()? Status.APPROVED : Status.REJECTED);
+            String content = otConfirmation.build(o.getEmployee().getFirst_name(), overtime.getStatus()? Status.APPROVED : Status.REJECTED);
             messageHelper.setText(content, true);
         };
         mailSender.send(messagePreparator);

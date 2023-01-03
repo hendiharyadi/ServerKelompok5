@@ -93,8 +93,6 @@ public class PermissionService {
     }
     
     public Permission update(Integer id, PermissionDto permission){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Permission permit = permissionRepository.findById(id).get();
         Status stat = permission.getStatus() ? Status.APPROVED : Status.REJECTED;
         permit.setStatus(stat);
@@ -109,8 +107,6 @@ public class PermissionService {
     }
     
     public void sendConfirmationMail(Integer id, PermissionDto permission) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
             Permission permit = permissionRepository.findById(id).get();
