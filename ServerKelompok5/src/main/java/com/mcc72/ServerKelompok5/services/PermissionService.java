@@ -96,7 +96,7 @@ public class PermissionService {
         Permission permit = permissionRepository.findById(id).get();
         Status stat = permission.getStatus() ? Status.APPROVED : Status.REJECTED;
         permit.setStatus(stat);
-        hps.create(permit, permission.getEmployee_id());
+        hps.create(permit, permit.getEmployee().getId());
         return permissionRepository.save(permit);
     }
     

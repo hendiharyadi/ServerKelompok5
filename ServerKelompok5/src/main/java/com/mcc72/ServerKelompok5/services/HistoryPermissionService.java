@@ -45,15 +45,15 @@ public class HistoryPermissionService {
     }
     
     public HistoryPermission create(Permission historyPermission, int id){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+       /* Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();*/
         HistoryPermission hp = new HistoryPermission();
         hp.setPermission(historyPermission);
 //        hp.setDate_history(new Timestamp(System.currentTimeMillis()));
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         hp.setDate_history(ts);
-        hp.setEmployee(user.getEmployee());
+        hp.setEmployee(userRepository.findById(id).get().getEmployee());
         return historyPermissionRepository.save(hp);
     }
     
