@@ -19,4 +19,5 @@ public class PermissionDto {
     private String note;
     private Boolean status;
     private int employee_id;
+    private int leave_day;
 }

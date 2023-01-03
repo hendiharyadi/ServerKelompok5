@@ -56,6 +56,12 @@ public class EmployeeService {
                 new ParameterizedTypeReference<Employee>() {
                 }).getBody();
     }
+
+    public Employee employeeLogin(){
+        return restTemplate.exchange(url + "/dashboard" , HttpMethod.GET, null,
+                new ParameterizedTypeReference<Employee>() {
+                }).getBody();
+    }
     
     public Employee create(UserRegistrationDto employee) {
         return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(employee),

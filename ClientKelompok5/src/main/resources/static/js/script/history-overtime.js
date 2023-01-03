@@ -31,7 +31,6 @@ const detailOvertimeHistory = async (id) => {
     $("#detail-date-start").val(json.overtime.start_overtime);
     $("#detail-date-end").val(json.overtime.end_overtime);
     document.getElementById("detailNote").textContent = json.overtime.note;
-    console.log(json);
   } catch (e) {
     console.log(e);
   }

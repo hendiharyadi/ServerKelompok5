@@ -8,7 +8,7 @@ const loadTable = async () => {
   await getStock();
   document
     .getElementById("trigger-addPermission")
-    .addEventListener("click", preAddEmployee);
+    .addEventListener("click", preAddPermission);
 
   try {
     const res = await fetch(URL);
@@ -20,10 +20,11 @@ const loadTable = async () => {
       });
     }
     const json = await res.json();
+    const sortedJson = json.sort((a, b) => b.id - a.id);
     const tableWrapper = document.getElementById("table-wrapper");
     tableWrapper.innerHTML = "";
     let i = 0;
-    json.forEach((p) => {
+    sortedJson.forEach((p) => {
       i += 1;
       tableWrapper.innerHTML += tableContent(
         i,
@@ -39,7 +40,7 @@ const loadTable = async () => {
   }
 };
 
-const preAddEmployee = () => {
+const preAddPermission = () => {
   const noteWrapper = document.getElementById("note-add-wrapper");
   const permissionType = document.getElementById("input-permissionType");
   permissionType.addEventListener("change", (event) => {
@@ -52,12 +53,28 @@ const preAddEmployee = () => {
       noteWrapper.classList.remove("d-none");
     }
   });
+
+  const dateNow = currentDate();
+  $("#input-date-start").attr("min", dateNow);
+  $("#input-date-end").attr("min", dateNow);
 };
 
 const days = (date_1, date_2) => {
   let difference = date_1 - date_2;
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
   return TotalDays;
+};
+
+const currentDate = () => {
+  const dtToday = new Date();
+
+  let month = dtToday.getMonth() + 1;
+  let day = dtToday.getDate();
+  const year = dtToday.getFullYear();
+  if (month < 10) month = "0" + month.toString();
+  if (day < 10) day = "0" + day.toString();
+
+  return year + "-" + month + "-" + day;
 };
 
 const submitPermission = async () => {
@@ -73,11 +90,11 @@ const submitPermission = async () => {
     const start = new Date(start_leave).getTime();
     const end = new Date(end_leave).getTime();
     leave_day = days(end, start);
-    if (stock === 0) {
+    if (leave_day > stock) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Can't add a request type CUTI, because leave stock has run out",
+        text: "Tidak bisa mengajukan cuti karena jumlah request lebih besar dari stok cuti yang tersedia!",
       });
       return;
     }
@@ -109,6 +126,7 @@ const submitPermission = async () => {
       end_leave,
       note,
       status: false,
+      leave_day: 1,
     }),
     contentType: "application/json",
     success: async (result) => {
@@ -118,6 +136,9 @@ const submitPermission = async () => {
       btnSubmit.classList.remove("d-none");
       $("#modalAddItem").modal("hide");
       await loadTable();
+      $("#input-date-start").val("");
+      $("#input-date-end").val("");
+      $("#input-permissionType").val("0").change();
     },
     error: function (xhr, ajaxOptions, thrownError) {
       Swal.fire({
@@ -133,8 +154,6 @@ const submitPermission = async () => {
 };
 
 const tableContent = (no, id, leave_type, start_date, end_date, status) => {
-  /* const start = new Date(start_date).toISOString().slice(0, 10);
-  const end = new Date(end_date).toISOString().slice(0, 10);*/
   let classStatus = "";
   if (status === "PENDING") {
     classStatus = "bg-warning";

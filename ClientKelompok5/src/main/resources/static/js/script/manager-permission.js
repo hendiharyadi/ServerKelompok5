@@ -23,6 +23,10 @@ const loadDataTable = async () => {
         classStatus = "bg-danger";
       }
       const type = e.leave_type === "CUTI" ? 1 : 2;
+      const total_day = days(
+        new Date(e.end_leave).getTime(),
+        new Date(e.start_leave).getTime()
+      );
       tableWrapper.innerHTML += `  <tr>
                           <td>${i}</td>
                           <td>${e.employee.first_name}</td>
@@ -52,7 +56,7 @@ const loadDataTable = async () => {
                               data-bs-target="#modalUpdateLeave"
                               onclick="preUpdatePermission(${e.id}, ${type}, ${
         e.employee.id
-      })"
+      },${total_day})"
                             >
                               <i class="mdi mdi-account-edit"></i>
                               Update
@@ -94,43 +98,52 @@ const detailPermission = async (id) => {
   }
 };
 
-const preUpdatePermission = (id, leave_type, employee_id) => {
+const preUpdatePermission = (id, leave_type, employee_id, total_day) => {
+  // console.log({ id, leave_type, employee_id, start_leave, end_leave });
   $("#leave-type").val(leave_type);
   $("#request-id").val(id);
   $("#employee-id").val(employee_id);
+  $("#total_day").val(total_day);
+};
+
+const days = (date_1, date_2) => {
+  let difference = date_1 - date_2;
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  return TotalDays;
 };
 
 const updatePermission = () => {
   const btnSpinner = document.getElementById("spinner-button");
   const btnUpdate = document.getElementById("update-data");
-  btnSpinner.classList.remove("d-none");
-  btnUpdate.classList.add("d-none");
 
   const updateStatus = $("#update-status").find(":selected").val();
   const leave_type = $("#leave-type").val();
   const employee_id = $("#employee-id").val();
+  const leave_day = $("#total_day").val();
   const id = $("#request-id").val();
-  console.log({
-    leave_type: leave_type === "1",
-    start_leave: "",
-    end_leave: "",
-    note: "",
-    status: updateStatus === "1",
-    employee_id,
-  });
 
+  if (updateStatus === "0") {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Update permission harus di isi!",
+    });
+  }
+  btnSpinner.classList.remove("d-none");
+  btnUpdate.classList.add("d-none");
   $.ajax({
     url: "/api/permission/" + id,
     method: "PUT",
     dataType: "JSON",
     beforeSend: addCsrfToken(),
     data: JSON.stringify({
-      leave_type: true,
+      leave_type: leave_type === "1",
       start_leave: "",
       end_leave: "",
       note: "",
       status: updateStatus === "1",
       employee_id,
+      leave_day,
     }),
     contentType: "application/json",
     success: async (result) => {

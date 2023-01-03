@@ -11,7 +11,7 @@ const tableContent = (no, id, name, status, members) => {
                   >${status === true ? "Finish" : "Running"}</span
                 >
               </td>
-              <td>${members === 0 ? "-" : members}</td>
+              <td>${members === 0 ? "-" : members.length}</td>
               <td>
                 <button
                   class="btn btn-sm bg-gradient btn-dark"
@@ -22,15 +22,7 @@ const tableContent = (no, id, name, status, members) => {
                   <i class="mdi mdi-eye"></i>
                   Check Member
                 </button>
-                <button
-                  class="btn btn-sm bg-gradient btn-primary bg-cyan border-0"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalAddMember"
-                  onclick="beforeAddMember()"
-                >
-                  <i class="mdi mdi-plus"></i>
-                  Add Member
-                </button>
+                
                 <span
                   class="btn btn-sm bg-gradient btn-orange text-white"
                   data-bs-toggle="modal"
@@ -62,6 +54,7 @@ const getAllProject = () => {
       console.log(results);
       const tableWrapper = document.getElementById("table-wrapper");
       let i = 0;
+      tableWrapper.innerHTML = "";
       results.forEach((e) => {
         i += 1;
         tableWrapper.innerHTML += tableContent(
@@ -84,8 +77,25 @@ const getAllProject = () => {
   });
 };
 
-const checkMember = () => {
-  console.log("Check Member");
+const checkMember = async (id) => {
+  try {
+    const res = await fetch(`${URL}/members/${id}`);
+    const json = await res.json();
+    const tableMember = document.getElementById("table-member");
+    tableMember.innerHTML = "";
+    console.log(json);
+    let i = 0;
+    json.forEach((m) => {
+      i += 1;
+      tableMember.innerHTML += `<tr>
+                      <th scope="row">${i}</th>
+                      <td>${m.first_name}</td>
+                      <td>${m.email}</td>
+                    </tr>`;
+    });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const beforeEditProject = (id) => {
@@ -95,24 +105,9 @@ const beforeEditProject = (id) => {
     dataType: "JSON",
     contentType: "application/json",
     success: (result) => {
-      const { name, status } = result;
-      $("#edit-project-name").val(name);
-      if (status === true) {
-        document.getElementById("isFinished").setAttribute("checked", "");
-        document.getElementById("text-status").value = "Selesai";
-      } else {
-        document.getElementById("isFinished").removeAttribute("checked");
-        document.getElementById("text-status").value = "Belum selesai";
-      }
-      /*$("#isFinished").on("change", function () {
-        if ($(this).is(":checked")) {
-          console.log("finish");
-          $("#text-status").val("Finish");
-        } else {
-          console.log("on going");
-          $("#text-status").val("On Going");
-        }
-      });*/
+      $("#edit-project-name").val(result.name);
+      /*$("#edit-date-start").val(result.start_project);
+      $("#edit-date-end").val(result.end_project);*/
       $("#project-edit-id").val(id);
     },
     error: function (xhr, ajaxOptions, thrownError) {
@@ -128,9 +123,21 @@ const beforeEditProject = (id) => {
 
 const editProject = () => {
   const id = $("#project-edit-id").val();
-  const status = $("#isFinished").is(":checked");
   const name = $("#edit-project-name").val();
-  console.log({ id, status, name });
+  const btnSubmit = document.getElementById("edit-project");
+  const btnSpinner = document.getElementById("spinner-button-edit");
+
+  if (name.trim() === "") {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Fill in all the data in this form",
+    });
+    return;
+  }
+
+  btnSubmit.classList.add("d-none");
+  btnSpinner.classList.remove("d-none");
   $.ajax({
     url: URL + "/" + id,
     method: "PUT",
@@ -138,13 +145,13 @@ const editProject = () => {
     beforeSend: addCsrfToken(),
     data: JSON.stringify({
       name,
-      status,
     }),
     contentType: "application/json",
     success: (result) => {
-      Swal.fire("Saved!", "", "success").then(
-        (r) => (window.location.href = "")
-      );
+      getAllProject();
+      btnSubmit.classList.remove("d-none");
+      btnSpinner.classList.add("d-none");
+      Swal.fire("Saved!", "", "success");
       console.log(result);
       $("#modalEditProject").modal("hide");
     },
@@ -154,59 +161,69 @@ const editProject = () => {
         title: "Oops...",
         text: "Something went wrong!",
       });
+      btnSubmit.classList.remove("d-none");
+      btnSpinner.classList.add("d-none");
       console.log({ xhr, ajaxOptions, thrownError });
     },
   });
 };
 
-const beforeAddMember = () => {};
-
 const loadPage = () => {
   getAllProject();
-  const triggerAddProject = document.getElementById("trigger-add-project");
-  const triggerAddMember = document.getElementById(
-    "trigger-add-member-project"
-  );
-  const triggerDeleteProject = document.getElementById(
-    "trigger-delete-project"
-  );
-  const triggerUpdateProject = document.getElementById("trigger-edit-project");
-  // add project
-  triggerAddProject.addEventListener("click", () => {
-    document.getElementById("submit-project").addEventListener("click", () => {
-      const name = document.getElementById("input-project-name").value;
-      $.ajax({
-        url: URL,
-        method: "POST",
-        dataType: "JSON",
-        data: JSON.stringify({
-          name,
-        }),
-        contentType: "application/json",
-        success: (result) => {
-          console.log(result);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!",
-          });
-          console.log({ xhr, ajaxOptions, thrownError });
-        },
-      });
+};
+
+const createProject = () => {
+  const name = document.getElementById("input-project-name").value;
+  const btnSubmit = document.getElementById("submit-project");
+  const btnSpinner = document.getElementById("spinner-button");
+
+  const start_project = $("#input-date-start").val();
+  const end_project = $("#input-date-end").val();
+
+  if (name.trim() === "" || start_project === "" || end_project === "") {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Fill in all the data in this form",
     });
-  });
+    return;
+  }
 
-  // add member
-  triggerAddMember.addEventListener("click", () => {});
+  btnSubmit.classList.add("d-none");
+  btnSpinner.classList.remove("d-none");
 
-  // update project
-  triggerUpdateProject.addEventListener("click", () => {});
-
-  // delete project
-  triggerDeleteProject.addEventListener("click", () => {
-    deleteProject(1);
+  $.ajax({
+    url: URL,
+    method: "POST",
+    dataType: "JSON",
+    beforeSend: addCsrfToken(),
+    data: JSON.stringify({
+      name,
+      start_project,
+      end_project,
+    }),
+    contentType: "application/json",
+    success: (result) => {
+      $("#input-date-start").val("");
+      $("#input-date-end").val("");
+      $("#input-project-name").val("");
+      getAllProject();
+      Swal.fire("Saved!", "", "success");
+      console.log(result);
+      btnSubmit.classList.remove("d-none");
+      btnSpinner.classList.add("d-none");
+      $("#modalAddProject").modal("hide");
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      btnSubmit.classList.remove("d-none");
+      btnSpinner.classList.add("d-none");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+      console.log({ xhr, ajaxOptions, thrownError });
+    },
   });
 };
 
@@ -237,9 +254,12 @@ const deleteProject = (id) => {
           beforeSend: addCsrfToken(),
           contentType: "application/json",
           success: (result) => {
-            swalWithBootstrapButtons
-              .fire("Deleted!", "Your file has been deleted.", "success")
-              .then((r) => (window.location.href = ""));
+            getAllProject();
+            swalWithBootstrapButtons.fire(
+              "Deleted!",
+              "Your file has been deleted.",
+              "success"
+            );
           },
           error: function (xhr, ajaxOptions, thrownError) {
             Swal.fire({

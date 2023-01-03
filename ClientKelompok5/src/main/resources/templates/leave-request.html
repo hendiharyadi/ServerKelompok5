@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -18,6 +18,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <meta name="robots" content="noindex,nofollow" />
     <title>FreeMonday | Leave Request</title>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all">
 
     <!-- Favicon icon -->
     <link
@@ -80,15 +81,15 @@
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                 <!-- Dark Logo icon -->
                 <img
-                        src="/images/logo-icon.png"
-                        alt="homepage"
-                        class="dark-logo"
+                  src="/images/logo-icon.png"
+                  alt="homepage"
+                  class="dark-logo"
                 />
                 <!-- Light Logo icon -->
                 <img
-                        src="/images/logo-light-icon.png"
-                        alt="homepage"
-                        class="light-logo"
+                  src="/images/logo-light-icon.png"
+                  alt="homepage"
+                  class="light-logo"
                 />
               </b>
               <!--End Logo icon -->
@@ -100,24 +101,23 @@
             <!-- ============================================================== -->
             <!-- This is for the sidebar toggle which is visible on mobile only -->
             <a
-                    class="nav-toggler waves-effect waves-light d-block d-md-none"
-                    href="javascript:void(0)"
-            ><i class="mdi mdi-menu"></i
+              class="nav-toggler waves-effect waves-light d-block d-md-none"
+              href="javascript:void(0)"
+              ><i class="mdi mdi-menu"></i
             ></a>
           </div>
           <!-- ============================================================== -->
           <!-- End Logo -->
           <!-- ============================================================== -->
           <div
-                  class="navbar-collapse collapse"
-                  id="navbarSupportedContent"
-                  data-navbarbg="skin5"
+            class="navbar-collapse collapse"
+            id="navbarSupportedContent"
+            data-navbarbg="skin5"
           >
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav float-start me-auto">
-            </ul>
+            <ul class="navbar-nav float-start me-auto"></ul>
             <!-- ============================================================== -->
             <!-- Right side toggle and nav items -->
             <!-- ============================================================== -->
@@ -126,8 +126,13 @@
               <!-- User profile and search -->
               <!-- ============================================================== -->
               <form class="d-flex" th:action="@{/logout}" th:method="POST">
-
-                <button onclick="return confirm('Are you sure want to logout?')" class="btn btn-danger text-white" type="submit"><i class="mdi mdi-logout me-1"></i>Logout</button>
+                <button
+                  onclick="return confirm('Are you sure want to logout?')"
+                  class="btn btn-danger text-white"
+                  type="submit"
+                >
+                  <i class="mdi mdi-logout me-1"></i>Logout
+                </button>
               </form>
               <!-- ============================================================== -->
               <!-- User profile and search -->
@@ -155,6 +160,24 @@
                   aria-expanded="false"
                   ><i class="mdi mdi-view-dashboard"></i
                   ><span class="hide-menu">Dashboard</span></a
+                >
+              </li>
+              <li class="sidebar-item" sec:authorize="hasRole('ADMIN')">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/admin"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-worker"></i
+                  ><span class="hide-menu">Admin Dashboard</span></a
+                >
+              </li>
+              <li class="sidebar-item" sec:authorize="hasRole('MANAGER')">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/manager"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-nature-people"></i
+                  ><span class="hide-menu">Manager Dashboard</span></a
                 >
               </li>
               <li class="sidebar-item selected">
@@ -338,9 +361,10 @@
                   <div class="col-sm-12">
                     <select
                       class="form-select shadow-none form-control-line"
-                      id="input-permissionType" required
+                      id="input-permissionType"
+                      required
                     >
-                      <option selected>Pilih permission</option>
+                      <option value="0" selected>Pilih permission</option>
                       <option value="1">Cuti</option>
                       <option value="2">Izin</option>
                     </select>
@@ -355,7 +379,8 @@
                       <input
                         type="date"
                         class="form-control"
-                        id="input-date-start" required
+                        id="input-date-start"
+                        required
                       />
                     </div>
                   </div>
@@ -369,7 +394,8 @@
                       <input
                         type="date"
                         class="form-control"
-                        id="input-date-end" required
+                        id="input-date-end"
+                        required
                       />
                     </div>
                   </div>
@@ -395,8 +421,17 @@
                     >
                       Close
                     </button>
-                    <button class="btn btn-primary d-none" type="button" id="spinner-button" disabled>
-                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <button
+                      class="btn btn-primary d-none"
+                      type="button"
+                      id="spinner-button"
+                      disabled
+                    >
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
                       Loading...
                     </button>
                     <button
@@ -529,8 +564,12 @@
                 <div class="form-group" id="detail-note-wrapper">
                   <label class="col-md-12">Notes</label>
                   <div class="col-md-12">
-                    <textarea rows="5" class="form-control form-control-line" id="detail-note" disabled></textarea
-                    >
+                    <textarea
+                      rows="5"
+                      class="form-control form-control-line"
+                      id="detail-note"
+                      disabled
+                    ></textarea>
                   </div>
                 </div>
 

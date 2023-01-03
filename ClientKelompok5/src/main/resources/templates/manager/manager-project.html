@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -82,15 +82,15 @@
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                 <!-- Dark Logo icon -->
                 <img
-                        src="/images/logo-icon.png"
-                        alt="homepage"
-                        class="dark-logo"
+                  src="/images/logo-icon.png"
+                  alt="homepage"
+                  class="dark-logo"
                 />
                 <!-- Light Logo icon -->
                 <img
-                        src="/images/logo-light-icon.png"
-                        alt="homepage"
-                        class="light-logo"
+                  src="/images/logo-light-icon.png"
+                  alt="homepage"
+                  class="light-logo"
                 />
               </b>
               <!--End Logo icon -->
@@ -102,24 +102,23 @@
             <!-- ============================================================== -->
             <!-- This is for the sidebar toggle which is visible on mobile only -->
             <a
-                    class="nav-toggler waves-effect waves-light d-block d-md-none"
-                    href="javascript:void(0)"
-            ><i class="mdi mdi-menu"></i
+              class="nav-toggler waves-effect waves-light d-block d-md-none"
+              href="javascript:void(0)"
+              ><i class="mdi mdi-menu"></i
             ></a>
           </div>
           <!-- ============================================================== -->
           <!-- End Logo -->
           <!-- ============================================================== -->
           <div
-                  class="navbar-collapse collapse"
-                  id="navbarSupportedContent"
-                  data-navbarbg="skin5"
+            class="navbar-collapse collapse"
+            id="navbarSupportedContent"
+            data-navbarbg="skin5"
           >
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav float-start me-auto">
-            </ul>
+            <ul class="navbar-nav float-start me-auto"></ul>
             <!-- ============================================================== -->
             <!-- Right side toggle and nav items -->
             <!-- ============================================================== -->
@@ -128,8 +127,13 @@
               <!-- User profile and search -->
               <!-- ============================================================== -->
               <form class="d-flex" th:action="@{/logout}" th:method="POST">
-
-                <button onclick="return confirm('Are you sure want to logout?')" class="btn btn-danger text-white" type="submit"><i class="mdi mdi-logout me-1"></i>Logout</button>
+                <button
+                  onclick="return confirm('Are you sure want to logout?')"
+                  class="btn btn-danger text-white"
+                  type="submit"
+                >
+                  <i class="mdi mdi-logout me-1"></i>Logout
+                </button>
               </form>
               <!-- ============================================================== -->
               <!-- User profile and search -->
@@ -159,13 +163,22 @@
                   ><span class="hide-menu">Dashboard</span></a
                 >
               </li>
-              <li class="sidebar-item">
+              <li class="sidebar-item" sec:authorize="hasRole('ADMIN')">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="/admin"
                   aria-expanded="false"
-                  ><i class="mdi mdi-account-settings"></i
+                  ><i class="mdi mdi-worker"></i
                   ><span class="hide-menu">Admin Dashboard</span></a
+                >
+              </li>
+              <li class="sidebar-item" sec:authorize="hasRole('MANAGER')">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/manager"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-nature-people"></i
+                  ><span class="hide-menu">Manager Dashboard</span></a
                 >
               </li>
               <li class="sidebar-item">
@@ -277,9 +290,7 @@
                           <th class="border-top-0">Action</th>
                         </tr>
                       </thead>
-                      <tbody id="table-wrapper">
-
-                      </tbody>
+                      <tbody id="table-wrapper"></tbody>
                     </table>
                   </div>
                 </div>
@@ -319,7 +330,7 @@
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
@@ -346,6 +357,32 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label for class="col-md-12">Start Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date" id="datepicker">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="input-date-start"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for class="col-md-12">End Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="input-date-end"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
                   <div
                     class="col-sm-12 d-flex align-items-center justify-content-end gap-2"
                   >
@@ -357,9 +394,23 @@
                       Close
                     </button>
                     <button
+                      class="btn btn-primary d-none"
+                      type="button"
+                      id="spinner-button"
+                      disabled
+                    >
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Loading...
+                    </button>
+                    <button
                       class="btn btn-primary text-white"
                       type="button"
                       id="submit-project"
+                      onclick="createProject()"
                     >
                       Save Changes
                     </button>
@@ -404,14 +455,10 @@
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Name</th>
+                      <th scope="col">Email</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Abdul Mutohir</td>
-                    </tr>
-                  </tbody>
+                  <tbody id="table-member"></tbody>
                 </table>
               </div>
             </div>
@@ -501,7 +548,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Add Project Form</h5>
+              <h5 class="modal-title">Edit Project Form</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -517,16 +564,37 @@
                     <input type="hidden" id="project-edit-id" />
                     <input
                       type="text"
-                      value="Payment for clients"
                       id="edit-project-name"
                       class="form-control form-control-line"
                     />
                   </div>
                 </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="isFinished">
-                  <span class="form-check-label" id="text-status">Selesai</span>
+                <!-- <div class="form-group">
+                  <label for class="col-md-12">Start Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="edit-date-start"
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
+                <div class="form-group">
+                  <label for class="col-md-12">End Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="edit-date-end"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>-->
                 <div class="form-group">
                   <div
                     class="col-sm-12 d-flex align-items-center justify-content-end gap-2"
@@ -536,9 +604,26 @@
                       class="btn btn-secondary"
                       data-bs-dismiss="modal"
                     >
-                      Close
+                      Close</button
+                    ><button
+                      class="btn btn-primary d-none"
+                      type="button"
+                      id="spinner-button-edit"
+                      disabled
+                    >
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Loading...
                     </button>
-                    <button class="btn btn-primary text-white" type="button" onclick="editProject()">
+                    <button
+                      class="btn btn-primary text-white"
+                      type="button"
+                      id="edit-project"
+                      onclick="editProject()"
+                    >
                       Save Changes
                     </button>
                   </div>

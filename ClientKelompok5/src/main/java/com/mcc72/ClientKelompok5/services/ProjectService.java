@@ -2,6 +2,7 @@ package com.mcc72.ClientKelompok5.services;
 
 import com.mcc72.ClientKelompok5.models.dto.ProjectDto;
 import com.mcc72.ClientKelompok5.models.dto.ProjectResponse;
+import com.mcc72.ClientKelompok5.models.entities.Employee;
 import com.mcc72.ClientKelompok5.models.entities.Project;
 import com.mcc72.ClientKelompok5.util.BasicHeader;
 import java.util.List;
@@ -36,10 +37,16 @@ public class ProjectService {
                 new ParameterizedTypeReference<List<ProjectResponse>>(){
                 }).getBody();
     }
+
+    public List<Employee> getAllMembers(int id){
+        return restTemplate.exchange(url + "/members/" + id, HttpMethod.GET, new HttpEntity(BasicHeader.createHeaders()),
+                new ParameterizedTypeReference<List<Employee>>(){
+                }).getBody();
+    }
     
-    public Project getById(int id){
+    public ProjectResponse getById(int id){
         return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
-                new ParameterizedTypeReference<Project>() {
+                new ParameterizedTypeReference<ProjectResponse>() {
                 }).getBody();
     }
     

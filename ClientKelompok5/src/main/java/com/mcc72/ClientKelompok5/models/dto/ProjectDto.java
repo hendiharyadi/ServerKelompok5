@@ -14,5 +14,9 @@ import lombok.NoArgsConstructor;
 public class ProjectDto {
     
     private String name;
-    private boolean status;
+    private String start_project;
+    private String end_project;
+
+
+
 }

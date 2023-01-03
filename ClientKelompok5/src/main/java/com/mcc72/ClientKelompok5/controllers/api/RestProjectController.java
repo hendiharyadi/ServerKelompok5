@@ -2,6 +2,7 @@ package com.mcc72.ClientKelompok5.controllers.api;
 
 import com.mcc72.ClientKelompok5.models.dto.ProjectDto;
 import com.mcc72.ClientKelompok5.models.dto.ProjectResponse;
+import com.mcc72.ClientKelompok5.models.entities.Employee;
 import com.mcc72.ClientKelompok5.models.entities.Project;
 import com.mcc72.ClientKelompok5.services.ProjectService;
 import java.util.List;
@@ -30,9 +31,14 @@ public class RestProjectController {
     public List<ProjectResponse> getAll(){
         return projectService.getAll();
     }
-    
+
+    @GetMapping("/members/{id}")
+    public List<Employee> getAllMembers(@PathVariable int id){
+        return projectService.getAllMembers(id);
+    }
+
     @GetMapping("/{id}")
-    public Project getById(@PathVariable int id){
+    public ProjectResponse getById(@PathVariable int id){
         return projectService.getById(id);
     }
 

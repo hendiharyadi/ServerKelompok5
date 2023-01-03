@@ -1,5 +1,5 @@
 const URL = "/api/overtime";
-
+let projects;
 const submitData = () => {
   const btnSpinner = document.getElementById("spinner-button");
   const btnSubmit = document.getElementById("btn-submit");
@@ -74,23 +74,43 @@ const loadData = async () => {
     const tableWrapper = document.getElementById("table-wrapper");
     tableWrapper.innerHTML = "";
     let i = 0;
-    json.forEach((p) => {
-      i += 1;
-      tableWrapper.innerHTML += tableContent(
-        i,
-        p.id,
-        p.start_overtime,
-        p.end_overtime,
-        p.project.name,
-        p.status
-      );
-    });
+    json
+      .sort((a, b) => b.id - a.id)
+      .forEach((p) => {
+        i += 1;
+        tableWrapper.innerHTML += tableContent(
+          i,
+          p.id,
+          p.start_overtime,
+          p.end_overtime,
+          p.project.name,
+          p.status
+        );
+      });
   } catch (e) {
     console.log(e);
   }
 };
 const loadedPage = async () => {
   await loadData();
+};
+
+const beforeAddOvertime = async () => {
+  const today = new Date().toISOString().slice(0, 16);
+  document.getElementsByName("start")[0].min = today;
+  document.getElementsByName("end")[0].min = today;
+  const selectProject = document.getElementById("input-select-project");
+  selectProject.innerHTML = "";
+  selectProject.add(generateOption(0, "Select Project", true));
+  try {
+    const res = await fetch("/api/employee/dashboard");
+    const json = await res.json();
+    json.employeeProject.forEach((p) =>
+      selectProject.add(generateOption(p.id, p.name, false))
+    );
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const detailOvertime = async (id) => {
@@ -109,8 +129,8 @@ const detailOvertime = async (id) => {
 const tableContent = (no, id, start_date, end_date, project_name, status) => {
   return ` <tr>
               <td>${no}</td>
-              <td>${start_date}</td>
-              <td>${end_date}</td>
+              <td>${new Date(start_date).toLocaleString()}</td>
+              <td>${new Date(end_date).toLocaleString()}</td>
               <td>${project_name}</td>
               <td>
                 <label class="badge ${
@@ -129,4 +149,13 @@ const tableContent = (no, id, start_date, end_date, project_name, status) => {
               </td>
             </tr>`;
 };
+
+const generateOption = (id, name, isSelected) => {
+  const option = document.createElement("option");
+  option.value = id;
+  option.text = name;
+  option.selected = isSelected;
+  return option;
+};
+
 window.addEventListener("load", loadedPage);

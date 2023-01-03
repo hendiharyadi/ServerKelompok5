@@ -36,6 +36,11 @@ public class EmployeeRestController {
     public List<Employee> getAll(){
         return employeeService.getAll();
     }
+
+    @GetMapping("/dashboard")
+    public Employee getUserLoginData(){
+        return employeeService.employeeLogin();
+    }
     
     @GetMapping("/{id}")
     public Employee getById(@PathVariable int id){
