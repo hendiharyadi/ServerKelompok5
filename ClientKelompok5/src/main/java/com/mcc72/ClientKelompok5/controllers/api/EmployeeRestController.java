@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.mcc72.ClientKelompok5.services.ManagerService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/employee")
 @AllArgsConstructor
+@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
 public class EmployeeRestController {
     private ManagerService managerService;
     private EmployeeService employeeService;
@@ -42,6 +44,7 @@ public class EmployeeRestController {
         return employeeService.employeeLogin();
     }
     
+    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("/{id}")
     public Employee getById(@PathVariable int id){
         return employeeService.getById(id);
@@ -66,17 +69,20 @@ public class EmployeeRestController {
     public List<EmployeeResponse> getStaff(){
         return employeeService.getMyStaff();
     }
-
+    
+    @PreAuthorize("hasAuthority('CREATE_ADMIN')")
     @PostMapping
     public Employee create (@RequestBody UserRegistrationDto employee){
         return employeeService.create(employee);
     }
     
+    @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
     @PutMapping("/{id}")
     public Employee update (@PathVariable int id, @RequestBody UserRegistrationDto employee){
         return employeeService.update(id, employee);
     }
-
+    
+    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
     public String delete (@PathVariable int id){
        return employeeService.delete(id);
