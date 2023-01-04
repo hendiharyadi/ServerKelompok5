@@ -45,6 +45,12 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style>
+      ::placeholder {
+        opacity: 0.5 !important; /* Firefox */
+      }
+    </style>
   </head>
 
   <body>
@@ -120,8 +126,7 @@
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav float-start me-auto">
-            </ul>
+            <ul class="navbar-nav float-start me-auto"></ul>
             <!-- ============================================================== -->
             <!-- Right side toggle and nav items -->
             <!-- ============================================================== -->
@@ -130,8 +135,13 @@
               <!-- User profile and search -->
               <!-- ============================================================== -->
               <form class="d-flex" th:action="@{/logout}" th:method="POST">
-
-                <button onclick="return confirm('Are you sure want to logout?')" class="btn btn-danger text-white" type="submit"><i class="mdi mdi-logout me-1"></i>Logout</button>
+                <button
+                  onclick="return confirm('Are you sure want to logout?')"
+                  class="btn btn-danger text-white"
+                  type="submit"
+                >
+                  <i class="mdi mdi-logout me-1"></i>Logout
+                </button>
               </form>
               <!-- ============================================================== -->
               <!-- User profile and search -->
@@ -283,9 +293,7 @@
                           <th class="border-top-0">Action</th>
                         </tr>
                       </thead>
-                      <tbody id="table-wrapper">
-
-                      </tbody>
+                      <tbody id="table-wrapper"></tbody>
                     </table>
                   </div>
                 </div>
@@ -339,7 +347,9 @@
             <div class="modal-body">
               <form class="form-horizontal form-material mx-2 text-dark">
                 <div class="form-group">
-                  <label class="col-md-12" for="input-fName">First Name</label>
+                  <label class="col-md-12 text-dark" for="input-fName"
+                    >First Name</label
+                  >
                   <div class="col-md-12">
                     <input
                       type="text"
@@ -451,8 +461,17 @@
                     >
                       Close
                     </button>
-                    <button class="btn btn-primary d-none" type="button" id="spinner-button" disabled>
-                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <button
+                      class="btn btn-primary d-none"
+                      type="button"
+                      id="spinner-button"
+                      disabled
+                    >
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
                       Loading...
                     </button>
                     <button
@@ -620,7 +639,7 @@
                 <div class="form-group">
                   <label class="col-md-12">First Name</label>
                   <div class="col-md-12">
-                    <input type="hidden" id="edit-id">
+                    <input type="hidden" id="edit-id" />
                     <input
                       type="text"
                       placeholder="John"

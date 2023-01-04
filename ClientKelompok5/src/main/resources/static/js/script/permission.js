@@ -1,5 +1,7 @@
 const URL = "/api/permission";
 let stock = 0;
+const notFoundWrapper = document.getElementById("data-not-found");
+const tableContentWrapper = document.getElementById("table-content");
 const loadedData = async () => {
   await loadTable();
 };
@@ -20,21 +22,29 @@ const loadTable = async () => {
       });
     }
     const json = await res.json();
-    const sortedJson = json.sort((a, b) => b.id - a.id);
     const tableWrapper = document.getElementById("table-wrapper");
     tableWrapper.innerHTML = "";
     let i = 0;
-    sortedJson.forEach((p) => {
-      i += 1;
-      tableWrapper.innerHTML += tableContent(
-        i,
-        p.id,
-        p.leave_type,
-        p.start_leave,
-        p.end_leave,
-        p.status
-      );
-    });
+    if (json.length !== 0) {
+      tableContentWrapper.classList.remove("d-none");
+      notFoundWrapper.classList.add("d-none");
+      json
+        .sort((a, b) => b.id - a.id)
+        .forEach((p) => {
+          i += 1;
+          tableWrapper.innerHTML += tableContent(
+            i,
+            p.id,
+            p.leave_type,
+            p.start_leave,
+            p.end_leave,
+            p.status
+          );
+        });
+    } else {
+      tableContentWrapper.classList.add("d-none");
+      notFoundWrapper.classList.remove("d-none");
+    }
   } catch (e) {
     console.log(e);
   }

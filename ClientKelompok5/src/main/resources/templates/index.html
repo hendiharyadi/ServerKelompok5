@@ -76,15 +76,15 @@
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                 <!-- Dark Logo icon -->
                 <img
-                        src="/images/logo-icon.png"
-                        alt="homepage"
-                        class="dark-logo"
+                  src="/images/logo-icon.png"
+                  alt="homepage"
+                  class="dark-logo"
                 />
                 <!-- Light Logo icon -->
                 <img
-                        src="/images/logo-light-icon.png"
-                        alt="homepage"
-                        class="light-logo"
+                  src="/images/logo-light-icon.png"
+                  alt="homepage"
+                  class="light-logo"
                 />
               </b>
               <!--End Logo icon -->
@@ -96,24 +96,23 @@
             <!-- ============================================================== -->
             <!-- This is for the sidebar toggle which is visible on mobile only -->
             <a
-                    class="nav-toggler waves-effect waves-light d-block d-md-none"
-                    href="javascript:void(0)"
-            ><i class="mdi mdi-menu"></i
+              class="nav-toggler waves-effect waves-light d-block d-md-none"
+              href="javascript:void(0)"
+              ><i class="mdi mdi-menu"></i
             ></a>
           </div>
           <!-- ============================================================== -->
           <!-- End Logo -->
           <!-- ============================================================== -->
           <div
-                  class="navbar-collapse collapse"
-                  id="navbarSupportedContent"
-                  data-navbarbg="skin5"
+            class="navbar-collapse collapse"
+            id="navbarSupportedContent"
+            data-navbarbg="skin5"
           >
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav float-start me-auto">
-            </ul>
+            <ul class="navbar-nav float-start me-auto"></ul>
             <!-- ============================================================== -->
             <!-- Right side toggle and nav items -->
             <!-- ============================================================== -->
@@ -122,8 +121,13 @@
               <!-- User profile and search -->
               <!-- ============================================================== -->
               <form class="d-flex" th:action="@{/logout}" th:method="POST">
-
-                <button onclick="return confirm('Are you sure want to logout?')" class="btn btn-danger text-white" type="submit"><i class="mdi mdi-logout me-1"></i>Logout</button>
+                <button
+                  onclick="return confirm('Are you sure want to logout?')"
+                  class="btn btn-danger text-white"
+                  type="submit"
+                >
+                  <i class="mdi mdi-logout me-1"></i>Logout
+                </button>
               </form>
               <!-- ============================================================== -->
               <!-- User profile and search -->
@@ -247,31 +251,7 @@
             <div class="col-lg-8">
               <div class="card">
                 <div class="card-body">
-                  <div class="d-md-flex align-items-center">
-                    <div>
-                      <h4 class="card-title">Current PRoje</h4>
-                      <h6 class="card-subtitle">Ample admin Vs Pixel admin</h6>
-                    </div>
-                    <div class="ms-auto d-flex no-block align-items-center">
-                      <ul
-                        class="list-inline dl d-flex align-items-center m-r-15 m-b-0"
-                      >
-                        <li
-                          class="list-inline-item d-flex align-items-center text-info"
-                        >
-                          <i class="fa fa-circle font-10 me-1"></i> Ample
-                        </li>
-                        <li
-                          class="list-inline-item d-flex align-items-center text-primary"
-                        >
-                          <i class="fa fa-circle font-10 me-1"></i> Pixel
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="amp-pxl mt-4" style="height: 350px">
-                    <div class="chartist-tooltip"></div>
-                  </div>
+                  <canvas></canvas>
                 </div>
               </div>
             </div>
@@ -384,6 +364,12 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+      integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="/js/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

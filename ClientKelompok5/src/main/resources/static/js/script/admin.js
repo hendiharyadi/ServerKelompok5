@@ -33,6 +33,7 @@ const getManagers = () => {
     contentType: "application/json",
     success: (results) => {
       const inputManager = document.getElementById("input-manager");
+      inputManager.innerHTML = "";
       results.forEach((emp) =>
         inputManager.add(generateOption(emp.id, emp.first_name, false))
       );

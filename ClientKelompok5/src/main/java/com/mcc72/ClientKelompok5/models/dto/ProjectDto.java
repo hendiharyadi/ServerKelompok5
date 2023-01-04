@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  *
  * @author HP
@@ -17,6 +19,7 @@ public class ProjectDto {
     private String start_project;
     private String end_project;
 
+    private List<Integer> employees;
 
 
 }

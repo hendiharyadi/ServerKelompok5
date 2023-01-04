@@ -1,4 +1,6 @@
 const URL = "/api/overtime";
+const notFoundWrapper = document.getElementById("data-not-found");
+const tableContentWrapper = document.getElementById("table-content");
 let projects;
 const submitData = () => {
   const btnSpinner = document.getElementById("spinner-button");
@@ -74,25 +76,43 @@ const loadData = async () => {
     const tableWrapper = document.getElementById("table-wrapper");
     tableWrapper.innerHTML = "";
     let i = 0;
-    json
-      .sort((a, b) => b.id - a.id)
-      .forEach((p) => {
-        i += 1;
-        tableWrapper.innerHTML += tableContent(
-          i,
-          p.id,
-          p.start_overtime,
-          p.end_overtime,
-          p.project.name,
-          p.status
-        );
-      });
+    if (json.length !== 0) {
+      tableContentWrapper.classList.remove("d-none");
+      notFoundWrapper.classList.add("d-none");
+      json
+        .sort((a, b) => b.id - a.id)
+        .forEach((p) => {
+          i += 1;
+          tableWrapper.innerHTML += tableContent(
+            i,
+            p.id,
+            p.start_overtime,
+            p.end_overtime,
+            p.project.name,
+            p.status
+          );
+        });
+    } else {
+      tableContentWrapper.classList.add("d-none");
+      notFoundWrapper.classList.remove("d-none");
+    }
   } catch (e) {
     console.log(e);
   }
 };
 const loadedPage = async () => {
   await loadData();
+};
+
+const getCurrentDate = () => {
+  const currentDate = new Date();
+
+  const fullYear = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const date = currentDate.getDate();
+  return `${fullYear}-${month < 10 ? "0" + month : month}-${
+    date < 10 ? "0" + date : date
+  }`.trim();
 };
 
 const beforeAddOvertime = async () => {
@@ -105,12 +125,17 @@ const beforeAddOvertime = async () => {
   try {
     const res = await fetch("/api/employee/dashboard");
     const json = await res.json();
-    json.employeeProject.forEach((p) =>
-      selectProject.add(generateOption(p.id, p.name, false))
-    );
+
+    json.employeeProject.forEach((p) => {
+      if (getCurrentDate() !== p.end_project) {
+        selectProject.add(generateOption(p.id, p.name, false));
+      }
+    });
   } catch (e) {
     console.log(e);
   }
+
+  $("#input-overtime-date-start").attr("min");
 };
 
 const detailOvertime = async (id) => {

@@ -44,6 +44,11 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+      ::placeholder {
+        opacity: 0.5 !important; /* Firefox */
+      }
+    </style>
   </head>
 
   <body>
@@ -265,7 +270,7 @@
                     </div>
                   </div>
                   <!-- title -->
-                  <div class="table-responsive">
+                  <div id="table-content" class="table-responsive">
                     <table
                       class="table mb-0 table-hover align-middle text-nowrap"
                     >
@@ -282,6 +287,9 @@
                       </thead>
                       <tbody id="table-wrapper"></tbody>
                     </table>
+                  </div>
+                  <div class="card border-0 w-100 d-flex align-items-center my-4  d-none" id="data-not-found">
+                    <span class="w-25 bg-danger text-lg-center rounded text-white px-4 py-2">Data masih kosong!</span>
                   </div>
                 </div>
               </div>

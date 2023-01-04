@@ -1,14 +1,40 @@
 const URL = "/api/project";
 
-const tableContent = (no, id, name, status, members) => {
+let employees = [];
+let members = [];
+
+const URL_MEMBERS = "/api/employee/dashboard";
+
+const notFoundWrapper = document.getElementById("data-not-found");
+const tableContentWrapper = document.getElementById("table-content");
+
+const tableContent = (no, id, name, start, end, status, members) => {
+  let statusProject = false;
+  const currentdate = new Date();
+
+  const fullYear = currentdate.getFullYear();
+  const month = currentdate.getMonth() + 1;
+  const date = currentdate.getDate();
+  const dateNow = `${fullYear}-${month < 10 ? "0" + month : month}-${
+    date < 10 ? "0" + date : date
+  }`.trim();
+
+  if (dateNow === end) {
+    statusProject = true;
+  } else {
+    statusProject = false;
+    console.log(`Running`);
+  }
   return `<tr>
               <td>${no}</td>
               <td>${name}</td>
+              <td>${start}</td>
+              <td>${end}</td>
               <td>
                 <span class="badge bg-gradient ${
-                  status === true ? "bg-primary" : "bg-success"
+                  statusProject === true ? "bg-success" : "bg-warning"
                 }"
-                  >${status === true ? "Finish" : "Running"}</span
+                  >${statusProject === true ? "Finish" : "Running"}</span
                 >
               </td>
               <td>${members === 0 ? "-" : members.length}</td>
@@ -32,16 +58,84 @@ const tableContent = (no, id, name, status, members) => {
                   <i class="mdi mdi-account-edit"></i>
                   Edit
                 </span>
-                <span
-                  class="btn btn-sm bg-gradient btn-danger text-white"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalDeleteProject"
-                  onclick="deleteProject(${id})"
-                  ><i class="mdi mdi-delete"></i>
-                  Delete
-                </span>
+               
               </td>
             </tr>`;
+};
+
+/*<span
+    className="btn btn-sm bg-gradient btn-danger text-white"
+    data-bs-toggle="modal"
+    data-bs-target="#modalDeleteProject"
+    onClick="deleteProject(${id})"
+><i className="mdi mdi-delete"></i>
+                  Delete
+</span>*/
+
+const generateOption = (id, name, isSelected) => {
+  const option = document.createElement("option");
+  option.value = id;
+  option.text = name;
+  option.selected = isSelected;
+  return option;
+};
+
+const beforeAddProject = async () => {
+  const dateNow = currentDate();
+  const selectMembers = document.getElementById("select-members");
+  selectMembers.inner = "";
+  $("#input-date-start").attr("min", dateNow);
+  $("#input-date-end").attr("min", dateNow);
+
+  try {
+    const res = await fetch(URL_MEMBERS);
+    const json = await res.json();
+    employees = json.managers.map((e) => {
+      return { id: e.id, name: e.first_name, status: false };
+    });
+    employees.forEach((e) => {
+      selectMembers.add(generateOption(e.id, e.name, false));
+    });
+    $("#select-members").select2({
+      placeholder: "Select members",
+      allowClear: true,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const updateMember = (id, status) => {
+  const index = employees.findIndex((e) => e.id === id);
+  employees = employees.map((e) => {
+    if (e.id === id) {
+      e.status = !status;
+    }
+    return e;
+  });
+  /*employees.forEach((e) => {
+    if (e.status) {
+      members.push(e.id);
+    }
+  });*/
+  members = employees
+    .filter((e) => e.status === true)
+    .map((e) => {
+      return e.id;
+    });
+  loadTableMember();
+};
+
+const currentDate = () => {
+  const dtToday = new Date();
+
+  let month = dtToday.getMonth() + 1;
+  let day = dtToday.getDate();
+  const year = dtToday.getFullYear();
+  if (month < 10) month = "0" + month.toString();
+  if (day < 10) day = "0" + day.toString();
+
+  return year + "-" + month + "-" + day;
 };
 
 const getAllProject = () => {
@@ -51,20 +145,28 @@ const getAllProject = () => {
     dataType: "JSON",
     contentType: "application/json",
     success: (results) => {
-      console.log(results);
       const tableWrapper = document.getElementById("table-wrapper");
       let i = 0;
       tableWrapper.innerHTML = "";
-      results.forEach((e) => {
-        i += 1;
-        tableWrapper.innerHTML += tableContent(
-          i,
-          e.id,
-          e.name,
-          e.status,
-          e.members
-        );
-      });
+      if (results.length !== 0) {
+        tableContentWrapper.classList.remove("d-none");
+        notFoundWrapper.classList.add("d-none");
+        results.forEach((e) => {
+          i += 1;
+          tableWrapper.innerHTML += tableContent(
+            i,
+            e.id,
+            e.name,
+            e.start_project,
+            e.end_project,
+            e.status,
+            e.members
+          );
+        });
+      } else {
+        tableContentWrapper.classList.add("d-none");
+        notFoundWrapper.classList.remove("d-none");
+      }
     },
     error: function (xhr, ajaxOptions, thrownError) {
       Swal.fire({
@@ -83,7 +185,6 @@ const checkMember = async (id) => {
     const json = await res.json();
     const tableMember = document.getElementById("table-member");
     tableMember.innerHTML = "";
-    console.log(json);
     let i = 0;
     json.forEach((m) => {
       i += 1;
@@ -152,7 +253,6 @@ const editProject = () => {
       btnSubmit.classList.remove("d-none");
       btnSpinner.classList.add("d-none");
       Swal.fire("Saved!", "", "success");
-      console.log(result);
       $("#modalEditProject").modal("hide");
     },
     error: function (xhr, ajaxOptions, thrownError) {
@@ -173,6 +273,7 @@ const loadPage = () => {
 };
 
 const createProject = () => {
+  const allSelect = $("#select-members").val();
   const name = document.getElementById("input-project-name").value;
   const btnSubmit = document.getElementById("submit-project");
   const btnSpinner = document.getElementById("spinner-button");
@@ -201,6 +302,7 @@ const createProject = () => {
       name,
       start_project,
       end_project,
+      employees: allSelect,
     }),
     contentType: "application/json",
     success: (result) => {
@@ -209,7 +311,6 @@ const createProject = () => {
       $("#input-project-name").val("");
       getAllProject();
       Swal.fire("Saved!", "", "success");
-      console.log(result);
       btnSubmit.classList.remove("d-none");
       btnSpinner.classList.add("d-none");
       $("#modalAddProject").modal("hide");

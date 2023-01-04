@@ -1,24 +1,31 @@
 const URL = "/api/history/permission";
-
+const notFoundWrapper = document.getElementById("data-not-found");
+const tableContentWrapper = document.getElementById("table-content");
 const loadPage = async () => {
   const tableWrapper = document.getElementById("table-wrapper");
   try {
     const res = await fetch(URL);
     const json = await res.json();
-    console.log(json);
     let i = 0;
-    json.forEach((e) => {
-      i += 1;
-      tableWrapper.innerHTML += tableContent(
-        i,
-        e.id,
-        e.permission.leave_type,
-        new Date(e.date_history).toLocaleDateString(),
-        e.permission.start_leave,
-        e.permission.end_leave,
-        e.permission.status
-      );
-    });
+    if (json.length !== 0) {
+      tableContentWrapper.classList.remove("d-none");
+      notFoundWrapper.classList.add("d-none");
+      json.forEach((e) => {
+        i += 1;
+        tableWrapper.innerHTML += tableContent(
+          i,
+          e.id,
+          e.permission.leave_type,
+          new Date(e.date_history).toLocaleDateString(),
+          e.permission.start_leave,
+          e.permission.end_leave,
+          e.permission.status
+        );
+      });
+    } else {
+      tableContentWrapper.classList.add("d-none");
+      notFoundWrapper.classList.remove("d-none");
+    }
   } catch (e) {
     console.log(e);
   }
@@ -67,16 +74,6 @@ const tableContent = (
               <td>${end_date}</td>
               <td>
                 <span class="badge ${classStatus}">${status}</span>
-              </td>
-              <td>
-                <label
-                  class="text-primary pointer"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalDetailLeave"
-                  onclick="detailHistoryRequest(${id})"
-                >
-                  Detail
-                </label>
               </td>
             </tr>`;
 };
