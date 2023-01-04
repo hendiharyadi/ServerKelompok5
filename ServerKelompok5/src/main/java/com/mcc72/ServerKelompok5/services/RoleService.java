@@ -57,7 +57,7 @@ public class RoleService {
     public Object getRoleManager() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = ur.findByUsername(authentication.getName()).get();
-        Role role = rr.findById(user.getEmployee().getId()).get();
+        Role role = rr.findById(2).get();
         return role.getUserRole().stream().map(usr -> {
             Map<String, Object> m = new HashMap<>();
             m.put("id", usr.getEmployee().getId());
