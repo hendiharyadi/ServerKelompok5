@@ -8,6 +8,7 @@ import com.mcc72.ClientKelompok5.services.HistoryPermissionService;
 import com.mcc72.ClientKelompok5.services.PermissionService;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/permission")
 @AllArgsConstructor
+@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER')")
 public class RestPermissionController {
     
     private PermissionService permissionService;
@@ -44,16 +46,19 @@ public class RestPermissionController {
         return permissionService.getById(id);
     }
     
+    @PreAuthorize("hasAnyAuthority('CREATE_USER', 'CREATE_MANAGER')")
     @PostMapping
     public PermissionResponse create (@RequestBody PermissionDto permission){
         return permissionService.create(permission);
     }
-
+    
+    @PreAuthorize("hasAuthority('UPDATE_MANAGER')")
     @PutMapping("/{id}")
     public PermissionResponse update (@PathVariable int id, @RequestBody PermissionDto permission){
         return permissionService.update(id, permission);
     }
     
+    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
     public Permission delete (@PathVariable int id){
        return permissionService.delete(id);
