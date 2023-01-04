@@ -25,4 +25,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>{
     @Query("select e from Employee e where e.manager.id = ?1")
     List<Employee> getEmployeeManager(Integer id);
     
+    @Query("SELECT pr FROM Project as pr WHERE pr.manager.id= ?1 ORDER BY pr.id DESC")
+    List<Project> orderProject(Integer id);
+    
 }

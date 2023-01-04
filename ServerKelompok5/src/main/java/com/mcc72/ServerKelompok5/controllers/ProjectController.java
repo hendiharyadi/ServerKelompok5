@@ -16,6 +16,11 @@ import java.util.List;
 public class ProjectController {
     private ProjectService projectService;
 
+    @GetMapping
+    public List<Project> getAllProject(){
+        return projectService.getAllProject();
+    }
+    
     @GetMapping("/manager")
     public Object getAll(){
         return projectService.getAll();
