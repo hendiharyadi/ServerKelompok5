@@ -12,6 +12,7 @@ import com.mcc72.ServerKelompok5.models.entity.UserEntity;
 import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
 import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -20,15 +21,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.apache.catalina.Manager;
 
 /**
- * @author Hendi
+ * @author Hendi 
  */
 @Service
 @AllArgsConstructor
@@ -66,18 +65,16 @@ public class ProjectService {
     public Project create(ProjectDto projectDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-
-      /*  Employee emp1 = employeeRepository.findById(1).get();
-        Employee emp2 = employeeRepository.findById(2).get();
-        Employee emp3 = employeeRepository.findById(3).get();
-        List<Employee> employees = Arrays.asList(emp1, emp2, emp3);*/
-
         Project project = new Project();
         project.setManager(user.getEmployee());
         project.setName(projectDto.getName());
         project.setStart_project(projectDto.getStart_project());
         project.setEnd_project(projectDto.getEnd_project());
-        project.setEmployeeProject(selectByManager());
+        List<Employee> employees = new ArrayList<>();
+        for(Integer employee : projectDto.getEmployees()){
+            employees.add(employeeRepository.findById(employee).get());
+        }
+        project.setEmployeeProject(employees);
         projectRepository.save(project);
         return project;
     }

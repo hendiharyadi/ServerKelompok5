@@ -36,7 +36,7 @@ public class HistoryPermissionService {
     public List<HistoryPermission> getAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        return user.getEmployee().getHistoryPermissions();
+        return historyPermissionRepository.orderHistoryPermission(user.getEmployee().getId());
     }
     
     public HistoryPermission getById(int id){

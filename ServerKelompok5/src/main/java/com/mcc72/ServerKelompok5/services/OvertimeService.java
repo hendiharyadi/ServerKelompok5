@@ -45,7 +45,7 @@ public class OvertimeService {
     public List<Overtime> getAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        return user.getEmployee().getOvertimes();
+        return or.orderOvertime(user.getEmployee().getId());
     }
 
     public List<Overtime> findByManager() {

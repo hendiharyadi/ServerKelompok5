@@ -36,7 +36,7 @@ public class HistoryOvertimeService {
     public List<HistoryOvertime> getAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        return user.getEmployee().getHistoryOvertimes();
+        return historyOvertimeRepository.orderHistoryOvertime(user.getEmployee().getId());
     }
     
     public HistoryOvertime getById(int id){

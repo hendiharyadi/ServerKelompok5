@@ -27,4 +27,6 @@ public interface PermissionRepository extends JpaRepository<Permission, Integer>
 
     List<Permission> findPermissionByManager(Employee manager);
     
+    @Query("SELECT p FROM Permission as p WHERE p.employee.id= ?1 ORDER BY (CASE WHEN p.status = 'PENDING' THEN 0 WHEN p.status = 'ACCEPTED' THEN 1 ELSE 2 END)")
+    List<Permission> orderPermission(Integer id);
 }

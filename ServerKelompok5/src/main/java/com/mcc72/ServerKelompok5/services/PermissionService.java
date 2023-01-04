@@ -52,7 +52,7 @@ public class PermissionService {
     public List<Permission> getAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        return user.getEmployee().getPermissions();
+        return permissionRepository.orderPermission(user.getEmployee().getId());
 //        return permissionRepository.findAll();
     }
 
