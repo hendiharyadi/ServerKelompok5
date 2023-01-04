@@ -6,25 +6,14 @@ import com.mcc72.ServerKelompok5.models.dto.StockResponse;
 import com.mcc72.ServerKelompok5.models.dto.UserRegistrationDto;
 import com.mcc72.ServerKelompok5.models.entity.Employee;
 import com.mcc72.ServerKelompok5.models.entity.Permission;
-import com.mcc72.ServerKelompok5.models.entity.Project;
-import com.mcc72.ServerKelompok5.models.entity.StockLeave;
 import com.mcc72.ServerKelompok5.services.EmployeeService;
 import com.mcc72.ServerKelompok5.services.StockLeaveService;
 import com.mcc72.ServerKelompok5.services.UserEntityService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-
-import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
@@ -40,6 +29,11 @@ public class EmployeeController {
     @GetMapping
     public List<Map<String, Object>> getAllMap() {
         return employeeService.getAllMap();
+    }
+
+    @GetMapping("/dashboard")
+    public Map<String, Object> getEmployee(){
+        return employeeService.getEmployee();
     }
     
     @PostMapping

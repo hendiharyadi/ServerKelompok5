@@ -63,6 +63,7 @@ public class OvertimeService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
         Project p = pr.findById(o.getProject_id()).get();
+//        Project p2 = user.getEmployee().getEmployeeProject().get(0);
 //        if(!pr.existsById(user.getEmployee().getEmp)){
 //            throw new Error("Your can't ask for overtime as long as you don't take part in a project.");
 //        } else{

@@ -51,6 +51,27 @@ public class EmployeeService {
         return er.findAll();
     }
 
+    public Map<String, Object> getEmployee(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(auth.getName()).get();
+        Map<String, Object> m = new HashMap<>();
+        Employee employee = user.getEmployee();
+        m.put("id", employee.getId());
+        m.put("first_name", employee.getFirst_name());
+        m.put("last_name", employee.getLast_name());
+        m.put("email", employee.getEmail());
+        m.put("phone_number", employee.getPhone_number());
+        m.put("user", employee.getUser());
+        m.put("manager", employee.getManager());
+        m.put("managers", employee.getManagers());
+        m.put("employeeProject", employee.getEmployeeProject());
+        m.put("stockLeave", employee.getStockLeave());
+        m.put("overtimes", employee.getOvertimes());
+        m.put("permissions", employee.getPermissions());
+        m.put("projects", employee.getProjects());
+        return m;
+    }
+
     public List<Map<String, Object>> getAllMap() {
         return er.findAll().stream().map(employee -> {
             Map<String, Object> m = new HashMap<>();
@@ -62,7 +83,7 @@ public class EmployeeService {
             m.put("user", employee.getUser());
             m.put("manager", employee.getManager());
             m.put("managers", employee.getManagers());
-            m.put("employeeProject", employee.getProjects());
+            m.put("employeeProject", employee.getEmployeeProject());
             m.put("stockLeave", employee.getStockLeave());
             m.put("overtimes", employee.getOvertimes());
             m.put("permissions", employee.getPermissions());
@@ -85,7 +106,7 @@ public class EmployeeService {
         m.put("user", employee.getUser());
         m.put("manager", employee.getManager());
         m.put("managers", employee.getManagers());
-        m.put("employeeProject", employee.getProjects());
+        m.put("employeeProject", employee.getEmployeeProject());
         m.put("stockLeave", employee.getStockLeave());
         m.put("overtimes", employee.getOvertimes());
         m.put("permissions", employee.getPermissions());
