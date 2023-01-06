@@ -98,11 +98,30 @@ const postData = async () => {
   const password = $("#input-password").val();
   const phone_number = $("#input-phone").val();
   const username = $("#input-username").val();
-  const role_id = $("#input-role").find(":selected").val();
+  let role_id = $("#input-role").find(":selected").val();
   let manager_id = $("#input-manager").find(":selected").val();
   // if (role_id === "2" || role_id === "3") {
   //   manager_id = null;
   // }
+
+  if (manager_id === "0" || typeof manager_id === "undefined") {
+    manager_id = null;
+  }
+
+  if (role_id === null || role_id === "0") {
+    role_id = "2";
+  }
+
+  console.log({
+    first_name,
+    last_name,
+    email,
+    password,
+    username,
+    phone_number,
+    role_id,
+    manager_id,
+  });
 
   $.ajax({
     url: URL,
@@ -153,7 +172,7 @@ const getAllEmployees = () => {
     contentType: "application/json",
     success: (results) => {
       let i = 0;
-      // console.log(results);
+      console.log(results);
       results.forEach((emp) => {
         i += 1;
         if (emp.user.userRole[0].id !== 3) {

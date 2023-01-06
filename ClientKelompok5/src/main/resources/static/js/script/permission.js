@@ -214,7 +214,7 @@ const checkStock = async () => {
   }
   Swal.fire({
     title: `<strong class="${styleClass}" style="font-size: 90px">${stock_available}</strong>`,
-    html: `<span>Sisa stok cuti anda</span>`,
+    html: `<span>days left for your cuti to be taken</span>`,
   });
 };
 
