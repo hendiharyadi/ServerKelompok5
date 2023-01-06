@@ -21,7 +21,7 @@
       rel="stylesheet"
     />
     <meta name="robots" content="noindex,nofollow" />
-    <title>FreeMonday | Manager - Employees</title>
+    <title>FreeMonday | Manager - Project</title>
     <link
       rel="canonical"
       href="https://www.wrappixel.com/templates/Flexy-admin-lite/"
@@ -268,8 +268,8 @@
                   <!-- title -->
                   <div class="d-md-flex">
                     <div>
-                      <h4 class="card-title">Manage Project</h4>
-                      <h5 class="card-subtitle">Overview of project</h5>
+                      <h4 class="card-title">Project</h4>
+                      <h5 class="card-subtitle">Overview of List of Projects</h5>
                     </div>
                     <div class="ms-auto d-flex align-items-center gap-2">
                       <div class="">
@@ -281,7 +281,7 @@
                           onclick="beforeAddProject()"
                         >
                           <i class="mdi mdi-plus"></i>
-                          Add Project
+                          Add New Project
                         </button>
                       </div>
                     </div>
@@ -295,8 +295,8 @@
                         <tr>
                           <th class="border-top-0">No</th>
                           <th class="border-top-0">Project Name</th>
-                          <th class="border-top-0">Start</th>
-                          <th class="border-top-0">End</th>
+                          <th class="border-top-0">Start Date</th>
+                          <th class="border-top-0">End Date</th>
                           <th class="border-top-0">Status</th>
                           <th class="border-top-0">Member</th>
                           <th class="border-top-0">Action</th>
@@ -311,7 +311,7 @@
                   >
                     <span
                       class="w-25 bg-danger text-lg-center rounded text-white px-4 py-2"
-                      >Data masih kosong!</span
+                      >Data is/are still empty!</span
                     >
                   </div>
                 </div>
@@ -472,7 +472,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">List Employees</h5>
+              <h5 class="modal-title">List of Employees</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -515,7 +515,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Add Member To Project</h5>
+              <h5 class="modal-title">Add Members To Project</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -527,14 +527,14 @@
               <form action="">
                 <div class="form-group">
                   <label class="col-md-12" for="addEmployeeToProject"
-                    >Add Member</label
+                    >Add Members</label
                   >
                   <div class="col-sm-12">
                     <select
                       id="addEmployeeToProject"
                       class="form-select shadow-none form-control-line"
                     >
-                      <option selected>Select Employee</option>
+                      <option selected>Select Employees</option>
                       <option>Adam</option>
                       <option>Mahmud</option>
                     </select>
