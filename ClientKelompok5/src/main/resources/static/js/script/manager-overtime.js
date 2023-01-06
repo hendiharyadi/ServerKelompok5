@@ -6,7 +6,7 @@ const loadManagerOvertime = async () => {
 };
 const loadDataTable = async () => {
   const tableWrapper = document.getElementById("table-wrapper");
-
+  tableWrapper.innerHTML = "";
   try {
     const response = await fetch(URL);
     const json = await response.json();

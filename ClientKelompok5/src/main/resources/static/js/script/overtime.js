@@ -35,8 +35,8 @@ const submitData = () => {
     dataType: "JSON",
     beforeSend: addCsrfToken(),
     data: JSON.stringify({
-      start_overtime,
-      end_overtime,
+      start_overtime: new Date(start_overtime).toLocaleString(),
+      end_overtime: new Date(end_overtime).toLocaleString(),
       note,
       project_id,
     }),
@@ -125,8 +125,15 @@ const beforeAddOvertime = async () => {
   try {
     const res = await fetch("/api/employee/dashboard");
     const json = await res.json();
-
-    json.employeeProject.forEach((p) => {
+    const employeeProject = json.employeeProject;
+    if (employeeProject.length === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Tidak bisa mengajukan overtime, Anda sedang tidak dalam projek!",
+      }).then((e) => $("#modalAddOvertime").modal("hide"));
+    }
+    employeeProject.forEach((p) => {
       if (getCurrentDate() !== p.end_project) {
         selectProject.add(generateOption(p.id, p.name, false));
       }
@@ -152,15 +159,21 @@ const detailOvertime = async (id) => {
 };
 
 const tableContent = (no, id, start_date, end_date, project_name, status) => {
+  let classStatus = "";
+  if (status === "PENDING") {
+    classStatus = "bg-warning";
+  } else if (status === "APPROVED") {
+    classStatus = "bg-success";
+  } else {
+    classStatus = "bg-danger";
+  }
   return ` <tr>
               <td>${no}</td>
-              <td>${new Date(start_date).toLocaleString()}</td>
-              <td>${new Date(end_date).toLocaleString()}</td>
+              <td>${start_date}</td>
+              <td>${end_date}</td>
               <td>${project_name}</td>
               <td>
-                <label class="badge ${
-                  status === "PENDING" ? "bg-warning" : "bg-success"
-                }">${status}</label>
+                <label class="badge ${classStatus}">${status}</label>
               </td>
               <td>
                 <label

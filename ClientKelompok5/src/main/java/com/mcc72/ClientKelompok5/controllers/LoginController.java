@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @AllArgsConstructor
@@ -16,7 +17,7 @@ public class LoginController {
     private AuthService authService;
 
     @GetMapping("/login")
-    public String loginView(LoginRequest loginRequest, Authentication auth) {
+    public String loginView(@RequestParam(required = false) String error, LoginRequest loginRequest, Authentication auth) {
         if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return "auth/login";
         }

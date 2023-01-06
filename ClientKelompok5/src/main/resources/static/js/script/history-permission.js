@@ -10,18 +10,22 @@ const loadPage = async () => {
     if (json.length !== 0) {
       tableContentWrapper.classList.remove("d-none");
       notFoundWrapper.classList.add("d-none");
-      json.forEach((e) => {
-        i += 1;
-        tableWrapper.innerHTML += tableContent(
-          i,
-          e.id,
-          e.permission.leave_type,
-          new Date(e.date_history).toLocaleDateString(),
-          e.permission.start_leave,
-          e.permission.end_leave,
-          e.permission.status
-        );
-      });
+      json
+        .sort((a, b) => b.id - a.id)
+        .forEach((e) => {
+          i += 1;
+          tableWrapper.innerHTML += tableContent(
+            i,
+            e.id,
+            e.permission.leave_type,
+            `${new Date(e.date_history).toDateString()} | ${new Date(
+              e.date_history
+            ).toLocaleTimeString()}`,
+            e.permission.start_leave,
+            e.permission.end_leave,
+            e.permission.status
+          );
+        });
     } else {
       tableContentWrapper.classList.add("d-none");
       notFoundWrapper.classList.remove("d-none");

@@ -15,10 +15,6 @@
     />
     <meta name="robots" content="noindex,nofollow" />
     <title>FreeMonday | Login</title>
-
-    <!-- Generate CSRF Token For AJAX -->
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <link
       rel="canonical"
       href="https://www.wrappixel.com/templates/Flexy-admin-lite/"
@@ -149,6 +145,10 @@
     <script src="/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="/dist/js/custom.js"></script>
+
     <!--This page JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/script/util/csrf.js"></script>
+    <script src="/js/script/login.js"></script>
   </body>
 </html>

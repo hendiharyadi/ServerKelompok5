@@ -29,7 +29,7 @@ public class RestProjectController {
     
     private ProjectService projectService;
     
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+//    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping
     public List<ProjectResponse> getAll(){
         return projectService.getAll();

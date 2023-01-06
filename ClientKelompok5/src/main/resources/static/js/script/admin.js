@@ -7,14 +7,14 @@ const loadData = async () => {
     const inputSubmit = document.getElementById("input-submit");
     const selectRole = document.getElementById("input-role");
     const contentAddManager = document.getElementById("content-add-manager");
-    selectRole.addEventListener("change", (event) => {
-      const value = event.target.value;
-      if (value === "1") {
-        contentAddManager.classList.remove("d-none");
-      } else {
-        contentAddManager.classList.add("d-none");
-      }
-    });
+    // selectRole.addEventListener("change", (event) => {
+    //   const value = event.target.value;
+    //   if (value === "1") {
+    //     contentAddManager.classList.remove("d-none");
+    //   } else {
+    //     contentAddManager.classList.add("d-none");
+    //   }
+    // });
     getManagers();
     inputSubmit.addEventListener("click", postData);
   });
@@ -75,6 +75,15 @@ const getManagerForEdit = (id) => {
     },
   });
 };
+
+const resetInput = () => {
+  $("#input-fName").val("");
+  $("#input-lName").val("");
+  $("#input-email").val("");
+  $("#input-password").val("");
+  $("#input-phone").val("");
+  $("#input-username").val("");
+};
 const postData = async () => {
   const btnSpinner = document.getElementById("spinner-button");
   const btnClose = document.getElementById("btn-close");
@@ -116,6 +125,7 @@ const postData = async () => {
       btnSpinner.classList.add("d-none");
       btnClose.removeAttribute("disabled");
       btnSubmit.classList.remove("d-none");
+      resetInput();
       getAllEmployees();
     },
     error: function (xhr, ajaxOptions, thrownError) {

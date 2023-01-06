@@ -1,12 +1,14 @@
 package com.mcc72.ClientKelompok5.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/manager")
+@PreAuthorize("hasRole('MANAGER')")
 public class ManagerController {
     
     @RequestMapping

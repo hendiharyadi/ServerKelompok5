@@ -37,8 +37,8 @@ public class RestOvertimeController {
     public List<Overtime> getAllByManager(){
         return overtimeService.getAllByManager();
     }
-    
-    @PreAuthorize("hasAnyAuthority('READ_MANAGER', 'READ_ADMIN')")
+
+    @PreAuthorize("hasAnyAuthority('READ_USER', 'READ_ADMIN', 'READ_MANAGER')")
     @GetMapping("/{id}")
     public Overtime getById(@PathVariable int id){
         return overtimeService.getById(id);

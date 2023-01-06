@@ -76,6 +76,11 @@ const loadDataTable = async () => {
     }
   } catch (e) {
     console.log(e);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Failed to load data!",
+    });
   }
 };
 
@@ -90,8 +95,6 @@ const detailPermission = async (id) => {
       });
     }
     const data = await response.json();
-    /*const start = new Date(data.start_leave).toISOString().slice(0, 10);
-    const end = new Date(data.end_leave).toISOString().slice(0, 10);*/
     $("#detail-permission-type").val(data.leave_type);
     $("#detail-date-start").val(data.start_leave);
     $("#detail-date-end").val(data.end_leave);
@@ -105,7 +108,18 @@ const detailPermission = async (id) => {
     }
   } catch (e) {
     console.log(e);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    });
   }
+};
+
+const days = (date_1, date_2) => {
+  let difference = date_1 - date_2;
+  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+  return TotalDays;
 };
 
 const preUpdatePermission = (id, leave_type, employee_id, total_day) => {
@@ -116,13 +130,16 @@ const preUpdatePermission = (id, leave_type, employee_id, total_day) => {
   $("#total_day").val(total_day);
 };
 
-const days = (date_1, date_2) => {
-  let difference = date_1 - date_2;
-  let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
-  return TotalDays;
+const getEmployeeStock = async (id) => {
+  try {
+    const res = await fetch(`/api/employee/${id}`);
+    return await res.json();
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-const updatePermission = () => {
+const updatePermission = async () => {
   const btnSpinner = document.getElementById("spinner-button");
   const btnUpdate = document.getElementById("update-data");
 
@@ -131,6 +148,9 @@ const updatePermission = () => {
   const employee_id = $("#employee-id").val();
   const leave_day = $("#total_day").val();
   const id = $("#request-id").val();
+  const currentEmp = await getEmployeeStock(employee_id);
+  const currentStockPermission = currentEmp.stockLeave.stock_available;
+  console.log({ currentStockPermission, day: parseInt(leave_day) });
 
   if (updateStatus === "0") {
     Swal.fire({
@@ -139,43 +159,95 @@ const updatePermission = () => {
       text: "Update permission harus di isi!",
     });
   }
-  btnSpinner.classList.remove("d-none");
-  btnUpdate.classList.add("d-none");
-  $.ajax({
-    url: "/api/permission/" + id,
-    method: "PUT",
-    dataType: "JSON",
-    beforeSend: addCsrfToken(),
-    data: JSON.stringify({
-      leave_type: leave_type === "1",
-      start_leave: "",
-      end_leave: "",
-      note: "",
-      status: updateStatus === "1",
-      employee_id,
-      leave_day,
-    }),
-    contentType: "application/json",
-    success: async (result) => {
-      console.log(result);
-      Swal.fire("Saved!", "", "success");
-      btnSpinner.classList.add("d-none");
-      btnUpdate.classList.remove("d-none");
-      $("#modalUpdateLeave").modal("hide");
-      await loadDataTable();
-    },
-    error: function (xhr, ajaxOptions, thrownError) {
+
+  if (updateStatus === "1") {
+    if (
+      currentStockPermission > parseInt(leave_day) ||
+      currentStockPermission === parseInt(leave_day)
+    ) {
+      btnSpinner.classList.remove("d-none");
+      btnUpdate.classList.add("d-none");
+      $.ajax({
+        url: "/api/permission/" + id,
+        method: "PUT",
+        dataType: "JSON",
+        beforeSend: addCsrfToken(),
+        data: JSON.stringify({
+          leave_type: leave_type === "1",
+          start_leave: "",
+          end_leave: "",
+          note: "",
+          status: true,
+          employee_id,
+          leave_day,
+        }),
+        contentType: "application/json",
+        success: async (result) => {
+          console.log(result);
+          Swal.fire("Saved!", "", "success");
+          btnSpinner.classList.add("d-none");
+          btnUpdate.classList.remove("d-none");
+          $("#modalUpdateLeave").modal("hide");
+          await loadDataTable();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+          });
+          btnSpinner.classList.add("d-none");
+          btnUpdate.classList.remove("d-none");
+          $("#modalUpdateLeave").modal("hide");
+          console.log({ xhr, ajaxOptions, thrownError });
+        },
+      });
+    } else {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Something went wrong!",
+        text: "Karyawan ini tidak dapat cuti karena stok cuti tidak mencukupi!",
       });
-      btnSpinner.classList.add("d-none");
-      btnUpdate.classList.remove("d-none");
-      $("#modalUpdateLeave").modal("hide");
-      console.log({ xhr, ajaxOptions, thrownError });
-    },
-  });
+    }
+  } else {
+    btnSpinner.classList.remove("d-none");
+    btnUpdate.classList.add("d-none");
+    $.ajax({
+      url: "/api/permission/" + id,
+      method: "PUT",
+      dataType: "JSON",
+      beforeSend: addCsrfToken(),
+      data: JSON.stringify({
+        leave_type: leave_type === "1",
+        start_leave: "",
+        end_leave: "",
+        note: "",
+        status: false,
+        employee_id,
+        leave_day,
+      }),
+      contentType: "application/json",
+      success: async (result) => {
+        console.log(result);
+        Swal.fire("Saved!", "", "success");
+        btnSpinner.classList.add("d-none");
+        btnUpdate.classList.remove("d-none");
+        $("#modalUpdateLeave").modal("hide");
+        await loadDataTable();
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+        btnSpinner.classList.add("d-none");
+        btnUpdate.classList.remove("d-none");
+        $("#modalUpdateLeave").modal("hide");
+        console.log({ xhr, ajaxOptions, thrownError });
+      },
+    });
+  }
 };
 
 document.addEventListener("DOMContentLoaded", loadDataPage);

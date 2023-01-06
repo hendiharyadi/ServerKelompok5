@@ -22,9 +22,9 @@ public class ErrorPageController implements ErrorController{
             if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 return "error/401";
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                return "error/403";
+                return "error/404";
             } else if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "error/error-404";
+                return "error/404";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error/500";
             }

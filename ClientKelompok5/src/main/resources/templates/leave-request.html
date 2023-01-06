@@ -183,7 +183,7 @@
                   href="/manager"
                   aria-expanded="false"
                   ><i class="mdi mdi-nature-people"></i
-                  ><span class="hide-menu">Manager Dashboard</span></a
+                  ><span class="hide-menu">Manager Page</span></a
                 >
               </li>
               <li class="sidebar-item selected">
@@ -272,8 +272,7 @@
                       <div class="">
                         <button
                           class="btn btn-sm btn-primary"
-                          data-bs-toggle="modal"
-                          data-bs-target="#leaveStock"
+                          onclick="checkStock();"
                         >
                           <i class="mdi mdi-timer-sand-empty"></i>
                           Stock Permission
@@ -304,7 +303,7 @@
                           <th class="border-top-0">Start Date</th>
                           <th class="border-top-0">End Date</th>
                           <th class="border-top-0">Status</th>
-                          <th class="border-top-0">Detail</th>
+                          <th class="border-top-0">Action</th>
                         </tr>
                       </thead>
                       <tbody id="table-wrapper"></tbody>

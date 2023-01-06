@@ -16,7 +16,9 @@ const onLoadPage = async () => {
         tableWrapper.innerHTML += tableContent(
           i,
           e.id,
-          new Date(e.date_history).toLocaleDateString(),
+          `${new Date(e.date_history).toDateString()} | ${new Date(
+            e.date_history
+          ).toLocaleTimeString()}`,
           new Date(e.overtime.start_overtime).toLocaleString(),
           new Date(e.overtime.end_overtime).toLocaleString(),
           e.overtime.status

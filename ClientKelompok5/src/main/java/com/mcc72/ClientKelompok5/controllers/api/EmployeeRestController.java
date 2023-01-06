@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/employee")
 @AllArgsConstructor
-@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
+//@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
 public class EmployeeRestController {
     private ManagerService managerService;
     private EmployeeService employeeService;
@@ -44,7 +44,7 @@ public class EmployeeRestController {
         return employeeService.employeeLogin();
     }
     
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+//    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("/{id}")
     public Employee getById(@PathVariable int id){
         return employeeService.getById(id);

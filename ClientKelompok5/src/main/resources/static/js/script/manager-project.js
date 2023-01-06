@@ -37,7 +37,7 @@ const tableContent = (no, id, name, start, end, status, members) => {
                   >${statusProject === true ? "Finish" : "Running"}</span
                 >
               </td>
-              <td>${members === 0 ? "-" : members.length}</td>
+              <td>${members.length === 0 ? "-" : members.length}</td>
               <td>
                 <button
                   class="btn btn-sm bg-gradient btn-dark"

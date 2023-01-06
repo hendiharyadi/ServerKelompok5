@@ -25,6 +25,8 @@
     />
     <!-- Custom CSS -->
     <link href="/js/chartist/dist/chartist.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/dist/css/style.calendar.css" />
+    <link rel="stylesheet" href="/dist/css/style.footer.css" />
     <link
       href="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
       rel="stylesheet"
@@ -172,7 +174,7 @@
                   href="/manager"
                   aria-expanded="false"
                   ><i class="mdi mdi-nature-people"></i
-                  ><span class="hide-menu">Manager Dashboard</span></a
+                  ><span class="hide-menu">Manager</span></a
                 >
               </li>
               <li class="sidebar-item">
@@ -224,7 +226,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 d-flex align-items-center">
                   <li class="breadcrumb-item">
-                    <a href="index.html" class="link"
+                    <a href="/" class="link"
                       ><i class="mdi mdi-home-outline fs-4"></i
                     ></a>
                   </li>
@@ -233,7 +235,10 @@
                   </li>
                 </ol>
               </nav>
-              <h1 class="mb-0 fw-bold">Dashboard</h1>
+              <h3 class="mb-0 fw-bold">
+                Hello <span th:text="${employee.first_name}"></span>,
+              </h3>
+              <p class="mb-0 fw-bold">Welcome to FreeMonday !</p>
             </div>
           </div>
         </div>
@@ -247,7 +252,7 @@
           <!-- ============================================================== -->
           <!-- Sales chart -->
           <!-- ============================================================== -->
-          <div class="row">
+          <div class="row" sec:authorize="hasRole('ADMIN')">
             <div class="col-lg-8">
               <div class="card">
                 <div class="card-body">
@@ -256,87 +261,328 @@
               </div>
             </div>
             <div class="col-lg-4">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Current Project</h4>
-                  <h6 class="card-subtitle">Latest update</h6>
-                  <div class="mt-5 pb-3 d-flex align-items-center">
-                    <span
-                      class="btn btn-primary btn-circle d-flex align-items-center"
-                    >
-                      <i class="mdi mdi-cart-outline fs-4"></i>
-                    </span>
-                    <div class="ms-3">
-                      <h5 class="mb-0 fw-bold">Top Sales</h5>
-                      <span class="text-muted fs-6">Johnathan Doe</span>
-                    </div>
-                    <div class="ms-auto">
-                      <span class="badge bg-light text-muted">+68%</span>
-                    </div>
-                  </div>
-                  <div class="py-3 d-flex align-items-center">
-                    <span
-                      class="btn btn-warning btn-circle d-flex align-items-center"
-                    >
-                      <i class="mdi mdi-star-circle fs-4"></i>
-                    </span>
-                    <div class="ms-3">
-                      <h5 class="mb-0 fw-bold">Best Seller</h5>
-                      <span class="text-muted fs-6">MaterialPro Admin</span>
-                    </div>
-                    <div class="ms-auto">
-                      <span class="badge bg-light text-muted">+68%</span>
-                    </div>
-                  </div>
-                  <div class="py-3 d-flex align-items-center">
-                    <span
-                      class="btn btn-success btn-circle d-flex align-items-center"
-                    >
-                      <i
-                        class="mdi mdi-comment-multiple-outline text-white fs-4"
-                      ></i>
-                    </span>
-                    <div class="ms-3">
-                      <h5 class="mb-0 fw-bold">Most Commented</h5>
-                      <span class="text-muted fs-6">Ample Admin</span>
-                    </div>
-                    <div class="ms-auto">
-                      <span class="badge bg-light text-muted">+68%</span>
-                    </div>
-                  </div>
-                  <div class="py-3 d-flex align-items-center">
-                    <span
-                      class="btn btn-info btn-circle d-flex align-items-center"
-                    >
-                      <i class="mdi mdi-diamond fs-4 text-white"></i>
-                    </span>
-                    <div class="ms-3">
-                      <h5 class="mb-0 fw-bold">Top Budgets</h5>
-                      <span class="text-muted fs-6">Sunil Joshi</span>
-                    </div>
-                    <div class="ms-auto">
-                      <span class="badge bg-light text-muted">+15%</span>
-                    </div>
+              <div
+                class="card"
+                style="
+                  color: #1c2331;
+                  background-color: #f4c63d;
+                  border-radius: 30px;
+                "
+              >
+                <div class="card-body p-6">
+                  <div class="d-flex">
+                    <h5 class="flex-grow-1">Jakarta</h5>
+                    <h5>15:07</h5>
                   </div>
 
-                  <div class="pt-3 d-flex align-items-center">
-                    <span
-                      class="btn btn-danger btn-circle d-flex align-items-center"
+                  <div class="d-flex flex-column text-center mt-5 mb-4">
+                    <h6
+                      class="display-4 mb-0 font-weight-bold"
+                      style="color: #1c2331"
                     >
-                      <i class="mdi mdi-content-duplicate fs-4 text-white"></i>
-                    </span>
-                    <div class="ms-3">
-                      <h5 class="mb-0 fw-bold">Best Designer</h5>
-                      <span class="text-muted fs-6">Nirav Joshi</span>
+                      28°C
+                    </h6>
+                    <span class="small" style="color: #1c2331">Stormy</span>
+                  </div>
+
+                  <div class="d-flex align-items-center">
+                    <div class="flex-grow-1" style="font-size: 1rem">
+                      <div>
+                        <i class="fas fa-tint fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 84% </span>
+                      </div>
+                      <div>
+                        <i class="fas fa-sun fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 0.2h </span>
+                      </div>
                     </div>
-                    <div class="ms-auto">
-                      <span class="badge bg-light text-muted">+90%</span>
+                    <div>
+                      <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+                        width="100px"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div
+            class="row"
+            sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_USER')"
+          >
+            <div class="col-lg-6">
+              <div class="d-md-flex align-items-center">
+                <div id="calendar"></div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div
+                class="card"
+                style="
+                  color: #1c2331;
+                  background-color: #f4c63d;
+                  border-radius: 30px;
+                "
+              >
+                <div class="card-body p-6">
+                  <div class="d-flex">
+                    <h5 class="flex-grow-1">Jakarta</h5>
+                    <h5>15:07</h5>
+                  </div>
+
+                  <div class="d-flex flex-column text-center mt-5 mb-4">
+                    <h6
+                      class="display-4 mb-0 font-weight-bold"
+                      style="color: #1c2331"
+                    >
+                      28°C
+                    </h6>
+                    <span class="small" style="color: #1c2331">Stormy</span>
+                  </div>
+
+                  <div class="d-flex align-items-center">
+                    <div class="flex-grow-1" style="font-size: 1rem">
+                      <div>
+                        <i class="fas fa-tint fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 84% </span>
+                      </div>
+                      <div>
+                        <i class="fas fa-sun fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 0.2h </span>
+                      </div>
+                    </div>
+                    <div>
+                      <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+                        width="100px"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="kilimanjaro_area text-dark">
+            <!-- Top Footer Area Start -->
+            <div class="foo_top_header_one section_padding_100_70">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part">
+                      <h5>About FreeMonday</h5>
+                      <p>
+                        FreeMonday is an application designed to make it easier
+                        for employees who want to request for leave and
+                        overtime.
+                      </p>
+                      <p>
+                        Our application is completely creative, clean & 100%
+                        responsive website. Put your needs into next level with
+                        us.
+                      </p>
+                    </div>
+                    <div class="kilimanjaro_part m-top-15">
+                      <h5>Social Links</h5>
+                      <ul class="kilimanjaro_social_links">
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-facebook" aria-hidden="true"></i>
+                            Facebook</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-twitter" aria-hidden="true"></i>
+                            Twitter</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-pinterest" aria-hidden="true"></i>
+                            Pinterest</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-youtube" aria-hidden="true"></i>
+                            YouTube</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-linkedin" aria-hidden="true"></i>
+                            Linkedin</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part">
+                      <h5>Tags Widget</h5>
+                      <ul class="kilimanjaro_widget">
+                        <li><a href="#">Classy</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Creative</a></li>
+                        <li><a href="#">One Page</a></li>
+                        <li><a href="#">Multipurpose</a></li>
+                        <li><a href="#">Minimal</a></li>
+                        <li><a href="#">Classic</a></li>
+                        <li><a href="#">Medical</a></li>
+                      </ul>
+                    </div>
+
+                    <div class="kilimanjaro_part m-top-15">
+                      <h5>Important Links</h5>
+                      <ul class="kilimanjaro_links">
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Terms & Conditions</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >About Licences</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Help & Support</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Privacy Policy</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Community & Forum</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part">
+                      <h5>Latest News</h5>
+                      <div class="kilimanjaro_blog_area">
+                        <div class="kilimanjaro_thumb">
+                          <img
+                            class="img-fluid"
+                            src="https://3.bp.blogspot.com/--C1wpaf_S4M/W7V__10nRoI/AAAAAAAAK24/1NSfapuYSIY0f0wzXY9NgoH0FjQLT07YACKgBGAs/s1600/maxresdefault.jpg"
+                            alt=""
+                          />
+                        </div>
+                        <a href="#">Your Blog Title Goes Here</a>
+                        <p class="kilimanjaro_date">01 Jan 2023</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                      </div>
+                      <div class="kilimanjaro_blog_area">
+                        <div class="kilimanjaro_thumb">
+                          <img
+                            class="img-fluid"
+                            src="https://3.bp.blogspot.com/--C1wpaf_S4M/W7V__10nRoI/AAAAAAAAK24/1NSfapuYSIY0f0wzXY9NgoH0FjQLT07YACKgBGAs/s1600/maxresdefault.jpg"
+                            alt=""
+                          />
+                        </div>
+                        <a href="#">Your Blog Title Goes Here</a>
+                        <p class="kilimanjaro_date">31 Des 2022</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                      </div>
+                      <div class="kilimanjaro_blog_area">
+                        <div class="kilimanjaro_thumb">
+                          <img
+                            class="img-fluid"
+                            src="https://3.bp.blogspot.com/--C1wpaf_S4M/W7V__10nRoI/AAAAAAAAK24/1NSfapuYSIY0f0wzXY9NgoH0FjQLT07YACKgBGAs/s1600/maxresdefault.jpg"
+                            alt=""
+                          />
+                        </div>
+                        <a href="#">Your Blog Title Goes Here</a>
+                        <p class="kilimanjaro_date">25 Des 2022</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part">
+                      <h5>Quick Contact</h5>
+                      <div class="kilimanjaro_single_contact_info">
+                        <h5>Phone:</h5>
+                        <p>
+                          +255 255 54 53 52 <br />
+                          +255 255 53 52 51
+                        </p>
+                      </div>
+                      <div class="kilimanjaro_single_contact_info">
+                        <h5>Email:</h5>
+                        <p>
+                          support@email.com <br />
+                          company@email.com
+                        </p>
+                      </div>
+                    </div>
+                    <div class="kilimanjaro_part">
+                      <h5>Latest Works</h5>
+                      <div class="kilimanjaro_works">
+                        <a
+                          class="kilimanjaro_works_img"
+                          href="img/gallery/1.jpg"
+                          ><img src="img/gallery/1.jpg" alt=""
+                        /></a>
+                        <a
+                          class="kilimanjaro_works_img"
+                          href="img/gallery/4.jpg"
+                          ><img src="img/gallery/4.jpg" alt=""
+                        /></a>
+                        <a
+                          class="kilimanjaro_works_img"
+                          href="img/gallery/5.jpg"
+                          ><img src="img/gallery/5.jpg" alt=""
+                        /></a>
+                        <a
+                          class="kilimanjaro_works_img"
+                          href="img/gallery/7.jpg"
+                          ><img src="img/gallery/7.jpg" alt=""
+                        /></a>
+                        <a
+                          class="kilimanjaro_works_img"
+                          href="img/gallery/10.jpg"
+                          ><img src="img/gallery/10.jpg" alt=""
+                        /></a>
+                        <a
+                          class="kilimanjaro_works_img"
+                          href="img/gallery/11.jpg"
+                          ><img src="img/gallery/11.jpg" alt=""
+                        /></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Footer Bottom Area Start -->
+            <div
+              class="kilimanjaro_bottom_header_one section_padding_50 text-center"
+            >
+              <div class="container">
+                <div class="row">
+                  <div class="col-12">
+                    <p>
+                      © All Rights Reserved by
+                      <a href="#">FreeMonday<i class="fa fa-love"></i></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
           <!-- ============================================================== -->
           <!-- Sales chart -->
           <!-- ============================================================== -->
@@ -344,14 +590,6 @@
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- footer -->
-        <!-- ============================================================== -->
-        <footer class="footer text-center">
-          All Rights Reserved by FreeMonday
-        </footer>
-        <!-- ============================================================== -->
-        <!-- End footer -->
         <!-- ============================================================== -->
       </div>
       <!-- ============================================================== -->
@@ -370,6 +608,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
     <script src="/js/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -385,5 +624,6 @@
     <script src="/js/chartist/dist/chartist.min.js"></script>
     <script src="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="/js/script/calendar.js"></script>
   </body>
 </html>

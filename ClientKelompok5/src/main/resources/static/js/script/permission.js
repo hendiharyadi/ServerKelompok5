@@ -6,6 +6,32 @@ const loadedData = async () => {
   await loadTable();
 };
 
+const login = () => {
+  const url = "/api/auth";
+  $.ajax({
+    url,
+    method: "POST",
+    dataType: "JSON",
+    beforeSend: addCsrfToken(),
+    data: JSON.stringify({
+      username: "manager",
+      password: "123",
+    }),
+    contentType: "application/json",
+    success: (result) => {
+      console.log(result);
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+      console.log({ xhr, ajaxOptions, thrownError });
+    },
+  });
+};
+
 const loadTable = async () => {
   await getStock();
   document
@@ -46,6 +72,11 @@ const loadTable = async () => {
       notFoundWrapper.classList.remove("d-none");
     }
   } catch (e) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    });
     console.log(e);
   }
 };
@@ -100,7 +131,7 @@ const submitPermission = async () => {
     const start = new Date(start_leave).getTime();
     const end = new Date(end_leave).getTime();
     leave_day = days(end, start);
-    if (leave_day > stock) {
+    if (leave_day > stock || leave_day === stock) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -191,6 +222,26 @@ const tableContent = (no, id, leave_type, start_date, end_date, status) => {
                 </label>
               </td>
             </tr>`;
+};
+
+const checkStock = async () => {
+  const res = await fetch(`/api/employee/stock-leave`);
+  const data = res.json();
+  const json = await data;
+  const { stock_available } = json;
+  let styleClass = "";
+  const stockLeave = parseInt(stock_available);
+  if (stockLeave === 0) {
+    styleClass = "text-danger";
+  } else if (stockLeave > 0 && stockLeave <= 5) {
+    styleClass = "text-warning";
+  } else {
+    styleClass = "text-success";
+  }
+  Swal.fire({
+    title: `<strong class="${styleClass}" style="font-size: 90px">${stock_available}</strong>`,
+    html: `<span>Sisa stok cuti anda</span>`,
+  });
 };
 
 const getStock = async () => {
