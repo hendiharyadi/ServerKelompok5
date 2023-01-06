@@ -36,7 +36,7 @@ public class HistoryPermissionService {
     public List<HistoryPermission> getAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        return historyPermissionRepository.orderHistoryPermission(user.getEmployee().getId());
+        return user.getEmployee().getHistoryPermissions();
     }
     
     public HistoryPermission getById(int id){
@@ -44,7 +44,7 @@ public class HistoryPermissionService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public HistoryPermission create(Permission historyPermission, int id){
+    public HistoryPermission create(Permission historyPermission){
        /* Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();*/
         HistoryPermission hp = new HistoryPermission();
@@ -53,10 +53,10 @@ public class HistoryPermissionService {
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         hp.setDate_history(ts);
-        hp.setEmployee(userRepository.findById(id).get().getEmployee());
+        hp.setEmployee(historyPermission.getEmployee());
         return historyPermissionRepository.save(hp);
     }
-    
+
     public HistoryPermission update(int id, HistoryPermission historyPermission){
         HistoryPermission hp = historyPermissionRepository.findById(id).get();
         getById(id);

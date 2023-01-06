@@ -6,19 +6,11 @@
 package com.mcc72.ServerKelompok5.services;
 
 import com.mcc72.ServerKelompok5.models.dto.PermissionDto;
-import com.mcc72.ServerKelompok5.models.entity.Employee;
-import com.mcc72.ServerKelompok5.models.entity.LeaveType;
-import com.mcc72.ServerKelompok5.models.entity.Permission;
-import com.mcc72.ServerKelompok5.models.entity.Status;
-import com.mcc72.ServerKelompok5.models.entity.StockLeave;
-import com.mcc72.ServerKelompok5.models.entity.UserEntity;
-import com.mcc72.ServerKelompok5.repositories.EmployeeRepository;
-import com.mcc72.ServerKelompok5.repositories.PermissionRepository;
-import com.mcc72.ServerKelompok5.repositories.StockLeaveRepository;
-import com.mcc72.ServerKelompok5.repositories.UserRepository;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.mcc72.ServerKelompok5.models.entity.*;
+import com.mcc72.ServerKelompok5.repositories.*;
+
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -47,7 +39,8 @@ public class PermissionService {
     private UserRepository userRepository;
     private PermissionMailReq pmr;
     private PermissionMailConf pmc;
-    
+    private final HistoryPermissionRepository historyPermissionRepository;
+
 
     public List<Permission> getAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -83,25 +76,45 @@ public class PermissionService {
             permit.setStatus(Status.PENDING);
             permit.setEmployee(employeeRepository.findById(user.getId()).get());
             permit.setManager(e.getManager());
+            /*HistoryPermission historyPermission = new HistoryPermission();
+            Date date = new Date();
+            Timestamp ts = new Timestamp(date.getTime());
+            historyPermission.setPermission(permit);
+            historyPermission.setDate_history(ts);
+            historyPermission.setEmployee(permit.getEmployee());
+            permit.setHistories(Collections.singletonList(historyPermission));*/
 //                if(permit.getStart_leave().equals(permission.getStart_leave())){
 //                    throw new Error("You can't pick this date. Please choose another date.");
 //                } else{
-                    hps.create(permit, e.getId());
+                    hps.create(permit);
                     return permissionRepository.save(permit); 
 //                }
         }
+    }
+
+    public Permission generatePermission(LeaveType leaveType, String startLeave, String endLeave, String note, Status status, Employee employee, Employee manager){
+        Permission permission = new Permission();
+        permission.setLeave_type(leaveType);
+        permission.setStatus(status);
+        permission.setStart_leave(startLeave);
+        permission.setEnd_leave(endLeave);
+        permission.setNote(note);
+        permission.setEmployee(employee);
+        permission.setManager(manager);
+        return permission;
     }
     
     public Permission update(Integer id, PermissionDto permission){
         Permission permit = permissionRepository.findById(id).get();
         Status stat = permission.getStatus() ? Status.APPROVED : Status.REJECTED;
         permit.setStatus(stat);
-        hps.create(permit, permit.getEmployee().getId());
+//        hps.create(permit);
         return permissionRepository.save(permit);
     }
     
     public Permission delete (Integer id){
-        Permission permission = getById(id);
+//        Permission permission = getById(id);
+        Permission permission = permissionRepository.findById(id).get();
         permissionRepository.delete(permission);
         return permission;
     }

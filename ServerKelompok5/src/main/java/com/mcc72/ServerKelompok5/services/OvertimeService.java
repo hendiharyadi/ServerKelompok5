@@ -75,7 +75,7 @@ public class OvertimeService {
         overtime.setEmployee(er.findById(user.getId()).get());
         overtime.setProject(p);
         overtime.setManager(p.getManager());
-        hos.create(overtime);
+        hos.create(overtime, user.getEmployee().getId());
         return or.save(overtime);
 //        }
     }
@@ -84,7 +84,7 @@ public class OvertimeService {
         Overtime overtime = or.findById(id).get();
         Status stat = o.getStatus() ? Status.APPROVED : Status.REJECTED;
         overtime.setStatus(stat);
-        hos.create(overtime);
+//        hos.create(overtime, overtime.getEmployee().getId());
         return or.save(overtime);
     }
     

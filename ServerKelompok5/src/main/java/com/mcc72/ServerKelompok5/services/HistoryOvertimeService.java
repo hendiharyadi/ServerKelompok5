@@ -36,7 +36,8 @@ public class HistoryOvertimeService {
     public List<HistoryOvertime> getAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();
-        return historyOvertimeRepository.orderHistoryOvertime(user.getEmployee().getId());
+//        return historyOvertimeRepository.orderHistoryOvertime(user.getEmployee().getId());
+        return user.getEmployee().getHistoryOvertimes();
     }
     
     public HistoryOvertime getById(int id){
@@ -44,16 +45,14 @@ public class HistoryOvertimeService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found..."));
     }
     
-    public HistoryOvertime create(Overtime historyOvertime){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+    public HistoryOvertime create(Overtime historyOvertime, int id){
         HistoryOvertime ho = new HistoryOvertime();
         ho.setOvertime(historyOvertime);
 //        ho.setDate_history(new Timestamp(System.currentTimeMillis()));
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         ho.setDate_history(ts);
-        ho.setEmployee(user.getEmployee());
+        ho.setEmployee(historyOvertime.getEmployee());
         return historyOvertimeRepository.save(ho);
     }
     
