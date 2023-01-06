@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @RequestMapping("user")
-//@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER')")
 public class UserController {
 
     private UserEntityService userEntityService;
@@ -39,6 +39,7 @@ public class UserController {
         return userEntityService.getAllMap();
     }
     
+    @PreAuthorize("hasAuthority('CREATE_ADMIN')")
     @PostMapping
     public UserEntity insert(@RequestBody UserRegistrationDto userEntity){
         System.out.println("controller here");

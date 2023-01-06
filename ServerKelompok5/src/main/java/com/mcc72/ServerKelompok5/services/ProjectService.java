@@ -36,7 +36,13 @@ public class ProjectService {
     private ProjectRepository projectRepository;
     private final EmployeeRepository employeeRepository;
     private UserRepository userRepository;
-
+    
+    public List<Project> getAllProject(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userRepository.findByUsername(authentication.getName()).get();
+        return projectRepository.orderProject(user.getEmployee().getId());
+    }
+    
     public Object getAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findByUsername(authentication.getName()).get();

@@ -17,6 +17,7 @@ import com.mcc72.ServerKelompok5.services.PermissionService;
 import com.mcc72.ServerKelompok5.services.StockLeaveService;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @RequestMapping("permission")
+@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER')")
 public class PermissionController {
     
     private PermissionService permissionService;
@@ -44,6 +46,7 @@ public class PermissionController {
     private UserRepository ur;
     private PermissionRepository pr;
     
+    @PreAuthorize("hasAnyAuthority('READ_USER', 'READ_ADMIN', 'READ_MANAGER')")
     @GetMapping
     public Object getAll(){
         return permissionService.getAll();
@@ -59,6 +62,7 @@ public class PermissionController {
         return permissionService.getById(id);
     }
     
+    @PreAuthorize("hasAnyAuthority('CREATE_USER', 'CREATE_MANAGER')")
     @PostMapping
     public Permission insert(@RequestBody PermissionDto permission){
         Permission permit = permissionService.create(permission);
@@ -70,6 +74,7 @@ public class PermissionController {
         return permit;
     }
     
+    @PreAuthorize("hasAuthority('UPDATE_MANAGER')")
     @PutMapping("/{id}")
     public Permission update(@PathVariable Integer id, @RequestBody PermissionDto permission, Employee e) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -84,6 +89,7 @@ public class PermissionController {
             return permit;
     }
     
+    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
     public Permission delete (@PathVariable Integer id){
         return permissionService.delete(id);

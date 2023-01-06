@@ -21,6 +21,7 @@ import com.mcc72.ServerKelompok5.repositories.ProjectRepository;
 import com.mcc72.ServerKelompok5.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -113,7 +114,7 @@ public class EmployeeService {
         m.put("projects", employee.getProjects());
         return m;
     }
-
+    
     public Employee insert(UserRegistrationDto e) {
         if (er.findByEmail(e.getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.FOUND, "Data is exist!!!");
