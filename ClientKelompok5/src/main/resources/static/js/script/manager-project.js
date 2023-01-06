@@ -232,7 +232,7 @@ const editProject = () => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Fill in all the data in this form",
+      text: "Fill in the data completely!",
     });
     return;
   }
@@ -285,7 +285,7 @@ const createProject = () => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Fill in all the data in this form",
+      text: "Fill in the data completely!",
     });
     return;
   }

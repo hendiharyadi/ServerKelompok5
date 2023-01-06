@@ -158,7 +158,7 @@ const updatePermission = async () => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Update permission harus di isi!",
+      text: "Permission needs to be updated!",
     });
   }
 
@@ -208,7 +208,7 @@ const updatePermission = async () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Karyawan ini tidak dapat cuti karena stok cuti tidak mencukupi!",
+        text: "The certain stock leave is insufficient!",
       });
     }
   } else {
