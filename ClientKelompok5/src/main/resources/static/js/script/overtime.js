@@ -22,7 +22,7 @@ const submitData = () => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Fill in all the data in this form",
+      text: "Fill in the data completely!",
     });
     return;
   }

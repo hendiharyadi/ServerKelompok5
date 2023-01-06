@@ -135,7 +135,7 @@ const submitPermission = async () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Tidak bisa mengajukan cuti karena jumlah request lebih besar dari stok cuti yang tersedia!",
+        text: "Can't request for cuti because the amount of cuti requested is bigger than the amount of cuti left.",
       });
       return;
     }
@@ -149,7 +149,7 @@ const submitPermission = async () => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Fill in all the data in this form",
+      text: "Fill in the data completely!",
     });
     return;
   }

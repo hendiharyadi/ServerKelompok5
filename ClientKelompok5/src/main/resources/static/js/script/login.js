@@ -61,7 +61,7 @@ const login = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Login gagal username/password salah",
+        text: "Username/Password is not correct",
       });
     },
   });
