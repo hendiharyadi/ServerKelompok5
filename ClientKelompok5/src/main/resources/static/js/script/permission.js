@@ -6,32 +6,6 @@ const loadedData = async () => {
   await loadTable();
 };
 
-const login = () => {
-  const url = "/api/auth";
-  $.ajax({
-    url,
-    method: "POST",
-    dataType: "JSON",
-    beforeSend: addCsrfToken(),
-    data: JSON.stringify({
-      username: "manager",
-      password: "123",
-    }),
-    contentType: "application/json",
-    success: (result) => {
-      console.log(result);
-    },
-    error: function (xhr, ajaxOptions, thrownError) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-      });
-      console.log({ xhr, ajaxOptions, thrownError });
-    },
-  });
-};
-
 const loadTable = async () => {
   await getStock();
   document
@@ -54,19 +28,19 @@ const loadTable = async () => {
     if (json.length !== 0) {
       tableContentWrapper.classList.remove("d-none");
       notFoundWrapper.classList.add("d-none");
-      json
-        .sort((a, b) => b.id - a.id)
-        .forEach((p) => {
-          i += 1;
-          tableWrapper.innerHTML += tableContent(
-            i,
-            p.id,
-            p.leave_type,
-            p.start_leave,
-            p.end_leave,
-            p.status
-          );
-        });
+      const sortedData = json.sort((a, b) => b.id - a.id);
+      console.log(json);
+      json.forEach((p) => {
+        i += 1;
+        tableWrapper.innerHTML += tableContent(
+          i,
+          p.id,
+          p.leave_type,
+          p.start_leave,
+          p.end_leave,
+          p.status
+        );
+      });
     } else {
       tableContentWrapper.classList.add("d-none");
       notFoundWrapper.classList.remove("d-none");
@@ -206,8 +180,8 @@ const tableContent = (no, id, leave_type, start_date, end_date, status) => {
   return ` <tr>
               <td>${no}</td>
               <td>${leave_type}</td>
-              <td>${start_date}</td>
-              <td>${end_date}</td>
+              <td>${moment(start_date).format("ll")}</td>
+              <td>${moment(end_date).format("ll")}</td>
               <td>
                 <label class="badge ${classStatus}">${status}</label>
               </td>

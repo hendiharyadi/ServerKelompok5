@@ -169,8 +169,8 @@ const tableContent = (no, id, start_date, end_date, project_name, status) => {
   }
   return ` <tr>
               <td>${no}</td>
-              <td>${start_date}</td>
-              <td>${end_date}</td>
+              <td>${moment(start_date).format("lll")}</td>
+              <td>${moment(end_date).format("lll")}</td>
               <td>${project_name}</td>
               <td>
                 <label class="badge ${classStatus}">${status}</label>

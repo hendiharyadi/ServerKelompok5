@@ -16,11 +16,9 @@ const onLoadPage = async () => {
         tableWrapper.innerHTML += tableContent(
           i,
           e.id,
-          `${new Date(e.date_history).toDateString()} | ${new Date(
-            e.date_history
-          ).toLocaleTimeString()}`,
-          new Date(e.overtime.start_overtime).toLocaleString(),
-          new Date(e.overtime.end_overtime).toLocaleString(),
+          moment(date).format("lll"),
+          moment(e.overtime.start_overtime).format("lll"),
+          moment(e.overtime.end_overtime).format("lll"),
           e.overtime.status
         );
       });

@@ -18,11 +18,9 @@ const loadPage = async () => {
             i,
             e.id,
             e.permission.leave_type,
-            `${new Date(e.date_history).toDateString()} | ${new Date(
-              e.date_history
-            ).toLocaleTimeString()}`,
-            e.permission.start_leave,
-            e.permission.end_leave,
+            moment(e.permission.date_history).format("lll"),
+            moment(e.permission.start_leave).format("ll"),
+            moment(e.permission.end_leave).format("ll"),
             e.permission.status
           );
         });

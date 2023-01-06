@@ -34,6 +34,7 @@ const getManagers = () => {
     success: (results) => {
       const inputManager = document.getElementById("input-manager");
       inputManager.innerHTML = "";
+      inputManager.add(generateOption("0", "Select Manager", true));
       results.forEach((emp) =>
         inputManager.add(generateOption(emp.id, emp.first_name, false))
       );
@@ -99,9 +100,9 @@ const postData = async () => {
   const username = $("#input-username").val();
   const role_id = $("#input-role").find(":selected").val();
   let manager_id = $("#input-manager").find(":selected").val();
-  if (role_id === "2" || role_id === "3") {
-    manager_id = null;
-  }
+  // if (role_id === "2" || role_id === "3") {
+  //   manager_id = null;
+  // }
 
   $.ajax({
     url: URL,

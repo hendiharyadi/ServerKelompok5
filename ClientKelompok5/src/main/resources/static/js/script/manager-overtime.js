@@ -15,29 +15,29 @@ const loadDataTable = async () => {
     if (json.length !== 0) {
       tableContentWrapper.classList.remove("d-none");
       notFoundWrapper.classList.add("d-none");
-      json.forEach((o) => {
-        i += 1;
-        let classStatus = "";
-        if (o.status === "PENDING") {
-          classStatus = "bg-warning";
-        } else if (o.status === "APPROVED") {
-          classStatus = "bg-success";
-        } else {
-          classStatus = "bg-danger";
-        }
+      json
+        .sort((a, b) => b.id - a.id)
+        .forEach((o) => {
+          i += 1;
+          let classStatus = "";
+          if (o.status === "PENDING") {
+            classStatus = "bg-warning";
+          } else if (o.status === "APPROVED") {
+            classStatus = "bg-success";
+          } else {
+            classStatus = "bg-danger";
+          }
 
-        tableWrapper.innerHTML += ` <tr>
+          tableWrapper.innerHTML += ` <tr>
                           <td>${i}</td>
                           <td>${o.employee.first_name}</td>
-                          <td>${new Date(
-                            o.start_overtime
-                          ).toLocaleString()}</td>
-                          <td>${new Date(o.end_overtime).toLocaleString()}</td>
+                          <td>${moment(o.start_overtime).format("lll")}</td>
+                          <td>${moment(o.end_overtime).format("lll")}</td>
                           <td>${o.project.name}</td>
                           <td>
                             <label class="badge ${classStatus}">${
-          o.status
-        }</label>
+            o.status
+          }</label>
                           </td>
                           <td>
                             <button
@@ -56,8 +56,8 @@ const loadDataTable = async () => {
                               data-bs-toggle="modal"
                               data-bs-target="#modalUpdateOvertime"
                               onclick="preUpdateOvertime(${o.id}, ${
-          o.project.id
-        })"
+            o.project.id
+          })"
                
                             >
                               <i class="mdi mdi-account-edit"></i>
@@ -65,7 +65,7 @@ const loadDataTable = async () => {
                             </button>
                           </td>
                         </tr>`;
-      });
+        });
     } else {
       tableContentWrapper.classList.add("d-none");
       notFoundWrapper.classList.remove("d-none");

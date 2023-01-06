@@ -16,33 +16,35 @@ const loadDataTable = async () => {
     if (json.length !== 0) {
       tableContentWrapper.classList.remove("d-none");
       notFoundWrapper.classList.add("d-none");
-      json.forEach((e) => {
-        i += 1;
-        let status = false;
-        let classStatus = "";
-        if (e.status === "PENDING") {
-          classStatus = "bg-warning";
-        } else if (e.status === "APPROVED") {
-          status = true;
-          classStatus = "bg-success";
-        } else if (e.status === "REJECTED") {
-          classStatus = "bg-danger";
-        }
-        const type = e.leave_type === "CUTI" ? 1 : 2;
-        const total_day = days(
-          new Date(e.end_leave).getTime(),
-          new Date(e.start_leave).getTime()
-        );
-        tableWrapper.innerHTML += `  <tr>
+      json
+        .sort((a, b) => b.id - a.id)
+        .forEach((e) => {
+          i += 1;
+          let status = false;
+          let classStatus = "";
+          if (e.status === "PENDING") {
+            classStatus = "bg-warning";
+          } else if (e.status === "APPROVED") {
+            status = true;
+            classStatus = "bg-success";
+          } else if (e.status === "REJECTED") {
+            classStatus = "bg-danger";
+          }
+          const type = e.leave_type === "CUTI" ? 1 : 2;
+          const total_day = days(
+            new Date(e.end_leave).getTime(),
+            new Date(e.start_leave).getTime()
+          );
+          tableWrapper.innerHTML += `  <tr>
                           <td>${i}</td>
                           <td>${e.employee.first_name}</td>
                           <td>${e.leave_type}</td>
-                          <td>${e.start_leave}</td>
-                          <td>${e.end_leave}</td>
+                          <td>${moment(e.start_leave).format("ll")}</td>
+                          <td>${moment(e.end_leave).format("ll")}</td>
                           <td>
                             <label class="badge ${classStatus}">${
-          e.status
-        }</label>
+            e.status
+          }</label>
                           </td>
                           <td>
                             <button
@@ -61,15 +63,15 @@ const loadDataTable = async () => {
                               data-bs-toggle="modal"
                               data-bs-target="#modalUpdateLeave"
                               onclick="preUpdatePermission(${e.id}, ${type}, ${
-          e.employee.id
-        },${total_day})"
+            e.employee.id
+          },${total_day})"
                             >
                               <i class="mdi mdi-account-edit"></i>
                               Update
                             </button>
                           </td>
                         </tr>`;
-      });
+        });
     } else {
       tableContentWrapper.classList.add("d-none");
       notFoundWrapper.classList.remove("d-none");
