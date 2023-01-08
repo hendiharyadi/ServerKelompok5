@@ -10,18 +10,20 @@ const onLoadPage = async () => {
     if (json.length !== 0) {
       tableContentWrapper.classList.remove("d-none");
       notFoundWrapper.classList.add("d-none");
-      json.forEach((e) => {
-        i += 1;
-        const date = new Date(e.date_history);
-        tableWrapper.innerHTML += tableContent(
-          i,
-          e.id,
-          moment(date).format("lll"),
-          moment(e.overtime.start_overtime).format("lll"),
-          moment(e.overtime.end_overtime).format("lll"),
-          e.overtime.status
-        );
-      });
+      json
+        .sort((a, b) => b.id - a.id)
+        .forEach((e) => {
+          i += 1;
+          const date = new Date(e.date_history);
+          tableWrapper.innerHTML += tableContent(
+            i,
+            e.id,
+            moment(date).format("lll"),
+            moment(e.overtime.start_overtime).format("lll"),
+            moment(e.overtime.end_overtime).format("lll"),
+            e.status
+          );
+        });
     } else {
       tableContentWrapper.classList.add("d-none");
       notFoundWrapper.classList.remove("d-none");

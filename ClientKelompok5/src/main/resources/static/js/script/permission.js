@@ -146,7 +146,13 @@ const submitPermission = async () => {
     contentType: "application/json",
     success: async (result) => {
       console.log({ result });
-      Swal.fire("Saved!", "", "success");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Saved!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       btnSpinner.classList.add("d-none");
       btnSubmit.classList.remove("d-none");
       $("#modalAddItem").modal("hide");

@@ -18,10 +18,10 @@ const loadPage = async () => {
             i,
             e.id,
             e.permission.leave_type,
-            moment(e.permission.date_history).format("lll"),
+            moment(e.date_history).format("lll"),
             moment(e.permission.start_leave).format("ll"),
             moment(e.permission.end_leave).format("ll"),
-            e.permission.status
+            e.status
           );
         });
     } else {

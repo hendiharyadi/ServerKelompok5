@@ -11,7 +11,6 @@ const tableContentWrapper = document.getElementById("table-content");
 const tableContent = (no, id, name, start, end, status, members) => {
   let statusProject = false;
   const currentdate = new Date();
-
   const fullYear = currentdate.getFullYear();
   const month = currentdate.getMonth() + 1;
   const date = currentdate.getDate();
@@ -19,12 +18,7 @@ const tableContent = (no, id, name, start, end, status, members) => {
     date < 10 ? "0" + date : date
   }`.trim();
 
-  if (dateNow === end) {
-    statusProject = true;
-  } else {
-    statusProject = false;
-    console.log(`Running`);
-  }
+  statusProject = dateNow === end;
   return `<tr>
               <td>${no}</td>
               <td>${name}</td>
@@ -252,7 +246,13 @@ const editProject = () => {
       getAllProject();
       btnSubmit.classList.remove("d-none");
       btnSpinner.classList.add("d-none");
-      Swal.fire("Saved!", "", "success");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Saved!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       $("#modalEditProject").modal("hide");
     },
     error: function (xhr, ajaxOptions, thrownError) {
@@ -310,7 +310,13 @@ const createProject = () => {
       $("#input-date-end").val("");
       $("#input-project-name").val("");
       getAllProject();
-      Swal.fire("Saved!", "", "success");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Saved!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       btnSubmit.classList.remove("d-none");
       btnSpinner.classList.add("d-none");
       $("#modalAddProject").modal("hide");

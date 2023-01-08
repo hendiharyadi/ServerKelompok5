@@ -14,5 +14,6 @@ public class HistoryPermissionResponse {
     private int id;
     private Permission permission;
     private String date_history;
+    private String status;
     private Employee employee;
 }

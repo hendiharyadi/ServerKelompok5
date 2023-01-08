@@ -181,7 +181,7 @@
                   ><span class="hide-menu">Admin Page</span></a
                 >
               </li>
-              <li class="sidebar-item" sec:authorize="hasRole('MANAGER')">
+              <li class="sidebar-item selected" sec:authorize="hasRole('MANAGER')">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="/manager"
@@ -306,7 +306,7 @@
                     </table>
                   </div>
                   <div
-                    class="card border-0 w-100 d-flex align-items-center my-4 d-none"
+                    class="card border-0 w-100 d-flex align-items-center rounded-circle my-4 d-none"
                     id="data-not-found"
                   >
                     <span

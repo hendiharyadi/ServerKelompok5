@@ -13,5 +13,6 @@ public class HistoryOvertimeResponse {
     private int id;
     private Overtime overtime;
     private String date_history;
+    private String status;
     private Employee employee;
 }

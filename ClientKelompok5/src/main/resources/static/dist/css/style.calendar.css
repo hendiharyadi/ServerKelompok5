@@ -1,6 +1,6 @@
-/**, *:before, *:after {
+*, *:before, *:after {
 -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
-}*/
+}
 
 /*body {
  overflow: hidden;
@@ -23,7 +23,7 @@
     -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     background-color: #fff !important;
-    width: 450px;
+    width: 400px;
     margin: 0 auto;
     height: 335px;
     overflow: hidden;
