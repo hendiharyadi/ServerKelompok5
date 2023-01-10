@@ -65,11 +65,12 @@ const tableContent = (no, id, updated_at, start, end, status) => {
               </td>
               <td>
                 <label
-                  class="text-primary pointer"
+                  class="badge bg-primary pointer"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDetailLeave"
                   onclick="detailOvertimeHistory(${id})"
                 >
+                 <i class="mdi mdi-looks"></i>
                   Detail
                 </label>
               </td>

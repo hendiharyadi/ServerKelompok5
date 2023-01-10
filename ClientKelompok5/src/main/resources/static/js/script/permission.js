@@ -113,6 +113,15 @@ const submitPermission = async () => {
       });
       return;
     }
+  } else if (leave_type === "2") {
+    if (note.length === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Fill in the data completely!",
+      });
+      return;
+    }
   }
 
   if (
@@ -193,11 +202,12 @@ const tableContent = (no, id, leave_type, start_date, end_date, status) => {
               </td>
               <td>
                 <label
-                  class="text-primary pointer"
+                  class="badge bg-primary pointer"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDetailLeave"
                   onclick="detailPermission(${id})"
                 >
+                <i class="mdi mdi-looks"></i>
                   Detail
                 </label>
               </td>

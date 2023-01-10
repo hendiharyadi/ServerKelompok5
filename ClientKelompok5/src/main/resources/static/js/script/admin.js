@@ -172,11 +172,12 @@ const getAllEmployees = () => {
     contentType: "application/json",
     success: (results) => {
       let i = 0;
-      console.log(results);
-      results.forEach((emp) => {
+      const filteredUser = results
+        .filter((e) => e.user.userRole[0].id !== 3)
+        .sort((a, b) => b.id - a.id);
+      filteredUser.forEach((emp) => {
         i += 1;
-        if (emp.user.userRole[0].id !== 3) {
-          tableWrapper.innerHTML += `<tr>
+        tableWrapper.innerHTML += `<tr>
                           <td>${i}</td>
                           <td>${emp.user.username}</td>
                           <td>${emp.first_name}</td>
@@ -208,7 +209,6 @@ const getAllEmployees = () => {
                             
                           </td>
                         </tr>`;
-        }
       });
     },
     error: function (xhr, ajaxOptions, thrownError) {

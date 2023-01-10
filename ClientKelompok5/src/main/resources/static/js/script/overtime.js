@@ -53,6 +53,10 @@ const submitData = () => {
       btnSpinner.classList.add("d-none");
       btnSubmit.classList.remove("d-none");
       $("#modalAddOvertime").modal("hide");
+      $("#input-overtime-date-start").val("");
+      $("#input-overtime-date-end").val("");
+      $("#input-note-overtime").val("");
+      project_id.value = "0";
       await loadData();
     },
     error: function (xhr, ajaxOptions, thrownError) {
@@ -136,7 +140,7 @@ const beforeAddOvertime = async () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Tidak bisa mengajukan overtime, Anda sedang tidak dalam projek!",
+        text: "Can't apply for overtime, you're not working in a project!",
       }).then((e) => $("#modalAddOvertime").modal("hide"));
     }
     employeeProject.forEach((p) => {
@@ -183,11 +187,12 @@ const tableContent = (no, id, start_date, end_date, project_name, status) => {
               </td>
               <td>
                 <label
-                  class="text-primary pointer"
+                  class="badge bg-primary text-white"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDetailLeave"
                   onclick="detailOvertime(${id})"
                 >
+                 <i class="mdi mdi-looks"></i>
                   Detail
                 </label>
               </td>
