@@ -19,7 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @AllArgsConstructor
 @RestController
 @RequestMapping("employee")
-@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_USER')")
+//@PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_USER')")
 public class EmployeeController {
 
     private EmployeeService employeeService;
@@ -32,7 +32,7 @@ public class EmployeeController {
         return employeeService.getAllMap();
     }
     
-    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_MANAGER', 'READ_USER')")
+//    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_MANAGER', 'READ_USER')")
     @GetMapping("/dashboard")
     public Map<String, Object> getEmployee(){
         return employeeService.getEmployee();
