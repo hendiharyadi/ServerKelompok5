@@ -32,7 +32,7 @@ public class EmployeeController {
         return employeeService.getAllMap();
     }
     
-//    @PreAuthorize("hasAuthority('READ_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_MANAGER', 'READ_USER')")
     @GetMapping("/dashboard")
     public Map<String, Object> getEmployee(){
         return employeeService.getEmployee();
