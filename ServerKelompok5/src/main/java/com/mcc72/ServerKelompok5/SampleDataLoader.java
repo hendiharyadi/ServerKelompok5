@@ -73,7 +73,7 @@ public class SampleDataLoader implements CommandLineRunner {
             privileges.add(new Privilege(0, "READ_ADMIN", rolesAdmin));
             privileges.add(new Privilege(0, "UPDATE_ADMIN", rolesAdmin));
             privileges.add(new Privilege(0, "DELETE_ADMIN", rolesAdmin));
-
+            privilegeRepository.saveAll(privileges);
 
         }
 
