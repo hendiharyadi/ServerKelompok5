@@ -1,0 +1,27 @@
+.pointer {
+    cursor: pointer;
+    transition: all .5s;
+}
+
+.pointer:hover {
+    font-weight: bold;
+}
+
+.background{
+    background-image: url("/images/login-bg.jpg");
+    background-size: cover;
+}
+
+
+.card-task {
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+}
+
+.rounded-x {
+    border-radius: 1rem;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="keywords"
+      content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Flexy lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Flexy admin lite design, Flexy admin lite dashboard bootstrap 5 dashboard template"
+    />
+    <meta
+      name="description"
+      content="Flexy Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
+    />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>FreeMonday | Login</title>
+
+    <!-- Generate CSRF Token For AJAX -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <link
+      rel="canonical"
+      href="https://www.wrappixel.com/templates/Flexy-admin-lite/"
+    />
+    <!-- Favicon icon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/images/favicon.png"
+    />
+    <!-- Custom CSS -->
+    <link href="/js/chartist/dist/chartist.min.css" rel="stylesheet" />
+    <link
+      href="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link href="/dist/css/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+      ::placeholder {
+        opacity: 0.5 !important; /* Firefox */
+      }
+    </style>
+  </head>
+
+  <body class="background">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+      <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in templates.scss -->
+    <!-- ============================================================== -->
+    <div
+      id="main-wrapper"
+      data-layout="vertical"
+      data-navbarbg="skin5"
+      data-sidebartype="full"
+      data-sidebar-position="absolute"
+      data-header-position="absolute"
+      data-boxed-layout="full"
+    >
+      <div
+        class="row d-flex align-items-center justify-content-center min-vh-100"
+      >
+        <div class="col-lg-4 mx-auto">
+          <div class="card">
+            <div
+              class="navbar-header d-flex align-items-center justify-content-center py-4"
+              data-logobg="skin6"
+            >
+              <span class="navbar-brand">
+                <b class="logo-icon">
+                  <img
+                    src="/images/logo-icon.png"
+                    alt="homepage"
+                    class="dark-logo"
+                  />
+                </b>
+                <span class="logo-text fw-bolder text-dark text-lg"
+                  >FreeMonday</span
+                >
+              </span>
+            </div>
+            <form
+              class="px-4 pb-4"
+              th:action="@{/login}"
+              th:method="POST"
+              th:object="${loginRequest}"
+            >
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  th:field="*{username}"
+                  class="form-control"
+                  placeholder="username"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  th:field="*{password}"
+                  class="form-control"
+                  placeholder="********"
+                />
+              </div>
+              <!--<div class="text-center">
+                <p>
+                  Don't have an account? <a href="register.html">Register</a>
+                </p>
+              </div>-->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-block btn-primary">
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="/js/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/app-style-switcher.js"></script>
+    <!--Wave Effects -->
+    <script src="/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/dist/js/custom.js"></script>
+    <!--This page JavaScript -->
+  </body>
+</html>

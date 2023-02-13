@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="keywords"
+      content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Flexy lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Flexy admin lite design, Flexy admin lite dashboard bootstrap 5 dashboard template"
+    />
+    <meta
+      name="description"
+      content="Flexy Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
+    />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>FreeMonday | Dashboard</title>
+
+    <!-- Favicon icon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/images/favicon.png"
+    />
+    <!-- Custom CSS -->
+    <link href="/js/chartist/dist/chartist.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/dist/css/style.calendar.css" />
+    <link rel="stylesheet" href="/dist/css/style.footer.css" />
+    <link
+      href="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link href="/dist/css/style.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+      <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in templates.scss -->
+    <!-- ============================================================== -->
+    <div
+      id="main-wrapper"
+      data-layout="vertical"
+      data-navbarbg="skin5"
+      data-sidebartype="full"
+      data-sidebar-position="absolute"
+      data-header-position="absolute"
+      data-boxed-layout="full"
+    >
+      <!-- ============================================================== -->
+      <!-- Topbar header - style you can find in templates.scss -->
+      <!-- ============================================================== -->
+      <header class="topbar" data-navbarbg="skin6">
+        <nav class="navbar top-navbar navbar-expand-md navbar-light">
+          <div class="navbar-header" data-logobg="skin6">
+            <!-- ============================================================== -->
+            <!-- Logo -->
+            <!-- ============================================================== -->
+            <a class="navbar-brand" href="/">
+              <!-- Logo icon -->
+              <b class="logo-icon">
+                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                <!-- Dark Logo icon -->
+                <img
+                  src="/images/logo-icon.png"
+                  alt="homepage"
+                  class="dark-logo"
+                />
+                <!-- Light Logo icon -->
+                <img
+                  src="/images/logo-light-icon.png"
+                  alt="homepage"
+                  class="light-logo"
+                />
+              </b>
+              <!--End Logo icon -->
+              <!-- Logo text -->
+              <span class="logo-text fw-bold"> FreeMonday </span>
+            </a>
+            <!-- ============================================================== -->
+            <!-- End Logo -->
+            <!-- ============================================================== -->
+            <!-- This is for the sidebar toggle which is visible on mobile only -->
+            <a
+              class="nav-toggler waves-effect waves-light d-block d-md-none"
+              href="javascript:void(0)"
+              ><i class="mdi mdi-menu"></i
+            ></a>
+          </div>
+          <!-- ============================================================== -->
+          <!-- End Logo -->
+          <!-- ============================================================== -->
+          <div
+            class="navbar-collapse collapse"
+            id="navbarSupportedContent"
+            data-navbarbg="skin5"
+          >
+            <!-- ============================================================== -->
+            <!-- toggle and nav items -->
+            <!-- ============================================================== -->
+            <ul class="navbar-nav float-start me-auto"></ul>
+            <!-- ============================================================== -->
+            <!-- Right side toggle and nav items -->
+            <!-- ============================================================== -->
+            <ul class="navbar-nav float-end me-2">
+              <!-- ============================================================== -->
+              <!-- User profile and search -->
+              <!-- ============================================================== -->
+              <form class="d-flex" th:action="@{/logout}" th:method="POST">
+                <button
+                  onclick="return confirm('Are you sure want to logout?')"
+                  class="btn btn-danger text-white"
+                  type="submit"
+                >
+                  <i class="mdi mdi-logout me-1"></i>Logout
+                </button>
+              </form>
+              <!-- ============================================================== -->
+              <!-- User profile and search -->
+              <!-- ============================================================== -->
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- ============================================================== -->
+      <!-- End Topbar header -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- Left Sidebar - style you can find in sidebar.scss  -->
+      <!-- ============================================================== -->
+      <aside class="left-sidebar" data-sidebarbg="skin6">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar">
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+              <li class="sidebar-item selected">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="#"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-view-dashboard"></i
+                  ><span class="hide-menu">Dashboard</span></a
+                >
+              </li>
+              <li class="sidebar-item" sec:authorize="hasRole('ADMIN')">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/admin"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-worker"></i
+                  ><span class="hide-menu">Admin Page</span></a
+                >
+              </li>
+              <li class="sidebar-item" sec:authorize="hasRole('MANAGER')">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/manager"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-nature-people"></i
+                  ><span class="hide-menu">Manager</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/permission"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-human-greeting"></i
+                  ><span class="hide-menu">Leave Request</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/overtime"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-timelapse"></i
+                  ><span class="hide-menu">Overtime Request</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/history"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-history"></i
+                  ><span class="hide-menu">History</span></a
+                >
+              </li>
+            </ul>
+          </nav>
+          <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+      </aside>
+      <!-- ============================================================== -->
+      <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- Page wrapper  -->
+      <!-- ============================================================== -->
+      <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="page-breadcrumb">
+          <div class="row align-items-center">
+            <div class="col-6">
+              <!-- <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                  <li class="breadcrumb-item">
+                    <a href="/" class="link"
+                      ><i class="mdi mdi-home-outline fs-4"></i
+                    ></a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Dashboard
+                  </li>
+                </ol>
+              </nav> -->
+              <h3 class="mb-0 fw-bold">
+                Hello <span th:text="${employee.first_name}" style="text-transform: capitalize;"></span>,
+              </h3>
+              <p class="mb-0 fw-bold">Welcome to FreeMonday !</p>
+            </div>
+          </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+          <!-- ============================================================== -->
+          <!-- Sales chart -->
+          <!-- ============================================================== -->
+          <div class="row" sec:authorize="hasRole('ADMIN')">
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-body">
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div
+                class="card"
+                style="
+                  color: #1c2331;
+                  background-color: #f4c63d;
+                  border-radius: 30px;
+                "
+              >
+                <div class="card-body p-6">
+                  <div class="d-flex">
+                    <h5 class="flex-grow-1">Jakarta</h5>
+                    <h5>15:07</h5>
+                  </div>
+
+                  <div class="d-flex flex-column text-center mt-5 mb-4">
+                    <h6
+                      class="display-4 mb-0 font-weight-bold"
+                      style="color: #1c2331"
+                    >
+                      28°C
+                    </h6>
+                    <span class="small" style="color: #1c2331">Stormy</span>
+                  </div>
+
+                  <div class="d-flex align-items-center">
+                    <div class="flex-grow-1" style="font-size: 1rem">
+                      <div>
+                        <i class="fas fa-tint fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 84% </span>
+                      </div>
+                      <div>
+                        <i class="fas fa-sun fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 0.2h </span>
+                      </div>
+                    </div>
+                    <div>
+                      <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+                        width="100px"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="row"
+            sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_USER')"
+          >
+            <div class="col-lg-5">
+              <div class="d-flex align-items-start">
+                <div id="calendar"></div>
+              </div>
+            </div>
+            <div class="col-lg-7">
+              <div
+                class="card"
+                style="
+                  color: #1c2331;
+                  background-color: #f4c63d;
+                  border-radius: 30px;
+                "
+              >
+                <div class="card-body p-6">
+                  <div class="d-flex">
+                    <h5 class="flex-grow-1">Jakarta</h5>
+                    <h5>15:07</h5>
+                  </div>
+
+                  <div class="d-flex flex-column text-center mt-5 mb-4">
+                    <h6
+                      class="display-4 mb-0 font-weight-bold"
+                      style="color: #1c2331"
+                    >
+                      28°C
+                    </h6>
+                    <span class="small" style="color: #1c2331">Stormy</span>
+                  </div>
+
+                  <div class="d-flex align-items-center">
+                    <div class="flex-grow-1" style="font-size: 1rem">
+                      <div>
+                        <i class="fas fa-tint fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 84% </span>
+                      </div>
+                      <div>
+                        <i class="fas fa-sun fa-fw" style="color: #868b94"></i>
+                        <span class="ms-1"> 0.2h </span>
+                      </div>
+                    </div>
+                    <div>
+                      <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+                        width="100px"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="kilimanjaro_area text-dark mt-lg-5 border border-1">
+            <!-- Top Footer Area Start -->
+            <div class="foo_top_header_one px-3">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part m-top-15 text-dark">
+                      <h5>About FreeMonday</h5>
+                      <p>
+                        FreeMonday is an application designed to make it easier
+                        for employees who want to request for leave and
+                        overtime.
+                      </p>
+                      <p>
+                        Our application is completely creative, clean & 100%
+                        responsive website. Put your needs into next level with
+                        us.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part m-top-15 text-dark">
+                      <h5>Important Links</h5>
+                      <ul class="kilimanjaro_links p-l-0">
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Terms & Conditions</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >About Licences</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Help & Support</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Privacy Policy</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >Community & Forum</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part m-top-15">
+                      <h5 class="text-dark">Social Links</h5>
+                      <ul class="kilimanjaro_social_links p-l-0">
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-facebook" aria-hidden="true"></i>
+                            Facebook</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-twitter" aria-hidden="true"></i>
+                            Twitter</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-pinterest" aria-hidden="true"></i>
+                            Pinterest</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-youtube" aria-hidden="true"></i>
+                            YouTube</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#" class="text-dark"
+                            ><i class="fa fa-linkedin" aria-hidden="true"></i>
+                            Linkedin</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <div class="kilimanjaro_part m-top-15">
+                      <h5>Quick Contact</h5>
+                      <div class="">
+                        <span class="text-dark"
+                          >Phone: <br />
+                          02172777777</span
+                        >
+                      </div>
+                      <div class="">
+                        <span class="text-dark"
+                          >Email: <br />
+                          freemonday@yopmail.com</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Footer Bottom Area Start -->
+          </footer>
+          <div
+            class="kilimanjaro_bottom_header_one mt-lg-5 bg-gradient bg-primary text-center text-white"
+            style="padding: 20px 0"
+          >
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <p class="text-white">
+                    © All Rights Reserved by
+                    <a href="#" class="text-white"
+                      >FreeMonday<i class="fa fa-love"></i
+                    ></a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ============================================================== -->
+          <!-- Sales chart -->
+          <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page wrapper  -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+      integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="/js/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/app-style-switcher.js"></script>
+    <!--Wave Effects -->
+    <script src="/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/dist/js/custom.js"></script>
+    <!--This page JavaScript -->
+    <!--chartis chart-->
+    <script src="/js/chartist/dist/chartist.min.js"></script>
+    <script src="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="/js/script/calendar.js"></script>
+  </body>
+</html>

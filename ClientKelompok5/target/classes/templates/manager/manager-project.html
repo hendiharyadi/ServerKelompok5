@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="keywords"
+      content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Flexy lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Flexy admin lite design, Flexy admin lite dashboard bootstrap 5 dashboard template"
+    />
+    <meta
+      name="description"
+      content="Flexy Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
+    />
+    <!-- Generate CSRF Token For AJAX -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>FreeMonday | Manager - Project</title>
+    <link
+      rel="canonical"
+      href="https://www.wrappixel.com/templates/Flexy-admin-lite/"
+    />
+    <!-- Favicon icon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/images/favicon.png"
+    />
+    <!-- Custom CSS -->
+    <link href="/js/chartist/dist/chartist.min.css" rel="stylesheet" />
+    <link
+      href="/js/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link href="/dist/css/style.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      ::placeholder {
+        opacity: 0.5 !important; /* Firefox */
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+      <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in templates.scss -->
+    <!-- ============================================================== -->
+    <div
+      id="main-wrapper"
+      data-layout="vertical"
+      data-navbarbg="skin5"
+      data-sidebartype="full"
+      data-sidebar-position="absolute"
+      data-header-position="absolute"
+      data-boxed-layout="full"
+    >
+      <!-- ============================================================== -->
+      <!-- Topbar header - style you can find in templates.scss -->
+      <!-- ============================================================== -->
+      <header class="topbar" data-navbarbg="skin6">
+        <nav class="navbar top-navbar navbar-expand-md navbar-light">
+          <div class="navbar-header" data-logobg="skin6">
+            <!-- ============================================================== -->
+            <!-- Logo -->
+            <!-- ============================================================== -->
+            <a class="navbar-brand" href="/">
+              <!-- Logo icon -->
+              <b class="logo-icon">
+                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                <!-- Dark Logo icon -->
+                <img
+                  src="/images/logo-icon.png"
+                  alt="homepage"
+                  class="dark-logo"
+                />
+                <!-- Light Logo icon -->
+                <img
+                  src="/images/logo-light-icon.png"
+                  alt="homepage"
+                  class="light-logo"
+                />
+              </b>
+              <!--End Logo icon -->
+              <!-- Logo text -->
+              <span class="logo-text fw-bold"> FreeMonday </span>
+            </a>
+            <!-- ============================================================== -->
+            <!-- End Logo -->
+            <!-- ============================================================== -->
+            <!-- This is for the sidebar toggle which is visible on mobile only -->
+            <a
+              class="nav-toggler waves-effect waves-light d-block d-md-none"
+              href="javascript:void(0)"
+              ><i class="mdi mdi-menu"></i
+            ></a>
+          </div>
+          <!-- ============================================================== -->
+          <!-- End Logo -->
+          <!-- ============================================================== -->
+          <div
+            class="navbar-collapse collapse"
+            id="navbarSupportedContent"
+            data-navbarbg="skin5"
+          >
+            <!-- ============================================================== -->
+            <!-- toggle and nav items -->
+            <!-- ============================================================== -->
+            <ul class="navbar-nav float-start me-auto"></ul>
+            <!-- ============================================================== -->
+            <!-- Right side toggle and nav items -->
+            <!-- ============================================================== -->
+            <ul class="navbar-nav float-end me-2">
+              <!-- ============================================================== -->
+              <!-- User profile and search -->
+              <!-- ============================================================== -->
+              <form class="d-flex" th:action="@{/logout}" th:method="POST">
+                <button
+                  onclick="return confirm('Are you sure want to logout?')"
+                  class="btn btn-danger text-white"
+                  type="submit"
+                >
+                  <i class="mdi mdi-logout me-1"></i>Logout
+                </button>
+              </form>
+              <!-- ============================================================== -->
+              <!-- User profile and search -->
+              <!-- ============================================================== -->
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- ============================================================== -->
+      <!-- End Topbar header -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- Left Sidebar - style you can find in sidebar.scss  -->
+      <!-- ============================================================== -->
+      <aside class="left-sidebar" data-sidebarbg="skin6">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar">
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-view-dashboard"></i
+                  ><span class="hide-menu">Dashboard</span></a
+                >
+              </li>
+              <li class="sidebar-item" sec:authorize="hasRole('ADMIN')">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/admin"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-worker"></i
+                  ><span class="hide-menu">Admin Page</span></a
+                >
+              </li>
+              <li class="sidebar-item selected" sec:authorize="hasRole('MANAGER')">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/manager"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-nature-people"></i
+                  ><span class="hide-menu">Manager Page</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/permission"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-human-greeting"></i
+                  ><span class="hide-menu">Leave Request</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/overtime"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-timelapse"></i
+                  ><span class="hide-menu">Overtime Request</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/history"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-history"></i
+                  ><span class="hide-menu">History</span></a
+                >
+              </li>
+            </ul>
+          </nav>
+          <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+      </aside>
+      <!-- ============================================================== -->
+      <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- Page wrapper  -->
+      <!-- ============================================================== -->
+      <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="page-breadcrumb">
+          <div class="row align-items-center">
+            <div class="col-6">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                  <li class="breadcrumb-item">
+                    <a href="/manager" class="link"
+                      ><i class="mdi mdi-home-outline fs-4"></i
+                    ></a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Manager Page
+                  </li>
+                </ol>
+              </nav>
+              <h1 class="mb-0 fw-bold">Manage Project</h1>
+            </div>
+          </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <div class="container-fluid pt-2">
+          <!-- ============================================================== -->
+          <!-- Table -->
+          <!-- ============================================================== -->
+          <div class="row">
+            <!-- column -->
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <!-- title -->
+                  <div class="d-md-flex">
+                    <div>
+                      <h4 class="card-title">Project</h4>
+                      <h5 class="card-subtitle">Overview of List of Projects</h5>
+                    </div>
+                    <div class="ms-auto d-flex align-items-center gap-2">
+                      <div class="">
+                        <button
+                          class="btn btn-sm btn-primary"
+                          data-bs-toggle="modal"
+                          id="trigger-add-project"
+                          data-bs-target="#modalAddProject"
+                          onclick="beforeAddProject()"
+                        >
+                          <i class="mdi mdi-plus"></i>
+                          Add New Project
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- title -->
+                  <div id="table-content" class="table-responsive">
+                    <table
+                      class="table mb-0 table-hover align-middle text-nowrap"
+                    >
+                      <thead class="fw-bold">
+                        <tr>
+                          <th class="border-top-0">No</th>
+                          <th class="border-top-0">Project Name</th>
+                          <th class="border-top-0">Start Date</th>
+                          <th class="border-top-0">End Date</th>
+                          <th class="border-top-0">Status</th>
+                          <th class="border-top-0">Member</th>
+                          <th class="border-top-0">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="table-wrapper"></tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="card border-0 w-100 d-flex align-items-center rounded-circle my-4 d-none"
+                    id="data-not-found"
+                  >
+                    <span
+                      class="w-25 bg-danger text-lg-center rounded text-white px-4 py-2"
+                      >Data is/are still empty!</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ============================================================== -->
+          <!-- Table -->
+          <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer class="footer text-center">
+          All Rights Reserved by FreeMonday
+        </footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
+        <!-- ============================================================== -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Page wrapper  -->
+      <!-- ============================================================== -->
+
+      <!-- ============================================================== -->
+      <!-- Modal Add Project  -->
+      <!-- ============================================================== -->
+      <div
+        class="modal fade"
+        id="modalAddProject"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Add Project Form
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal form-material mx-2 text-dark">
+                <div class="form-group">
+                  <label class="col-md-12">Project Name</label>
+                  <div class="col-md-12">
+                    <input
+                      type="text"
+                      placeholder="Example Project"
+                      class="form-control form-control-line"
+                      id="input-project-name"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for class="col-md-12">Start Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date" id="datepicker">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="input-date-start"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for class="col-md-12">End Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="input-date-end"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="select-members" class="col-md-12">Choose Member</label>
+                  <div class="col-sm-12">
+                    <select
+                      class="form-select" style="width: 100%"
+                      id="select-members"
+                      required
+                      multiple
+                    ></select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div
+                    class="col-sm-12 d-flex align-items-center justify-content-end gap-2"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button
+                      class="btn btn-primary d-none"
+                      type="button"
+                      id="spinner-button"
+                      disabled
+                    >
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Loading...
+                    </button>
+                    <button
+                      class="btn btn-primary text-white"
+                      type="button"
+                      id="submit-project"
+                      onclick="createProject()"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Modal Add Project  -->
+      <!-- ============================================================== -->
+
+      <!-- ============================================================== -->
+      <!-- Modal check member  -->
+      <!-- ============================================================== -->
+      <div
+        class="modal fade"
+        id="modalCheckMember"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="modalLeaveStock"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">List of Employees</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-member"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- End modal check member -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- Modal add member to project -->
+      <!-- ============================================================== -->
+      <div
+        class="modal fade"
+        id="modalAddMember"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="modalLeaveStock"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Members To Project</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form action="">
+                <div class="form-group">
+                  <label class="col-md-12" for="addEmployeeToProject"
+                    >Add Members</label
+                  >
+                  <div class="col-sm-12">
+                    <select
+                      id="addEmployeeToProject"
+                      class="form-select shadow-none form-control-line"
+                    >
+                      <option selected>Select Employees</option>
+                      <option>Adam</option>
+                      <option>Mahmud</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div
+                    class="col-sm-12 d-flex align-items-center justify-content-end gap-2"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button class="btn btn-primary text-white">
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- End modal add member to project -->
+      <!-- ============================================================== -->
+
+      <!-- ============================================================== -->
+      <!-- Modal Edit Project  -->
+      <!-- ============================================================== -->
+      <div
+        class="modal fade"
+        id="modalEditProject"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Project Form</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal form-material mx-2">
+                <div class="form-group">
+                  <label class="col-md-12">Project Name</label>
+                  <div class="col-md-12">
+                    <input type="hidden" id="project-edit-id" />
+                    <input
+                      type="text"
+                      id="edit-project-name"
+                      class="form-control form-control-line"
+                    />
+                  </div>
+                </div>
+                <!-- <div class="form-group">
+                  <label for class="col-md-12">Start Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="edit-date-start"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for class="col-md-12">End Date</label>
+                  <div class="col-md-12">
+                    <div class="input-group date">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="edit-date-end"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>-->
+                <div class="form-group">
+                  <div
+                    class="col-sm-12 d-flex align-items-center justify-content-end gap-2"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close</button
+                    ><button
+                      class="btn btn-primary d-none"
+                      type="button"
+                      id="spinner-button-edit"
+                      disabled
+                    >
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Loading...
+                    </button>
+                    <button
+                      class="btn btn-primary text-white"
+                      type="button"
+                      id="edit-project"
+                      onclick="editProject()"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Modal Edit Project  -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="/js/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/app-style-switcher.js"></script>
+    <!--Wave Effects -->
+    <script src="/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/dist/js/custom.js"></script>
+    <!--This page JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/script/util/csrf.js"></script>
+    <script src="/js/script/manager-project.js"></script>
+  </body>
+</html>
